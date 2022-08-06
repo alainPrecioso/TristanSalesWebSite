@@ -1,0 +1,32 @@
+.mynavbar {
+	
+    background-color: azure;
+    position: sticky;
+    top: 0;
+    width: 99%;
+    text-indent: 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+/* .mynavbar p {
+    text-indent: 50px;
+} */
+
+#home {
+	display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#login {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+}
+

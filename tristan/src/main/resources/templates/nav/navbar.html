@@ -1,0 +1,73 @@
+<nav class="mynavbar" th:fragment="nav">
+	<div id="home">
+		<a th:href="@{/}"><h1>Home</h1></a>
+
+		<form th:action="@{/search}" method="post">
+			<input type="text" name="search">
+			<button type="submit">Chercher</button>
+			<td th:text="${result} != null ? ${result} :''" />
+		</form>
+	</div>
+
+	<div>
+		<form id="login">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#loginModal">Log in</button>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#signinModal">Sign in</button>
+		</form>
+	</div>
+</nav>
+
+
+
+<div th:fragment="loginModal" class="modal fade" id="loginModal"
+	data-bs-keyboard="false" tabindex="-1"
+	aria-labelledby="modalLoginLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalLoginLabel">Log in</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+			<form >
+			<input th:name="username" type="text" placeholder="username" required>
+			<input th:name="email" type="email" placeholder="email" required>
+			</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Close</button>
+				<button form="formLogin" type="submit" class="btn btn-primary">Log</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div th:fragment="signinModal" class="modal fade" id="signinModal"
+	data-bs-keyboard="false" tabindex="-1"
+	aria-labelledby="modalLoginLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalLoginLabel">Sign in</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"
+					aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+			<form id="signform" th:action="@{/add}"  method="post">
+			<input th:name="username" type="text" placeholder="username" required>
+			<input th:name="email" type="email" placeholder="email" required>
+			<input th:name="password" type="password" placeholder="password" required>
+			</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary"
+					data-bs-dismiss="modal">Close</button>
+				<button form="signform" type="submit" class="btn btn-primary">Sign</button>
+			</div>
+		</div>
+	</div>
+</div>
