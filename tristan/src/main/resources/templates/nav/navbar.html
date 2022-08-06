@@ -32,9 +32,10 @@
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-			<form >
-			<input th:name="username" type="text" placeholder="username" required>
-			<input th:name="email" type="email" placeholder="email" required>
+			<form id="formLogin" method="post" action="/log">
+			<input id="username" name="username" type="text" placeholder="username" required>
+			<input id="password" name="password" type="password" placeholder="password" required>
+			<input name="_csrf" type="hidden" value="5edc08e3-fa1e-409c-b0be-c8d4b67d2dd7" />
 			</form>
 			</div>
 			<div class="modal-footer">

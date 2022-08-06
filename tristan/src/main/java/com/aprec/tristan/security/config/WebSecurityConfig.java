@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
 @Configuration
 @EnableWebSecurity
@@ -38,7 +39,7 @@ public class WebSecurityConfig {
         http //.csrf().disable()
             .authorizeRequests()
             .antMatchers("/", "index", "/css/**", "/js/**", "/bootstrap/**").permitAll()
-            .antMatchers("tbd").hasRole(ADMIN.name())
+            .antMatchers("userroletest").hasRole(ADMIN.name())
             .antMatchers(HttpMethod.DELETE,"tbd").hasAnyAuthority(PLACEHOLCER_PERMISSION.name());
         //http.headers().frameOptions().sameOrigin();
         return http.build();
@@ -63,5 +64,10 @@ public class WebSecurityConfig {
 		provider.setUserDetailsService(userService);
 		return provider;
 	}
+	
+//	@Bean
+//    public SpringSecurityDialect springSecurityDialect(){
+//        return new SpringSecurityDialect();
+//    }
 	
 }
