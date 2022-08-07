@@ -12,16 +12,8 @@ import com.aprec.tristan.users.UserService;
 @Controller
 public class ViewController {
 	
-	private UserService userService;
 	
 	
-
-	public ViewController(UserService userService) {
-		super();
-		this.userService = userService;
-	}
-
-
 
 
 	@RequestMapping("/index")
@@ -33,11 +25,6 @@ public class ViewController {
 		return "index";
 	}
 	
-//	@PostMapping("/log")
-//	public String log(@RequestParam String username, @RequestParam String password) {
-//		userService.logInUser(username, password);
-//		return "index";
-//	}
 	
 	@GetMapping("/login")
 	String login() {
@@ -55,7 +42,6 @@ public class ViewController {
 	public String userroletest() {
 		return "userroletest";
 	}
-	
 	
 	
 	@RequestMapping("/test")
