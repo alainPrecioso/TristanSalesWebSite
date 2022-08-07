@@ -1,6 +1,8 @@
 package com.aprec.tristan.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,27 +21,38 @@ public class ViewController {
 		this.userService = userService;
 	}
 
-	@PostMapping(path = "/log")
-	public String log(@RequestParam String username, @RequestParam String password) {
-		System.out.println("log try");
-		userService.loadUserByUsername(username);
-		
-		
-		return "test";
+
+
+
+	@RequestMapping("/index")
+	public String index() {
+		return "index";
 	}
-
-
-
-
 
 
 
 	@RequestMapping("/")
-	public String index() {
+	public String home() {
 		return "index";
 	}
 	
+	@PostMapping("/log")
+	public String log(@RequestParam String username, @RequestParam String password) {
+		userService.logInUser(username, password);
+		
+		
+		return "index";
+	}
 	
+	@GetMapping("/log")
+	public String login() {
+		//return userService.logInUser(username, password);
+		
+		
+		return "index";
+	}
+	
+	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/userroletest")
 	public String userroletest() {
 		return "userroletest";
@@ -51,7 +64,7 @@ public class ViewController {
 	
 	
 	@RequestMapping("/test")
-	public String welcome() {
+	public String test() {
 		return "test";
 	}
 }
