@@ -6,8 +6,8 @@ import java.util.Set;
 import static com.aprec.tristan.users.UserPermission.*;
 
 public enum UserRole {
-	USER(new HashSet<UserPermission>()),
-	ADMIN(new HashSet<UserPermission>(Arrays.asList(PLACEHOLCER_PERMISSION)));
+	ROLE_USER(new HashSet<UserPermission>()),
+	ROLE_ADMIN(new HashSet<UserPermission>(Arrays.asList(PLACEHOLCER_PERMISSION)));
 
 	private final Set<UserPermission> permissions;
 

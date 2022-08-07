@@ -28,38 +28,33 @@ public class ViewController {
 	public String index() {
 		return "index";
 	}
-
-
-
 	@RequestMapping("/")
 	public String home() {
 		return "index";
 	}
 	
-	@PostMapping("/log")
-	public String log(@RequestParam String username, @RequestParam String password) {
-		userService.logInUser(username, password);
-		
-		
-		return "index";
+//	@PostMapping("/log")
+//	public String log(@RequestParam String username, @RequestParam String password) {
+//		userService.logInUser(username, password);
+//		return "index";
+//	}
+	
+	@GetMapping("/login")
+	String login() {
+		return "login";
 	}
 	
-	@GetMapping("/log")
-	public String login() {
-		//return userService.logInUser(username, password);
-		
-		
-		return "index";
+	@GetMapping("/logged")
+	public String logged() {
+		return "logged";
 	}
+	
 	
 	@PreAuthorize("hasRole('USER')")
 	@RequestMapping("/userroletest")
 	public String userroletest() {
 		return "userroletest";
 	}
-	
-	
-	
 	
 	
 	
