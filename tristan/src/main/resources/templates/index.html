@@ -9,11 +9,16 @@
 <title>Projet Jeux Vidéos</title>
 </head>
 <body>
-	<nav th:replace="/nav/navbar.html :: nav"></nav>
+	<header th:replace="/nav/navbar.html :: nav"></header>
+	<h1 th:text="#{greeting}"></h1>
 	<a th:href="@{/test}"><h1>Test</h1></a>
 	<div sec:authorize="isAuthenticated()"><a th:href="@{/userroletest}"><h1>test role</h1></a></div>
 	<div th:if="${param.error}" class="alert alert-error">Wrong credentials</div>
 
+	
+	
+	
+	<footer th:replace="/nav/navbar.html :: foot"></footer>		
 	<div th:replace="/nav/navbar.html :: loginModal"></div>
 	<div th:replace="/nav/navbar.html :: signinModal"></div>
 	<script type="text/javascript" th:src="@{/modal.js}"></script>

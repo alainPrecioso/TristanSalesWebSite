@@ -1,4 +1,4 @@
-<nav class="mynavbar" th:fragment="nav">
+<header class="mynavbar" th:fragment="nav">
 	<div id="home">
 		<a th:href="@{/}"><h1>Home</h1></a>
 
@@ -11,13 +11,15 @@
 
 	<div>
 		<form id="login">
+		<div th:if="${param.error}">
+			<p th:text="#{login.error}"></p></div>
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#loginModal">Log in</button>
+				data-bs-target="#loginModal" th:text="#{login}"></button>
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#signinModal">Sign in</button>
+				data-bs-target="#signinModal" th:text="#{signin}"></button>
 		</form>
 	</div>
-</nav>
+</header>
 
 
 
@@ -27,7 +29,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modalLoginLabel">Log in</h5>
+				<h5 class="modal-title" id="modalLoginLabel" th:text="#{login}"></h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
@@ -52,7 +54,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modalLoginLabel">Sign in</h5>
+				<h5 class="modal-title" id="modalLoginLabel" th:text="#{signin}"></h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
@@ -71,3 +73,7 @@
 		</div>
 	</div>
 </div>
+
+<footer class="myfooter" th:fragment="foot">
+	<a th:href="@{/(lang=fr)}">Français </a><a th:href="@{/(lang=eng)}">English</a>
+</footer>

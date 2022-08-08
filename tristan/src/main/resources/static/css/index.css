@@ -1,3 +1,12 @@
+body{ 
+  min-height: 100vh; 
+  margin: 0; 
+  
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+
 .mynavbar {
 	
     background-color: azure;
@@ -9,6 +18,16 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    
+}
+
+.myfooter {
+	
+    background-color: azure;
+    position: sticky;
+    bottom: 0;
+    width: 99%;
+    text-indent: 20px;
     
 }
 

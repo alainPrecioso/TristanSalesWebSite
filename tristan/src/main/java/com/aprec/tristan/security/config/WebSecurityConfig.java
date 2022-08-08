@@ -1,12 +1,13 @@
 package com.aprec.tristan.security.config;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,8 +20,9 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
 
-	@Autowired
+	@Resource
 	private final UserDetailsService userService;
+	@Autowired
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
@@ -36,7 +38,7 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http//.csrf().disable()
+        http.csrf().disable()
             .authorizeRequests()
             //.antMatchers("/", "index", "/css/**", "/js/**", "/bootstrap/**").permitAll()
             //.antMatchers("userroletest", "/userroletest").hasRole(USER.name())
@@ -46,10 +48,16 @@ public class WebSecurityConfig {
             .and()
             //.authenticationProvider(daoAuthenticationProvider())
             //.authenticationManager(authManager(http))
-            .formLogin()
-            //.loginPage("/index")
-            .permitAll()
-            .defaultSuccessUrl("/logged")
+            .formLogin(form -> form
+        			.loginPage("/login")
+        			//.failureUrl("/index?error")
+        			.defaultSuccessUrl("/logged")
+        			//.loginProcessingUrl("/index")
+        			.permitAll())
+            
+            
+            //.permitAll()
+            
             //.antMatchers(HttpMethod.DELETE,"tbd").hasAnyAuthority(PLACEHOLCER_PERMISSION.name())
             ;
         //http.headers().frameOptions().sameOrigin();
@@ -83,6 +91,16 @@ public class WebSecurityConfig {
 		provider.setUserDetailsService(userService);
 		return provider;
 	}
+	
+//	@Bean
+//	AuthenticationEventPublisher authenticationEventPublisher
+//	        (ApplicationEventPublisher applicationEventPublisher) {
+//	    return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
+//	}
+	
+	
+	
+	
 	
 //	@Bean
 //	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

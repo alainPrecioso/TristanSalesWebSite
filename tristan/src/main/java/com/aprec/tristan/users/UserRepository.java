@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional(readOnly = true)
 public interface UserRepository extends JpaRepository<User, Long>{
-	@Query("SELECT u FROM User u WHERE u.username = ?1")
+	@Query("SELECT u FROM User u WHERE u.username = ?1 OR u.email = ?1")
 	Optional<User> findByUsername(String username);
 	
 	@Query("SELECT u FROM User u WHERE u.email = ?1")
