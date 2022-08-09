@@ -1,10 +1,16 @@
 package com.aprec.tristan.users;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.aprec.tristan.registration.token.ConfirmationToken;
+import com.aprec.tristan.registration.token.ConfirmationTokenService;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -13,11 +19,13 @@ public class UserService implements UserDetailsService {
 	private final static String USER_NOT_FOUND_MSG = "user %s not found";
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
+	private final ConfirmationTokenService confirmationTokenService;
 	
-	public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService) {
 		super();
 		this.userRepository = userRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		this.confirmationTokenService = confirmationTokenService;
 	}
 
 	
@@ -38,7 +46,15 @@ public class UserService implements UserDetailsService {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 		
-		return "user saved";
+		ConfirmationToken confirmationToken = new ConfirmationToken(
+				UUID.randomUUID().toString(),
+				LocalDateTime.now(),
+				LocalDateTime.now().plusMinutes(15),
+				user);
+		
+		confirmationTokenService.saveConfirmationToken(confirmationToken);
+		
+		return confirmationToken.getToken();
 		
 	}
 	
@@ -52,6 +68,10 @@ public class UserService implements UserDetailsService {
 		return "wrong credentials";
 		
 	}
+	
+	public int enableUser(String email) {
+        return userRepository.enableUser(email);
+    }
 	
 	
 	

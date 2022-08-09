@@ -41,6 +41,12 @@ public class RegistrationController {
 		
 		return "index";
 	}
+	
+	@GetMapping(path = "/confirm")
+    public String confirm(@RequestParam("token") String token) {
+        registrationService.confirmToken(token);
+        return "index";
+    }
 
 	@GetMapping(path = "/all")
 	public @ResponseBody Iterable<User> getAllUsers() {

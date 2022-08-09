@@ -14,6 +14,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
+import com.aprec.tristan.auth.CustomAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -50,10 +53,12 @@ public class WebSecurityConfig {
             //.authenticationManager(authManager(http))
             .formLogin(form -> form
         			.loginPage("/login")
+        			.failureHandler(authenticationFailureHandler())
         			//.failureUrl("/index?error")
         			.defaultSuccessUrl("/logged")
         			//.loginProcessingUrl("/index")
         			.permitAll())
+            
             
             
             //.permitAll()
@@ -76,7 +81,7 @@ public class WebSecurityConfig {
 //    }
     
     @Bean
-    public AuthenticationManager authManager(HttpSecurity http) 
+    AuthenticationManager authManager(HttpSecurity http) 
       throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
         		.authenticationProvider(daoAuthenticationProvider())
@@ -91,6 +96,16 @@ public class WebSecurityConfig {
 		provider.setUserDetailsService(userService);
 		return provider;
 	}
+	
+	@Bean
+    AuthenticationFailureHandler authenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
+    }
+	
+	
+	
+	
+	
 	
 //	@Bean
 //	AuthenticationEventPublisher authenticationEventPublisher
