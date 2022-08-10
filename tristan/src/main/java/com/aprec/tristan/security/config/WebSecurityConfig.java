@@ -75,10 +75,6 @@ public class WebSecurityConfig {
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
-//	@Bean
-//    AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
-//    	return auth.getAuthenticationManager();
-//    }
     
     @Bean
     AuthenticationManager authManager(HttpSecurity http) 
@@ -88,8 +84,7 @@ public class WebSecurityConfig {
           .build();
     }
 	
-	@Bean
-	DaoAuthenticationProvider daoAuthenticationProvider() {
+	private DaoAuthenticationProvider daoAuthenticationProvider() {
 		DaoAuthenticationProvider provider =
 				new DaoAuthenticationProvider();
 		provider.setPasswordEncoder(bCryptPasswordEncoder);

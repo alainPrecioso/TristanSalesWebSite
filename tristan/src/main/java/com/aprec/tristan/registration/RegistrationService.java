@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.aprec.tristan.registration.email.EmailService;
 import com.aprec.tristan.registration.token.ConfirmationToken;
 import com.aprec.tristan.registration.token.ConfirmationTokenService;
 import com.aprec.tristan.users.User;
@@ -18,14 +20,15 @@ public class RegistrationService {
 	private final UserService userService;
 	private final ConfirmationTokenService confirmationTokenService;
 	private final EmailService emailService;
-	
+	@Value("${host.name}")
+    private String hostName;
 	
 	
 	
 	
 	public RegistrationService(UserService userService, 
-			ConfirmationTokenService confirmationTokenService
-			, EmailService emailService
+			ConfirmationTokenService confirmationTokenService, 
+			EmailService emailService
 			) {
 		super();
 		this.userService = userService;
@@ -38,7 +41,7 @@ public class RegistrationService {
 		
 		String token = userService.signUpUser(
 			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
-		String link = "http://localhost:8080/confirm?token=" + token; 
+		String link = hostName + "/confirm?token=" + token; 
 		emailService.send(
 	                request.getEmail(),
 	                buildEmail(request.getUsername(), link));

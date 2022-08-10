@@ -6,6 +6,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -19,6 +22,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
+		
 //		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
 //		Locale locale = localeResolver.resolveLocale(request);
 //		LocaleContextHolder.getLocale();
@@ -34,6 +38,5 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 		response.sendRedirect("/loginerror?error=" + exception.getLocalizedMessage());
 	}
 
-	
 
 }

@@ -58,16 +58,16 @@ public class UserService implements UserDetailsService {
 		
 	}
 	
-	public String logInUser(String credential, String password) {
-		UserDetails user = loadUserByUsername(credential);
-		if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
-			return "log";
-		}
-		
-		
-		return "wrong credentials";
-		
-	}
+//	public String logInUser(String credential, String password) {
+//		UserDetails user = loadUserByUsername(credential);
+//		if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
+//			return "log";
+//		}
+//		
+//		
+//		return "wrong credentials";
+//		
+//	}
 	
 	public int enableUser(String email) {
         return userRepository.enableUser(email);
