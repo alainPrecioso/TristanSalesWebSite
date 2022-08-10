@@ -32,14 +32,14 @@ public class Localization implements WebMvcConfigurer{
 	}
 	
 	@Bean
-	public LocaleResolver localeResolver() {
+	LocaleResolver localeResolver() {
 	   SessionLocaleResolver localeResolver = new SessionLocaleResolver();
 	   localeResolver.setDefaultLocale(Locale.FRENCH);
 	   return localeResolver;
 	}
 	
 	@Bean
-	public CookieLocaleResolver cookieLocaleResolverExample() {
+	CookieLocaleResolver cookieLocaleResolverExample() {
 	    CookieLocaleResolver localeResolver 
 	      = new CookieLocaleResolver();
 	    localeResolver.setDefaultLocale(Locale.FRENCH);
@@ -49,7 +49,7 @@ public class Localization implements WebMvcConfigurer{
 	}
 	
 	@Bean
-	public LocaleChangeInterceptor localeChangeInterceptor() {
+	LocaleChangeInterceptor localeChangeInterceptor() {
 	     LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
 	     localeChangeInterceptor.setParamName("lang");
 	     return localeChangeInterceptor;
