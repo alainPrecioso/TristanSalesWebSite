@@ -17,7 +17,7 @@ public class RegistrationService {
 	
 	private final UserService userService;
 	private final ConfirmationTokenService confirmationTokenService;
-	//private final EmailService emailService;
+	private final EmailService emailService;
 	
 	
 	
@@ -25,12 +25,12 @@ public class RegistrationService {
 	
 	public RegistrationService(UserService userService, 
 			ConfirmationTokenService confirmationTokenService
-			//, EmailService emailService
+			, EmailService emailService
 			) {
 		super();
 		this.userService = userService;
 		this.confirmationTokenService = confirmationTokenService;
-		//this.emailService = emailService;
+		this.emailService = emailService;
 	}
 
 
@@ -38,10 +38,10 @@ public class RegistrationService {
 		
 		String token = userService.signUpUser(
 			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
-		String link = "http://localhost:8080//confirm?token=" + token; 
-//		emailService.send(
-//	                request.getEmail(),
-//	                buildEmail(request.getUsername(), link));
+		String link = "http://localhost:8080/confirm?token=" + token; 
+		emailService.send(
+	                request.getEmail(),
+	                buildEmail(request.getUsername(), link));
 		
 		return "user saved";
 	}
