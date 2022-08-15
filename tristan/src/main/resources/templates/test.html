@@ -15,6 +15,26 @@
 	<td th:text="${result} != null ? ${result} : 'default message'" />
 
 
+	<div th:if="${param.error}">
+		<p th:text="${param.error}"></p>
+		<p th:text="#{${param.error}}"></p>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="accordion" id="accordionExample">
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">

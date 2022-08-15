@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,7 +41,7 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http//.csrf().disable()
             .authorizeRequests()
             //.antMatchers("/", "index", "/css/**", "/js/**", "/bootstrap/**").permitAll()
             //.antMatchers("userroletest", "/userroletest").hasRole(USER.name())
@@ -76,15 +76,15 @@ public class WebSecurityConfig {
 	}
 
     
-    @Bean
-    AuthenticationManager authManager(HttpSecurity http) 
-      throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
-        		.authenticationProvider(daoAuthenticationProvider())
-          .build();
+	@Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
+    	return auth.getAuthenticationManager();
     }
+    
 	
-	private DaoAuthenticationProvider daoAuthenticationProvider() {
+	
+	@Bean
+	DaoAuthenticationProvider daoAuthenticationProvider() {
 		DaoAuthenticationProvider provider =
 				new DaoAuthenticationProvider();
 		provider.setPasswordEncoder(bCryptPasswordEncoder);
@@ -98,28 +98,5 @@ public class WebSecurityConfig {
     }
 	
 	
-	
-	
-	
-	
-//	@Bean
-//	AuthenticationEventPublisher authenticationEventPublisher
-//	        (ApplicationEventPublisher applicationEventPublisher) {
-//	    return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
-//	}
-	
-	
-	
-	
-	
-//	@Bean
-//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//		auth.authenticationProvider(daoAuthenticationProvider());
-//	}
-	
-//	@Bean
-//    public SpringSecurityDialect springSecurityDialect(){
-//        return new SpringSecurityDialect();
-//    }
 	
 }

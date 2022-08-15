@@ -11,9 +11,11 @@
 
 	<div>
 		<form id="login">
-		<div th:if="${param.error}">
-			<p th:text="${param.error}"></p>
-			<p th:text="#{${param.error}}"></p></div>
+		<div th:if="${param.error != null}" 
+  	th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+<!-- 		<div th:if="${param.error}"> -->
+<!-- 			<p th:text="${param.error}"></p> -->
+<!-- 			<p th:text="#{${param.error}}"></p></div> -->
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 				data-bs-target="#loginModal" th:text="#{login}"></button>
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
