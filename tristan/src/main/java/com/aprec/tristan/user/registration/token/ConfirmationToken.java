@@ -1,4 +1,4 @@
-package com.aprec.tristan.registration.token;
+package com.aprec.tristan.user.registration.token;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.aprec.tristan.users.User;
+import com.aprec.tristan.user.User;
 
 @Entity
 public class ConfirmationToken {

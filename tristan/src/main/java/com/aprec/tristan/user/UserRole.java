@@ -1,9 +1,10 @@
-package com.aprec.tristan.users;
+package com.aprec.tristan.user;
+
+import static com.aprec.tristan.user.UserPermission.*;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import static com.aprec.tristan.users.UserPermission.*;
 
 public enum UserRole {
 	ROLE_USER(new HashSet<UserPermission>()),

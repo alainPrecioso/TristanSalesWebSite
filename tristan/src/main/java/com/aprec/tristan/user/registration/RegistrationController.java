@@ -1,4 +1,4 @@
-package com.aprec.tristan.registration;
+package com.aprec.tristan.user.registration;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aprec.tristan.users.User;
-import com.aprec.tristan.users.UserRepository;
+import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.UserRepository;
 
 @Controller
 @RequestMapping(path = "/")

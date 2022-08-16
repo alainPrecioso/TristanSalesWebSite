@@ -1,4 +1,4 @@
-package com.aprec.tristan.registration;
+package com.aprec.tristan.user.registration;
 
 import java.util.Objects;
 

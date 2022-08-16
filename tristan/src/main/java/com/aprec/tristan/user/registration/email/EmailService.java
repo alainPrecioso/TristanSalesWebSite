@@ -1,4 +1,4 @@
-package com.aprec.tristan.registration.email;
+package com.aprec.tristan.user.registration.email;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

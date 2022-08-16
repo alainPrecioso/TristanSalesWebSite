@@ -1,4 +1,4 @@
-package com.aprec.tristan.users;
+package com.aprec.tristan.user;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.aprec.tristan.registration.token.ConfirmationToken;
-import com.aprec.tristan.registration.token.ConfirmationTokenService;
+import com.aprec.tristan.user.registration.token.ConfirmationToken;
+import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
 		Boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
 				|| userRepository.findByUsername(user.getUsername()).isPresent();
 		if (userExists) {
-			return "user exists";
+			throw new IllegalStateException("email or username already taken");
 		}
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);

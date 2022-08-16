@@ -1,4 +1,4 @@
-package com.aprec.tristan.auth;
+package com.aprec.tristan.user.auth;
 
 import java.io.IOException;
 import java.util.Locale;

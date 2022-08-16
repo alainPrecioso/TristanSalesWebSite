@@ -1,4 +1,4 @@
-package com.aprec.tristan.registration.token;
+package com.aprec.tristan.user.registration.token;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.aprec.tristan.users;
+package com.aprec.tristan.user;
 
 import java.util.Optional;
 

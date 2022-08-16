@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-import com.aprec.tristan.auth.CustomAuthenticationFailureHandler;
+import com.aprec.tristan.user.auth.CustomAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity

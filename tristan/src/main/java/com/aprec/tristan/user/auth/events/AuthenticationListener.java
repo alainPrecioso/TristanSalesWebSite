@@ -1,4 +1,4 @@
-package com.aprec.tristan.auth.events;
+package com.aprec.tristan.user.auth.events;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;

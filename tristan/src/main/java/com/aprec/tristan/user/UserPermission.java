@@ -1,4 +1,4 @@
-package com.aprec.tristan.users;
+package com.aprec.tristan.user;
 
 public enum UserPermission {
 	PLACEHOLCER_PERMISSION("placeholder:permission");
