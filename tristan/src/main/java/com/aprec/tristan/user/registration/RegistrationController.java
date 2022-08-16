@@ -42,6 +42,15 @@ public class RegistrationController {
 		return "index";
 	}
 	
+	@PostMapping(path = "/resend")
+	public String reSend(@RequestParam(required = true) String username,
+			@RequestParam(required = true) String email, Model model) {
+		User user = userRepository.findByUsername(username).get();
+		
+		
+		return "index";
+	}
+	
 	@GetMapping(path = "/confirm")
     public String confirm(@RequestParam("token") String token) {
         registrationService.confirmToken(token);

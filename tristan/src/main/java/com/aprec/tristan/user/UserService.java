@@ -1,6 +1,7 @@
 package com.aprec.tristan.user;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,7 @@ public class UserService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		System.out.println("loadUserByUsername");
 		return userRepository
 				.findByUsername(username)
 				.orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
@@ -58,6 +60,19 @@ public class UserService implements UserDetailsService {
 		
 	}
 	
+	public String resetConfirmationToken(String username) {
+		User user = userRepository.findByUsername(username).get();
+		String newToken = UUID.randomUUID().toString();
+		confirmationTokenService.reSetToken(
+				LocalDateTime.now(),
+				LocalDateTime.now().plusMinutes(15),
+				newToken,
+				user);
+		
+		return user.getEmail();
+		
+	}
+	
 //	public String logInUser(String credential, String password) {
 //		UserDetails user = loadUserByUsername(credential);
 //		if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
@@ -72,6 +87,11 @@ public class UserService implements UserDetailsService {
 	public int enableUser(String email) {
         return userRepository.enableUser(email);
     }
+
+
+	public String getUserEmail(String username) {
+		return userRepository.findByUsername(username).get().getEmail();
+	}
 	
 	
 	

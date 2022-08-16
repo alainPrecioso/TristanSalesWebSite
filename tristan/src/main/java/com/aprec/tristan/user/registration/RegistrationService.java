@@ -42,11 +42,22 @@ public class RegistrationService {
 		String token = userService.signUpUser(
 			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
 		String link = hostName + "/confirm?token=" + token; 
-		emailService.send(
-	                request.getEmail(),
-	                buildEmail(request.getUsername(), link));
+		//TODO
+//		emailService.send(
+//	                request.getEmail(),
+//	                buildEmail(request.getUsername(), link));
 		
 		return "user saved";
+	}
+	
+	public void resendMail(String username) {
+		String token = userService.resetConfirmationToken(username);
+		String email = userService.getUserEmail(username);
+			String link = hostName + "/confirm?token=" + token; 
+			emailService.send(
+					email,
+		                buildEmail(username, link));
+			
 	}
 	
 	

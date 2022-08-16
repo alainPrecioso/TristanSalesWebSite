@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.aprec.tristan.user.User;
+
 @Service
 public class ConfirmationTokenService {
 
@@ -19,12 +21,20 @@ public class ConfirmationTokenService {
 		confirmationTokenRepository.save(confirmationToken);
 	}
 	
-	 public Optional<ConfirmationToken> getToken(String token) {
+	public Optional<ConfirmationToken> getToken(String token) {
 	        return confirmationTokenRepository.findByToken(token);
-	    }
+	}
 
-	    public int setConfirmedAt(String token) {
+	public int setConfirmedAt(String token) {
 	        return confirmationTokenRepository.updateConfirmationTime(
 	                token, LocalDateTime.now());
-	    }
+	}
+	
+	public void reSetToken(LocalDateTime creationTime, 
+			LocalDateTime expirationTime, 
+			String newToken,
+			User user) {
+		
+		confirmationTokenRepository.updateToken(confirmationTokenRepository.findByUser(user).get().getToken(), creationTime, expirationTime, newToken);
+	}
 }

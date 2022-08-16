@@ -15,6 +15,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.LocaleResolver;
 
+import com.aprec.tristan.user.registration.RegistrationService;
+
 @Component
 public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
@@ -23,6 +25,9 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 	
     @Autowired
     private LocaleResolver localeResolver;
+    
+    @Autowired
+    private RegistrationService registrationService;
 
 
 	@Override
@@ -49,11 +54,13 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 //		} else {
 //			response.sendRedirect("/loginerror?error=" + exception.getLocalizedMessage());
 //		}
-		
         String errorMessage = messages.getMessage("message.badCredentials", null, locale);
 
         if (exception.getMessage().equalsIgnoreCase("disabled")) {
             errorMessage = messages.getMessage("disabled", null, locale);
+            registrationService.resendMail(request.getParameter("username"));
+        } else if (exception.getMessage().equalsIgnoreCase("User account has expired")) {
+            errorMessage = messages.getMessage("auth.message.expired", null, locale);
         } else if (exception.getMessage().equalsIgnoreCase("User account has expired")) {
             errorMessage = messages.getMessage("auth.message.expired", null, locale);
         }
