@@ -35,16 +35,6 @@ public class ViewController {
 		return "logged";
 	}
 	
-	@GetMapping("/loginerror")
-	public String logError() {
-		return "login";
-	}
-	
-	@PostMapping("/loginerror")
-	public String logErrorPost() {
-		return "index";
-	}
-	
 	
 	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/userroletest")
