@@ -35,12 +35,20 @@ body{
     text-indent: 50px;
 } */
 
-#home {
+#myhome {
 	display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
 }
+
+#mysearchbar {
+	display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
 
 #login {
     margin: 20px;

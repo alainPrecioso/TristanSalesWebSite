@@ -1,27 +1,29 @@
-<header class="mynavbar" th:fragment="nav">
-	<div id="home">
-		<a th:href="@{/}"><h1>Home</h1></a>
+<header th:fragment="nav">
+	<nav class="mynavbar">
+		<div id="myhome">
+			<a th:href="@{/}"><h1>Home</h1></a>
 
-		<form th:action="@{/search}" method="post">
-			<input type="text" name="search">
-			<button type="submit">Chercher</button>
-			<p th:text="${result} != null ? ${result} :''" />
-		</form>
-	</div>
+			<form id="mysearchbar" th:action="@{/search}" method="post">
+				<input type="text" name="search">
+				<button type="submit">Chercher</button>
+				<p th:text="${result} != null ? ${result} :''" />
+			</form>
+		</div>
 
-	<div>
-		<form id="login">
-		<div th:if="${param.error != null}" 
-  	th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
-<!-- 		<div th:if="${param.error}"> -->
-<!-- 			<p th:text="${param.error}"></p> -->
-<!-- 			<p th:text="#{${param.error}}"></p></div> -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#loginModal" th:text="#{login}"></button>
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#signinModal" th:text="#{signin}"></button>
-		</form>
-	</div>
+		<div>
+			<form id="login">
+				<div th:if="${param.error != null}"
+					th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+				<!-- 		<div th:if="${param.error}"> -->
+				<!-- 			<p th:text="${param.error}"></p> -->
+				<!-- 			<p th:text="#{${param.error}}"></p></div> -->
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#loginModal" th:text="#{login}"></button>
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#signinModal" th:text="#{signin}"></button>
+			</form>
+		</div>
+	</nav>
 </header>
 
 
@@ -29,7 +31,7 @@
 <div th:fragment="loginModal" class="modal fade" id="loginModal"
 	data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="modalLoginLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-fullscreen-xxl-down">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="modalLoginLabel" th:text="#{login}"></h5>
@@ -37,15 +39,25 @@
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-			<form id="formLogin" method="post" th:action="@{/login}">
-			<input id="username" name="username" type="text" placeholder="username" required>
-			<input id="password" name="password" type="password" placeholder="password" required>
-			</form>
+				<!-- 							<form id="formLogin" method="post" th:action="@{/login}"> -->
+				<!-- 							<input id="username" name="username" type="text" placeholder="username" required> -->
+				<!-- 							<input id="password" name="password" type="password" placeholder="password" required> -->
+				<!-- 							</form> -->
+				<section class="sign-in">
+					<div class="signin-content">
+						<div class="signin-form">
+							<div th:replace="/login.html :: signin-form"></div>
+							<div th:replace="/login.html :: social-login"></div>
+						</div>
+					</div>
+				</section>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Close</button>
-				<button form="formLogin" type="submit" class="btn btn-primary">Log</button>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#signinModal" th:text="#{signin}"></button>
+				<!-- 								<button form="formLogin" type="submit" class="btn btn-primary">Log</button> -->
 			</div>
 		</div>
 	</div>
@@ -54,7 +66,7 @@
 <div th:fragment="signinModal" class="modal fade" id="signinModal"
 	data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="modalLoginLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-fullscreen-xxl-down">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="modalLoginLabel" th:text="#{signin}"></h5>
@@ -62,16 +74,25 @@
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-			<form id="signform" th:action="@{/add}"  method="post">
-			<input th:name="username" type="text" placeholder="username" required>
-			<input th:name="email" type="email" placeholder="email" required>
-			<input th:name="password" type="password" placeholder="password" required>
-			</form>
+				<!-- 							<form id="signform" th:action="@{/add}"  method="post"> -->
+				<!-- 							<input th:name="username" type="text" placeholder="username" required> -->
+				<!-- 							<input th:name="email" type="email" placeholder="email" required> -->
+				<!-- 							<input th:name="password" type="password" placeholder="password" required> -->
+				<!-- 							</form> -->
+				<section class="signup">
+					<div class="signup-content">
+						<div class="signup-form">
+							<div th:replace="/register.html :: signup-form"></div>
+						</div>
+					</div>
+				</section>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary"
 					data-bs-dismiss="modal">Close</button>
-				<button form="signform" type="submit" class="btn btn-primary">Sign</button>
+					<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#loginModal" th:text="#{login}"></button>
+				<!-- 								<button form="signform" type="submit" class="btn btn-primary">Sign</button> -->
 			</div>
 		</div>
 	</div>

@@ -4,13 +4,16 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/css/index.css}">
-<title>Projet Jeux Vidéos</title>
+<link rel="stylesheet" th:href="@{fonts/material-icon/css/material-design-iconic-font.min.css}">
+<link rel="stylesheet" th:href="@{css/style.css}">
+<title>Projet Tristan</title>
 </head>
 <body>
 	<header th:replace="/nav/navbar.html :: nav"></header>
-	<h1 th:text="#{greeting}"></h1>
+	<h1 th:text="#{display.greeting}"></h1>
 	<a th:href="@{/test}"><h1>Test</h1></a>
 	<div sec:authorize="isAuthenticated()"><a th:href="@{/userroletest}"><h1>test role</h1></a></div>
 	<div th:if="${param.error}" class="alert alert-error" th:text="${param.error}"></div>
@@ -24,5 +27,7 @@
 	<script type="text/javascript" th:src="@{/modal.js}"></script>
 	<script type="text/javascript"
 		th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{js/main.js}"></script>
 </body>
 </html>

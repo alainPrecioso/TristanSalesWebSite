@@ -60,8 +60,7 @@ public class UserService implements UserDetailsService {
 		
 	}
 	
-	public String resetConfirmationToken(String username) {
-		User user = userRepository.findByUsername(username).get();
+	public String resetConfirmationToken(User user) {
 		String newToken = UUID.randomUUID().toString();
 		confirmationTokenService.reSetToken(
 				LocalDateTime.now(),
@@ -69,7 +68,7 @@ public class UserService implements UserDetailsService {
 				newToken,
 				user);
 		
-		return user.getEmail();
+		return newToken;
 		
 	}
 	
@@ -89,8 +88,8 @@ public class UserService implements UserDetailsService {
     }
 
 
-	public String getUserEmail(String username) {
-		return userRepository.findByUsername(username).get().getEmail();
+	public User getUser(String credential) {
+		return userRepository.findByUsername(credential).get();
 	}
 	
 	

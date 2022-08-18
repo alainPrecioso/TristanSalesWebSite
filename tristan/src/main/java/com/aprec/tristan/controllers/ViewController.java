@@ -16,14 +16,18 @@ public class ViewController {
 
 	
 	@GetMapping("/index")
-	public String getIndex() {
+	public String index() {
 		return "index";
 	}
 	
-	
 	@GetMapping("/login")
-	String getLogin() {
-		return "index";
+	String login() {
+		return "login";
+	}
+	
+	@GetMapping("/register")
+	String register() {
+		return "register";
 	}
 	
 	@GetMapping("/logged")
@@ -33,7 +37,7 @@ public class ViewController {
 	
 	@GetMapping("/loginerror")
 	public String logError() {
-		return "index";
+		return "login";
 	}
 	
 	@PostMapping("/loginerror")

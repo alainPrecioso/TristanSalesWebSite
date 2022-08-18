@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
 import com.aprec.tristan.user.User;
@@ -32,7 +32,7 @@ public class ConfirmationToken {
 	@Column(nullable=false)
 	private LocalDateTime expirationTime;
 	private LocalDateTime confirmationTime;
-	@ManyToOne
+	@OneToOne
 	@JoinColumn(nullable=false, name= "user_id")
 	private User user;
 
