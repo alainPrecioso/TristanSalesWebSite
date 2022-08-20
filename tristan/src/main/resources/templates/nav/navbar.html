@@ -28,13 +28,17 @@
 
 
 
-<div th:fragment="loginModal" class="modal fade" id="loginModal"
+<div th:fragment="loginModal" class="modal" id="loginModal"
 	data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="modalLoginLabel" aria-hidden="true">
 	<div class="modal-dialog modal-fullscreen-xxl-down">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modalLoginLabel" th:text="#{login}"></h5>
+			<button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
+				data-bs-target="#loginModal" th:text="#{login}"></button>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#signinModal" th:text="#{signin}"></button>
+<!-- 				<h5 class="modal-title" id="modalLoginLabel" th:text="#{login}"></h5> -->
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
@@ -53,23 +57,25 @@
 				</section>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
+				<button type="button" class="btn btn-warning"
 					data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#signinModal" th:text="#{signin}"></button>
 				<!-- 								<button form="formLogin" type="submit" class="btn btn-primary">Log</button> -->
 			</div>
 		</div>
 	</div>
 </div>
 
-<div th:fragment="signinModal" class="modal fade" id="signinModal"
+<div th:fragment="signinModal" class="modal" id="signinModal"
 	data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="modalLoginLabel" aria-hidden="true">
 	<div class="modal-dialog modal-fullscreen-xxl-down">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="modalLoginLabel" th:text="#{signin}"></h5>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+				data-bs-target="#loginModal" th:text="#{login}"></button>
+			<button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
+				data-bs-target="#signinModal" th:text="#{signin}"></button>
+<!-- 				<h5 class="modal-title" id="modalLoginLabel" th:text="#{signin}"></h5> -->
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
@@ -88,10 +94,9 @@
 				</section>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary"
+				<button type="button" class="btn btn-warning"
 					data-bs-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#loginModal" th:text="#{login}"></button>
+					
 				<!-- 								<button form="signform" type="submit" class="btn btn-primary">Sign</button> -->
 			</div>
 		</div>

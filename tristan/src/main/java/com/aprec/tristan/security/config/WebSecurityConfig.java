@@ -51,18 +51,17 @@ public class WebSecurityConfig {
             .and()
             //.authenticationProvider(daoAuthenticationProvider())
             //.authenticationManager(authManager(http))
-            .formLogin(form -> form
+            .formLogin()
         			.loginPage("/login")
         			.failureHandler(authenticationFailureHandler())
         			//.failureUrl("/index?error")
         			.defaultSuccessUrl("/logged")
         			//.loginProcessingUrl("/index")
-        			.permitAll())
-            
-            
+        			.permitAll()
+        			.and()
+        			.rememberMe()
             
             //.permitAll()
-            
             //.antMatchers(HttpMethod.DELETE,"tbd").hasAnyAuthority(PLACEHOLCER_PERMISSION.name())
             ;
         //http.headers().frameOptions().sameOrigin();
