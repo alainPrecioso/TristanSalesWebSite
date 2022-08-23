@@ -12,6 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,10 +35,11 @@ public class User implements UserDetails {
 			strategy = GenerationType.SEQUENCE,
 			generator = "user_sequence")
 	private Long id;
-	@Column(unique = true)
+	@Column(unique = true, nullable=false)
 	private String username;
-	@Column(unique = true)
+	@Column(unique = true, nullable=false)
 	private String email;
+	@Column(nullable=false)
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private UserRole userRole;

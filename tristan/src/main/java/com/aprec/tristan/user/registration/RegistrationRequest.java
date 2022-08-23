@@ -2,23 +2,66 @@ package com.aprec.tristan.user.registration;
 
 import java.util.Objects;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+
+import com.aprec.tristan.user.registration.validation.EqualFields;
+
+@EqualFields(baseField = "password", matchField = "passwordcheck")
 public class RegistrationRequest {
 	
-	private final String username;
-	private final String email;
-	private final String password;
+	@NotEmpty
+	@NotBlank(message = "usernamerequired")
+	private String username;
+	@NotBlank(message = "emailrequired")
+	@Email(message = "emailinvalid")
+	private String email;
+	@Pattern(regexp="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,30}$", message="passwordpattern")
+	private String password;
+	private String passwordcheck;
 	
-	public RegistrationRequest(String username, String email, String password) {
+	
+	
+	
+	public RegistrationRequest(String username, String email, String password, String passwordcheck) {
 		super();
 		this.username = username;
 		this.email = email;
 		this.password = password;
+		this.passwordcheck = passwordcheck;
 	}
 
 	
+
+
+
+
+	public RegistrationRequest() {
+	}
+
+
+
+
+
+
 	public String getUsername() {
 		return username;
 	}
+
+
+
+
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+
+
 
 
 	public String getEmail() {
@@ -26,9 +69,35 @@ public class RegistrationRequest {
 	}
 
 
+
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+
+
+
 	public String getPassword() {
 		return password;
 	}
+
+
+
+
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+
+
 
 
 	@Override
@@ -52,6 +121,24 @@ public class RegistrationRequest {
 	@Override
 	public String toString() {
 		return "RegistrationRequest [username=" + username + ", email=" + email + ", password=" + password + "]";
+	}
+
+
+
+
+
+
+	public String getPasswordcheck() {
+		return passwordcheck;
+	}
+
+
+
+
+
+
+	public void setPasswordcheck(String passwordcheck) {
+		this.passwordcheck = passwordcheck;
 	}
 	
 	

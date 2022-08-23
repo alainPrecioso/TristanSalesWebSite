@@ -1,16 +1,15 @@
 package com.aprec.tristan.user.registration;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.UserRole;
@@ -45,6 +44,7 @@ public class RegistrationService {
 		this.emailReader = emailReader;
 	}
 
+	
 
 	public String register(RegistrationRequest request) {
 		

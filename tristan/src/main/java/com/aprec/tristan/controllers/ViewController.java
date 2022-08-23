@@ -2,23 +2,21 @@ package com.aprec.tristan.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+
+import com.aprec.tristan.user.registration.RegistrationRequest;
 
 @Controller
 public class ViewController {
 	
 	
-	@GetMapping("/")
-	public String home() {
+	@GetMapping(value= {"/", "/index"})
+	public String home(Model model) {
+		model.addAttribute("request", new RegistrationRequest());
 		return "index";
 	}
 
-	
-	@GetMapping("/index")
-	public String index() {
-		return "index";
-	}
 	
 	@GetMapping("/login")
 	String login() {
@@ -26,7 +24,8 @@ public class ViewController {
 	}
 	
 	@GetMapping("/register")
-	String register() {
+	String register(Model model) {
+		model.addAttribute("request", new RegistrationRequest());
 		return "register";
 	}
 	

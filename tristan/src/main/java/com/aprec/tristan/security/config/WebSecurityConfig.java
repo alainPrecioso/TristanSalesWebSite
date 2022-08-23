@@ -29,19 +29,15 @@ public class WebSecurityConfig {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
-
-//	public WebSecurityConfig(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-//		super();
-//		this.userService = userService;
-//		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//	}
-	
-	
-
+	public WebSecurityConfig(UserDetailsService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		super();
+		this.userService = userService;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http//.csrf().disable()
+        http.csrf().disable()
             .authorizeRequests()
             //.antMatchers("/", "index", "/css/**", "/js/**", "/bootstrap/**").permitAll()
             //.antMatchers("userroletest", "/userroletest").hasRole(USER.name())
@@ -51,6 +47,13 @@ public class WebSecurityConfig {
             .and()
             //.authenticationProvider(daoAuthenticationProvider())
             //.authenticationManager(authManager(http))
+            
+            //.formLogin(form -> form
+            		//.loginPage("/login")
+            		//.failureHandler(authenticationFailureHandler())
+            		//.defaultSuccessUrl("/logged")
+            		//.permitAll())
+            
             .formLogin()
         			.loginPage("/login")
         			.failureHandler(authenticationFailureHandler())
@@ -68,11 +71,6 @@ public class WebSecurityConfig {
         return http.build();
     }
 	
-    public WebSecurityConfig(UserDetailsService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
-		super();
-		this.userService = userService;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-	}
 
     
 	@Bean
