@@ -9,13 +9,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.UserSite;
 
 @Repository
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long> {
 
 	Optional<ConfirmationToken> findByToken(String token);
-	Optional<ConfirmationToken> findByUser(User user);
+	Optional<ConfirmationToken> findByUser(UserSite user);
 	
 	@Transactional
     @Modifying

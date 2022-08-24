@@ -21,7 +21,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class User implements UserDetails {
+public class UserSite implements UserDetails {
 	/**
 	 * 
 	 */
@@ -47,10 +47,10 @@ public class User implements UserDetails {
 	private boolean enabled;
 	
 	
-	public User() {
+	public UserSite() {
 		super();
 	}
-	public User(String username, String email, String password, UserRole userRole) {
+	public UserSite(String username, String email, String password, UserRole userRole) {
 		super();
 		this.username = username;
 		this.email = email;
@@ -133,7 +133,7 @@ public class User implements UserDetails {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		UserSite other = (UserSite) obj;
 		return Objects.equals(email, other.email) && enabled == other.enabled && Objects.equals(id, other.id)
 				&& locked == other.locked && Objects.equals(password, other.password) && userRole == other.userRole
 				&& Objects.equals(username, other.username);

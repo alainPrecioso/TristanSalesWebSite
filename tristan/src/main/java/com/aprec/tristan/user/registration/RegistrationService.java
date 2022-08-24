@@ -11,7 +11,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.UserSite;
 import com.aprec.tristan.user.UserRole;
 import com.aprec.tristan.user.UserService;
 import com.aprec.tristan.user.registration.email.EmailReader;
@@ -26,8 +26,7 @@ public class RegistrationService {
 	private final ConfirmationTokenService confirmationTokenService;
 	private final EmailService emailService;
 	private final EmailReader emailReader;
-	@Value("${host.name}")
-    private static String hostName;
+    private final String hostName;
 	
 	
 	
@@ -35,13 +34,15 @@ public class RegistrationService {
 	public RegistrationService(UserService userService, 
 			ConfirmationTokenService confirmationTokenService, 
 			EmailService emailService,
-			EmailReader emailReader
+			EmailReader emailReader,
+			@Value("${host.name}") String hostName
 			) {
 		super();
 		this.userService = userService;
 		this.confirmationTokenService = confirmationTokenService;
 		this.emailService = emailService;
 		this.emailReader = emailReader;
+		this.hostName = hostName;
 	}
 
 	
@@ -49,7 +50,7 @@ public class RegistrationService {
 	public String register(RegistrationRequest request) {
 		
 		String token = userService.signUpUser(
-			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
+			new UserSite(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
 		String link = hostName + "/confirm?token=" + token; 
 		//TODO
 //		emailService.send(
@@ -60,7 +61,7 @@ public class RegistrationService {
 	}
 	
 	public void resendMail(String credential) {
-		User user = userService.getUser(credential);
+		UserSite user = userService.getUser(credential);
 		String token = userService.resetConfirmationToken(user);
 			String link = hostName + "/confirm?token=" + token; 
 			emailService.send(

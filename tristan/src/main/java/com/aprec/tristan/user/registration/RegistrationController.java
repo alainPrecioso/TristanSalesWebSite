@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.UserSite;
 import com.aprec.tristan.user.UserRepository;
 
 @Validated
@@ -61,7 +61,7 @@ public class RegistrationController {
     }
 
 	@GetMapping(path = "/all")
-	public @ResponseBody Iterable<User> getAllUsers() {
+	public @ResponseBody Iterable<UserSite> getAllUsers() {
 		return userRepository.findAll();
 	}
 	

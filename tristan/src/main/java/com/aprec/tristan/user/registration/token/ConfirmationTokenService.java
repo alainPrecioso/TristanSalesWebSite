@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.UserSite;
 
 @Service
 public class ConfirmationTokenService {
@@ -33,7 +33,7 @@ public class ConfirmationTokenService {
 	public void reSetToken(LocalDateTime creationTime, 
 			LocalDateTime expirationTime, 
 			String newToken,
-			User user) {
+			UserSite user) {
 		
 		confirmationTokenRepository.updateToken(confirmationTokenRepository.findByUser(user).get().getToken(), creationTime, expirationTime, newToken);
 	}

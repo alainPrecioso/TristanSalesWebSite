@@ -33,15 +33,14 @@ public class UserService implements UserDetailsService {
 
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		System.out.println("loadUserByUsername");
+	public UserDetails loadUserByUsername(String credential) throws UsernameNotFoundException {
 		return userRepository
-				.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, username)));
+				.findByCredential(credential)
+				.orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, credential)));
 	}
 
 
-	public String signUpUser(User user) {
+	public String signUpUser(UserSite user) {
 		Boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
 				|| userRepository.findByUsername(user.getUsername()).isPresent();
 		if (userExists) {
@@ -62,7 +61,7 @@ public class UserService implements UserDetailsService {
 		
 	}
 	
-	public String resetConfirmationToken(User user) {
+	public String resetConfirmationToken(UserSite user) {
 		String newToken = UUID.randomUUID().toString();
 		confirmationTokenService.reSetToken(
 				LocalDateTime.now(),
@@ -90,7 +89,7 @@ public class UserService implements UserDetailsService {
     }
 
 
-	public User getUser(String credential) {
+	public UserSite getUser(String credential) {
 		return userRepository.findByUsername(credential).get();
 	}
 	
