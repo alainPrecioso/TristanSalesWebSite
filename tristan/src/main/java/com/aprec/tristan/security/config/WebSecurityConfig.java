@@ -25,14 +25,11 @@ public class WebSecurityConfig {
 
 	@Resource
 	private final UserDetailsService userService;
-	@Autowired
-	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	
-	public WebSecurityConfig(UserDetailsService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+	public WebSecurityConfig(UserDetailsService userService) {
 		super();
 		this.userService = userService;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
     @Bean
@@ -81,7 +78,7 @@ public class WebSecurityConfig {
 	
 	
 	@Bean
-	DaoAuthenticationProvider daoAuthenticationProvider() {
+	DaoAuthenticationProvider daoAuthenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder) {
 		DaoAuthenticationProvider provider =
 				new DaoAuthenticationProvider();
 		provider.setPasswordEncoder(bCryptPasswordEncoder);

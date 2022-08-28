@@ -1,0 +1,12 @@
+{"properties": [
+  {
+    "name": "from.email.address",
+    "type": "java.lang.String",
+    "description": "A description for 'from.email.address'"
+  },
+  {
+    "name": "host.name",
+    "type": "java.lang.String",
+    "description": "A description for 'host.name'"
+  }
+]}

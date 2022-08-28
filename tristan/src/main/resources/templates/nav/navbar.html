@@ -12,15 +12,15 @@
 
 		<div>
 			<form id="login">
-				<div th:if="${param.error != null}"
-					th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+<!-- 				<div th:if="${param.error != null}" -->
+<!-- 					th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div> -->
 				<!-- 		<div th:if="${param.error}"> -->
 				<!-- 			<p th:text="${param.error}"></p> -->
 				<!-- 			<p th:text="#{${param.error}}"></p></div> -->
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#loginModal" th:text="#{login}"></button>
+					data-bs-target="#loginModal" th:text="#{display.login}"></button>
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#signinModal" th:text="#{signin}"></button>
+					data-bs-target="#signinModal" th:text="#{display.signin}"></button>
 			</form>
 		</div>
 	</nav>
@@ -35,9 +35,9 @@
 		<div class="modal-content">
 			<div class="modal-header">
 			<button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
-				data-bs-target="#loginModal" th:text="#{login}"></button>
+				data-bs-target="#loginModal" th:text="#{display.login}"></button>
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#signinModal" th:text="#{signin}"></button>
+				data-bs-target="#signinModal" th:text="#{display.signin}"></button>
 <!-- 				<h5 class="modal-title" id="modalLoginLabel" th:text="#{login}"></h5> -->
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
@@ -72,9 +72,9 @@
 		<div class="modal-content">
 			<div class="modal-header">
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#loginModal" th:text="#{login}"></button>
+				data-bs-target="#loginModal" th:text="#{display.login}"></button>
 			<button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
-				data-bs-target="#signinModal" th:text="#{signin}"></button>
+				data-bs-target="#signinModal" th:text="#{display.signin}"></button>
 <!-- 				<h5 class="modal-title" id="modalLoginLabel" th:text="#{signin}"></h5> -->
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
@@ -104,5 +104,5 @@
 </div>
 
 <footer class="myfooter" th:fragment="foot">
-	<a th:href="@{/(lang=fr)}">Français </a><a th:href="@{/(lang=eng)}">English</a>
+	<a th:href="${@replaceOrAddParam.apply('lang', 'fr')}">Français </a><a th:href="${@replaceOrAddParam.apply('lang', 'eng')}">English</a>
 </footer>

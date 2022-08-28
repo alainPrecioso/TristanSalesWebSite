@@ -10,18 +10,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface UserRepository extends JpaRepository<UserSite, Long>{
-	@Query("SELECT u FROM UserSite u WHERE u.username = ?1 OR u.email = ?1")
-	Optional<UserSite> findByCredential(String credential);
+public interface UserRepository extends JpaRepository<User, Long>{
+	@Query("SELECT u FROM User u WHERE u.username = ?1 OR u.email = ?1")
+	Optional<User> findByCredential(String credential);
 	
-	Optional<UserSite> findByEmail(String email);
+	Optional<User> findByEmail(String email);
 
-	Optional<UserSite> findByUsername(String username);
+	Optional<User> findByUsername(String username);
 	
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE UserSite u " +
+    @Query("UPDATE User u " +
             "SET u.enabled = TRUE WHERE u.email = ?1")
     int enableUser(String email);
 

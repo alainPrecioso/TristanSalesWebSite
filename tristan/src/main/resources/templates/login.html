@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Log In</title>
-
+	<!-- Bootstrap css -->
+	<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+	
+	<!-- my css -->
+	<link rel="stylesheet" th:href="@{/css/index.css}">
+	
     <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" th:href="@{fonts/material-icon/css/material-design-iconic-font.min.css}">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
+	<header th:replace="/nav/navbar.html :: nav"></header>
 
     <div class="main">
         <!-- Sing in  Form -->
@@ -23,27 +29,26 @@
                         <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
                         <a th:href="@{/register}" class="signup-image-link" >Create an account</a>
                     </div>
-
                     <div class="signin-form">
-                        <h2 class="form-title" th:text="#{login}">login</h2>
+                        <h2 class="form-title" th:text="#{display.login}">login</h2>
                         <form th:fragment="signin-form" method="POST" class="register-form" id="login-form" th:action="@{/login}">
                             <div class="form-group">
                                 <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="username" id="your_name" placeholder="Your Name"/>
+                                <input type="text" name="username" id="your_name" th:placeholder="#{display.username}"/>
                             </div>
                             <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="your_pass" placeholder="Password"/>
+                                <input type="password" name="password" id="your_pass" th:placeholder="#{display.password}"/>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                                <label for="remember-me" class="label-agree-term" th:text="#{display.remember}"><span><span></span></span>Remember me</label>
                             </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
                                 <p></p>
                                 <h3 style="color:#FF0000" th:if="${param.error != null}" 
-  						th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</h3>
+  								th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</h3>
                             </div>
                         </form>
                         <div th:fragment="social-login" class="social-login">
@@ -58,9 +63,16 @@
                 </div>
             </div>
         </section>
-
     </div>
-
+    
+	<footer th:replace="/nav/navbar.html :: foot"></footer>		
+	<div th:replace="/nav/navbar.html :: loginModal"></div>
+	<div th:replace="/nav/navbar.html :: signinModal"></div>
+	<script type="text/javascript" th:src="@{/modal.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{js/main.js}"></script>
     <!-- JS -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/main.js"></script>

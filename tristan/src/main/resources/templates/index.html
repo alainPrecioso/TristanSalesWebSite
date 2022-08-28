@@ -3,13 +3,15 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/css/index.css}">
-<link rel="stylesheet" th:href="@{fonts/material-icon/css/material-design-iconic-font.min.css}">
-<link rel="stylesheet" th:href="@{css/style.css}">
-<title>Projet Tristan</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- Bootstrap css -->
+	<link rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css}">
+	<!-- my css -->
+	<link rel="stylesheet" th:href="@{/css/index.css}">
+
+	<link rel="stylesheet" th:href="@{fonts/material-icon/css/material-design-iconic-font.min.css}">
+	<link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
 	<header th:replace="/nav/navbar.html :: nav"></header>
@@ -18,27 +20,10 @@
 	<div sec:authorize="isAuthenticated()"><a th:href="@{/userroletest}"><h1>test role</h1></a></div>
 	<div th:if="${param.error}" class="alert alert-error" th:text="${param.error}"></div>
 	
-	
-	
-	
-	
-	<form th:action="@{/addjson}" th:object="${request}" method="POST" class="register-form" id="register-form">
-                            <div class="form-group">
-                                <input type="text" th:field="*{username}" id="name" placeholder="Your Name"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="email" th:field="*{email}" id="email" placeholder="Your Email"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" th:field="*{password}" id="pass" placeholder="Password"/>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" th:field="*{passwordcheck}" id="pass" placeholder="Password"/>
-                            </div>
-                            <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
-                            </div>
-    </form>
+	<div>
+	<input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+    <label for="remember-me" class="label-agree-term">Remember me</label>
+	</div>
 	
 	
 	

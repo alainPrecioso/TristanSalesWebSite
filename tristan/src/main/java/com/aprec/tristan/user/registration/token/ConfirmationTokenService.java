@@ -2,10 +2,11 @@ package com.aprec.tristan.user.registration.token;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.aprec.tristan.user.UserSite;
+import com.aprec.tristan.user.User;
 
 @Service
 public class ConfirmationTokenService {
@@ -17,7 +18,7 @@ public class ConfirmationTokenService {
 		this.confirmationTokenRepository = confirmationTokenRepository;
 	}
 	
-	public void saveConfirmationToken(ConfirmationToken confirmationToken) {
+	private void saveConfirmationToken(ConfirmationToken confirmationToken) {
 		confirmationTokenRepository.save(confirmationToken);
 	}
 	
@@ -30,11 +31,25 @@ public class ConfirmationTokenService {
 	                token, LocalDateTime.now());
 	}
 	
-	public void reSetToken(LocalDateTime creationTime, 
-			LocalDateTime expirationTime, 
-			String newToken,
-			UserSite user) {
+	public String createNewToken(User user) {
+		String newToken = UUID.randomUUID().toString();
+		confirmationTokenRepository
+		.updateToken(confirmationTokenRepository.findByUser(user).get().getToken(), 
+				LocalDateTime.now(), 
+				LocalDateTime.now().plusMinutes(15), 
+				newToken);
+		return newToken;
+	}
+	
+	public String createConfirmationToken(User user) {
+		ConfirmationToken confirmationToken = new ConfirmationToken(
+				UUID.randomUUID().toString(),
+				LocalDateTime.now(),
+				LocalDateTime.now().plusMinutes(15),
+				user);
 		
-		confirmationTokenRepository.updateToken(confirmationTokenRepository.findByUser(user).get().getToken(), creationTime, expirationTime, newToken);
+		saveConfirmationToken(confirmationToken);
+		
+		return confirmationToken.getToken();
 	}
 }

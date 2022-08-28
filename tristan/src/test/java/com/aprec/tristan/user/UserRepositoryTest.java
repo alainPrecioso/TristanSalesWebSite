@@ -31,16 +31,16 @@ class UserRepositoryTest {
 	void shouldSelectUserByUsernameOnly() {
 		//given
 		String username = "username";
-		UserSite user = new UserSite();
+		User user = new User();
 		user.setUsername(username);
-		user.setEmail("username@domain.tld");;
+		user.setEmail("username@domain.tld");
 		user.setPassword("password");
 		user.setUserRole(UserRole.ROLE_USER);
 		user.setEnabled(false);
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<UserSite> optionalUser = underTest.findByUsername(username);
+		Optional<User> optionalUser = underTest.findByUsername(username);
 		
 		//then
 		assertThat(optionalUser)
@@ -51,11 +51,168 @@ class UserRepositoryTest {
 	}
 	
 	@Test
+	void shouldNotSelectUserByUsernameOnly() {
+		//given
+		String email = "username@domain.tld";
+		User user = new User();
+		user.setUsername("username");
+		user.setEmail(email);
+		user.setPassword("password");
+		user.setUserRole(UserRole.ROLE_USER);
+		user.setEnabled(false);
+		user.setLocked(false);
+		underTest.save(user);
+		//when
+		Optional<User> optionalUser = underTest.findByUsername(email);
+		
+		//then
+		assertThat(optionalUser).isEmpty();
+	}
+	
+	
+	@Test
+	void shouldSelectUserByEmailOnly() {
+		//given
+		String email = "username@domain.tld";
+		User user = new User();
+		user.setUsername("username");
+		user.setEmail(email);
+		user.setPassword("password");
+		user.setUserRole(UserRole.ROLE_USER);
+		user.setEnabled(false);
+		user.setLocked(false);
+		underTest.save(user);
+		//when
+		Optional<User> optionalUser = underTest.findByEmail(email);
+		
+		//then
+		assertThat(optionalUser)
+        .isPresent()
+        .hasValueSatisfying(u -> {
+            assertThat(u).usingRecursiveComparison().isEqualTo(user);
+        });
+	}
+	
+	@Test
+	void shouldNotSelectUserByEmailOnly() {
+		//given
+		String username = "username";
+		User user = new User();
+		user.setUsername(username);
+		user.setEmail("username@domain.tld");
+		user.setPassword("password");
+		user.setUserRole(UserRole.ROLE_USER);
+		user.setEnabled(false);
+		user.setLocked(false);
+		underTest.save(user);
+		//when
+		Optional<User> optionalUser = underTest.findByEmail(username);
+		
+		//then
+		assertThat(optionalUser).isEmpty();
+	}
+	
+	@Test
+	void shouldSelectUserByEmail() {
+		//given
+		String username = "username";
+		String email = "username@domain.tld";
+		User user = new User();
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPassword("password");
+		user.setUserRole(UserRole.ROLE_USER);
+		user.setEnabled(false);
+		user.setLocked(false);
+		underTest.save(user);
+		//when
+		Optional<User> optionalUser = underTest.findByCredential(email);
+		
+		//then
+		assertThat(optionalUser)
+        .isPresent()
+        .hasValueSatisfying(u -> {
+            assertThat(u).usingRecursiveComparison().isEqualTo(user);
+        });
+	}
+	
+	
+	
+	@Test
+	void shouldNotSelectUserByUsername() {
+		//given
+		String username = "username";
+		String email = "username@domain.tld";
+		User user = new User();
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPassword("password");
+		user.setUserRole(UserRole.ROLE_USER);
+		user.setEnabled(false);
+		user.setLocked(false);
+		underTest.save(user);
+		//when
+		Optional<User> optionalUser = underTest.findByCredential(username);
+		
+		//then
+		assertThat(optionalUser)
+        .isPresent()
+        .hasValueSatisfying(u -> {
+            assertThat(u).usingRecursiveComparison().isEqualTo(user);
+        });
+	}
+	
+	@Test
+	void shouldSelectUserByAnyCredential() {
+		//given
+		String username = "username";
+		String email = "username@domain.tld";
+		User user = new User();
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPassword("password");
+		user.setUserRole(UserRole.ROLE_USER);
+		user.setEnabled(false);
+		user.setLocked(false);
+		underTest.save(user);
+		//when
+		Optional<User> optionalUserWithUsername = underTest.findByCredential(username);
+		Optional<User> optionalUserWithEmail = underTest.findByCredential(email);
+		//then
+		assertThat(optionalUserWithUsername)
+        .isPresent()
+        .hasValueSatisfying(u -> {
+            assertThat(u)
+            .usingRecursiveComparison()
+            .isEqualTo(optionalUserWithEmail.get())
+        ;});
+	}
+	
+	@Test
+	void shouldNotSelectUserByAnyCredential() {
+		//given
+		String username = "username";
+		String email = "username@domain.tld";
+		User user = new User();
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setPassword("password");
+		user.setUserRole(UserRole.ROLE_USER);
+		user.setEnabled(false);
+		user.setLocked(false);
+		underTest.save(user);
+		//when
+		Optional<User> optionalUser = underTest.findByCredential("fakenameington");
+		//then
+		assertThat(optionalUser).isEmpty();
+	}
+	
+	@Test
 	void shouldEnableUser() {
 		//given
 		String username = "username";
 		String email = "username@domain.tld";
-		UserSite user = new UserSite();
+		User user = new User();
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword("password");
@@ -65,7 +222,7 @@ class UserRepositoryTest {
 		underTest.save(user);
 		//when
 		underTest.enableUser(email);
-		Optional<UserSite> optionalUser = underTest.findByUsername(username);
+		Optional<User> optionalUser = underTest.findByUsername(username);
 		//then
 		assertThat(optionalUser.get().isEnabled()).isTrue();
 	}

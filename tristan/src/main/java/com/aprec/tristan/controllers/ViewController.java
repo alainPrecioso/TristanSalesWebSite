@@ -19,7 +19,8 @@ public class ViewController {
 
 	
 	@GetMapping("/login")
-	String login() {
+	String login(Model model) {
+		model.addAttribute("request", new RegistrationRequest());
 		return "login";
 	}
 	

@@ -12,16 +12,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.persistence.Table;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class UserSite implements UserDetails {
+@Table(name="site_user")
+public class User implements UserDetails {
 	/**
 	 * 
 	 */
@@ -47,10 +46,10 @@ public class UserSite implements UserDetails {
 	private boolean enabled;
 	
 	
-	public UserSite() {
+	public User() {
 		super();
 	}
-	public UserSite(String username, String email, String password, UserRole userRole) {
+	public User(String username, String email, String password, UserRole userRole) {
 		super();
 		this.username = username;
 		this.email = email;
@@ -133,7 +132,7 @@ public class UserSite implements UserDetails {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UserSite other = (UserSite) obj;
+		User other = (User) obj;
 		return Objects.equals(email, other.email) && enabled == other.enabled && Objects.equals(id, other.id)
 				&& locked == other.locked && Objects.equals(password, other.password) && userRole == other.userRole
 				&& Objects.equals(username, other.username);

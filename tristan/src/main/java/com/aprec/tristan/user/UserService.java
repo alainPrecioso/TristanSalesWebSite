@@ -1,18 +1,11 @@
 package com.aprec.tristan.user;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-import javax.validation.Valid;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
-import com.aprec.tristan.user.registration.token.ConfirmationToken;
 import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
 
 @Service
@@ -24,7 +17,9 @@ public class UserService implements UserDetailsService {
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final ConfirmationTokenService confirmationTokenService;
 	
-	public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService) {
+	public UserService(UserRepository userRepository, 
+			BCryptPasswordEncoder bCryptPasswordEncoder, 
+			ConfirmationTokenService confirmationTokenService) {
 		super();
 		this.userRepository = userRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
@@ -33,14 +28,15 @@ public class UserService implements UserDetailsService {
 
 	
 	@Override
-	public UserDetails loadUserByUsername(String credential) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return userRepository
-				.findByCredential(credential)
-				.orElseThrow(() -> new UsernameNotFoundException(String.format(USER_NOT_FOUND_MSG, credential)));
+				.findByCredential(username)
+				.orElseThrow(() -> new UsernameNotFoundException(String
+						.format(USER_NOT_FOUND_MSG, username)));
 	}
 
 
-	public String signUpUser(UserSite user) {
+	public String signUpUser(User user) {
 		Boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
 				|| userRepository.findByUsername(user.getUsername()).isPresent();
 		if (userExists) {
@@ -49,48 +45,26 @@ public class UserService implements UserDetailsService {
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
 		
-		ConfirmationToken confirmationToken = new ConfirmationToken(
-				UUID.randomUUID().toString(),
-				LocalDateTime.now(),
-				LocalDateTime.now().plusMinutes(15),
-				user);
 		
-		confirmationTokenService.saveConfirmationToken(confirmationToken);
 		
-		return confirmationToken.getToken();
+		return confirmationTokenService.createConfirmationToken(user);
 		
 	}
 	
-	public String resetConfirmationToken(UserSite user) {
-		String newToken = UUID.randomUUID().toString();
-		confirmationTokenService.reSetToken(
-				LocalDateTime.now(),
-				LocalDateTime.now().plusMinutes(15),
-				newToken,
-				user);
-		
-		return newToken;
+	
+	public String getNewToken(User user) {
+		return confirmationTokenService.createNewToken(user);
 		
 	}
 	
-//	public String logInUser(String credential, String password) {
-//		UserDetails user = loadUserByUsername(credential);
-//		if (bCryptPasswordEncoder.matches(password, user.getPassword())) {
-//			return "log";
-//		}
-//		
-//		
-//		return "wrong credentials";
-//		
-//	}
 	
 	public int enableUser(String email) {
         return userRepository.enableUser(email);
     }
 
 
-	public UserSite getUser(String credential) {
-		return userRepository.findByUsername(credential).get();
+	public User getUser(String username) {
+		return userRepository.findByUsername(username).get();
 	}
 	
 	

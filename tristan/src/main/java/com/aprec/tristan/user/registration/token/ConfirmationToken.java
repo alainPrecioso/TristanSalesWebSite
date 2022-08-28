@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.aprec.tristan.user.UserSite;
+import com.aprec.tristan.user.User;
 
 @Entity
 public class ConfirmationToken {
@@ -34,7 +34,7 @@ public class ConfirmationToken {
 	private LocalDateTime confirmationTime;
 	@OneToOne
 	@JoinColumn(nullable=false, name= "user_id")
-	private UserSite user;
+	private User user;
 
 	
 	
@@ -43,7 +43,7 @@ public class ConfirmationToken {
 	}
 
 	public ConfirmationToken(String token, LocalDateTime localDateTime, LocalDateTime localDateTime2,
-			UserSite user) {
+			User user) {
 		super();
 		this.token = token;
 		this.creationTime = localDateTime;
@@ -91,11 +91,11 @@ public class ConfirmationToken {
 		this.confirmationTime = confirmationTime;
 	}
 
-	public UserSite getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(UserSite user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 	

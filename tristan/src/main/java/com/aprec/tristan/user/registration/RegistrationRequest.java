@@ -14,15 +14,18 @@ public class RegistrationRequest {
 	
 	@NotEmpty
 	@NotBlank(message = "usernamerequired")
+	@Pattern(regexp="^(?!.*^_)(?!.*_$)(?!.*__)[a-zA-Z\\u00C0-\\u00FF_\\d]{5,45}$", 
+			message="usernamepattern")
 	private String username;
+	
 	@NotBlank(message = "emailrequired")
 	@Email(message = "emailinvalid")
 	private String email;
-	@Pattern(regexp="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\\s).{8,30}$", message="passwordpattern")
+	
+	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{12,30}$", 
+			message="passwordpattern")
 	private String password;
 	private String passwordcheck;
-	
-	
 	
 	
 	public RegistrationRequest(String username, String email, String password, String passwordcheck) {
@@ -33,26 +36,17 @@ public class RegistrationRequest {
 		this.passwordcheck = passwordcheck;
 	}
 
-	
-
-
-
 
 	public RegistrationRequest() {
 	}
 
-
-
-
-
+	public static RegistrationRequest create() {
+		return new RegistrationRequest();
+	}
 
 	public String getUsername() {
 		return username;
 	}
-
-
-
-
 
 
 	public void setUsername(String username) {
@@ -60,17 +54,9 @@ public class RegistrationRequest {
 	}
 
 
-
-
-
-
 	public String getEmail() {
 		return email;
 	}
-
-
-
-
 
 
 	public void setEmail(String email) {
@@ -78,17 +64,9 @@ public class RegistrationRequest {
 	}
 
 
-
-
-
-
 	public String getPassword() {
 		return password;
 	}
-
-
-
-
 
 
 	public void setPassword(String password) {
@@ -96,15 +74,12 @@ public class RegistrationRequest {
 	}
 
 
-
-
-
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(email, password, username);
 	}
 
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -118,29 +93,20 @@ public class RegistrationRequest {
 				&& Objects.equals(username, other.username);
 	}
 
+	
 	@Override
 	public String toString() {
-		return "RegistrationRequest [username=" + username + ", email=" + email + ", password=" + password + "]";
+		return "RegistrationRequest [username=" + username + 
+				", email=" + email + ", password=" + password + "]";
 	}
-
-
-
-
 
 
 	public String getPasswordcheck() {
 		return passwordcheck;
 	}
 
-
-
-
-
-
+	
 	public void setPasswordcheck(String passwordcheck) {
 		this.passwordcheck = passwordcheck;
 	}
-	
-	
-	
 }

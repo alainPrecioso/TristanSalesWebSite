@@ -4,14 +4,12 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
-import com.aprec.tristan.user.UserSite;
+import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.UserRole;
 import com.aprec.tristan.user.UserService;
 import com.aprec.tristan.user.registration.email.EmailReader;
@@ -50,7 +48,7 @@ public class RegistrationService {
 	public String register(RegistrationRequest request) {
 		
 		String token = userService.signUpUser(
-			new UserSite(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
+			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
 		String link = hostName + "/confirm?token=" + token; 
 		//TODO
 //		emailService.send(
@@ -60,9 +58,9 @@ public class RegistrationService {
 		return "user saved";
 	}
 	
-	public void resendMail(String credential) {
-		UserSite user = userService.getUser(credential);
-		String token = userService.resetConfirmationToken(user);
+	public void resendMail(String username) {
+		User user = userService.getUser(username);
+		String token = userService.getNewToken(user);
 			String link = hostName + "/confirm?token=" + token; 
 			emailService.send(
 					user.getEmail(),

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.aprec.tristan.user.UserSite;
+import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.UserRepository;
 
 @Validated
@@ -31,7 +31,7 @@ public class RegistrationController {
 		this.registrationService = registrationService;
 	}
 
-	@PostMapping("/add")
+	@PostMapping("/addgh")
 	public String register(@RequestParam String username,
 			@RequestParam String email, @RequestParam String password, String passwordcheck, Model model) {
 		
@@ -44,7 +44,7 @@ public class RegistrationController {
 		return "index";
 	}
 	
-	@PostMapping("/addjson")
+	@PostMapping("/add")
 	public String registerObject(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
 		
 		
@@ -61,7 +61,7 @@ public class RegistrationController {
     }
 
 	@GetMapping(path = "/all")
-	public @ResponseBody Iterable<UserSite> getAllUsers() {
+	public @ResponseBody Iterable<User> getAllUsers() {
 		return userRepository.findAll();
 	}
 	
