@@ -113,19 +113,32 @@ public class RegistrationService {
 		return passwordToken.getUser();
 	}
 	
-	private String buildConfirmationEmail(String name, String link) {
+	private String buildConfirmationEmail(String username, String link) {
 		Locale locale = LocaleContextHolder.getLocale();
 		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
-			return String.format(emailReader.readFileToString("classpath:email/email.txt"), name, link);
+			return String.format(emailReader.readFileToString("classpath:email/confirmation_email.txt"), username, link);
 		} else {
-			return String.format(emailReader.readFileToString("classpath:email/email_fr.txt"), name, link);
+			return String.format(emailReader.readFileToString("classpath:email/confirmation_email_fr.txt"), username, link);
+		}
+	}
+	
+	private String buildPasswordEmail(String username, String link) {
+		Locale locale = LocaleContextHolder.getLocale();
+		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
+			return String.format(emailReader.readFileToString("classpath:email/password_email.txt"), username, link);
+		} else {
+			return String.format(emailReader.readFileToString("classpath:email/password_email_fr.txt"), username, link);
 		}
 	}
 	
 	public String requestNewPassword(String email) {
 		User user = userService.findUser(email);
 		
-		passwordTokenService.createPasswordToken(user);
+		String token = passwordTokenService.createPasswordToken(user);
+		String link = hostName + "/enternewpass?token=" + token; 
+		emailService.send(
+				user.getEmail(),
+	                buildPasswordEmail(user.getUsername(), link));
 		return "password mail send";
 	}
 
@@ -134,7 +147,6 @@ public class RegistrationService {
 	public String updatePassword(PasswordRequest request) {
 		User user = confirmPasswordToken(request.getToken());
 		userService.updatePassword(user, request.getPassword());
-		
 		return "password changed";
 	}
 }
