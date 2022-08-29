@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 import com.aprec.tristan.user.registration.validation.EqualFields;
 
 @EqualFields(baseField = "password", matchField = "passwordcheck")
-public class RegistrationRequest {
+public class RegistrationRequest extends PasswordRequest{
 	
 	@NotEmpty
 	@NotBlank(message = "usernamerequired")
@@ -38,10 +38,6 @@ public class RegistrationRequest {
 
 
 	public RegistrationRequest() {
-	}
-
-	public static RegistrationRequest create() {
-		return new RegistrationRequest();
 	}
 
 	public String getUsername() {

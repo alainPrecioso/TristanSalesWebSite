@@ -30,6 +30,7 @@ public class ViewController {
 		return "register";
 	}
 	
+	
 	@GetMapping("/logged")
 	public String logged() {
 		return "logged";

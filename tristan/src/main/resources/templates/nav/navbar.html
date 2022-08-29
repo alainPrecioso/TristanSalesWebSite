@@ -1,7 +1,7 @@
 <header th:fragment="nav">
 	<nav class="mynavbar">
 		<div id="myhome">
-			<a th:href="@{/}"><h1>Home</h1></a>
+			<a th:href="@{/}"><h1 th:text="#{display.home}">Home</h1></a>
 
 			<form id="mysearchbar" th:action="@{/search}" method="post">
 				<input type="text" name="search">
@@ -19,6 +19,7 @@
 				<!-- 			<p th:text="#{${param.error}}"></p></div> -->
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#loginModal" th:text="#{display.login}"></button>
+					
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#signinModal" th:text="#{display.signin}"></button>
 			</form>

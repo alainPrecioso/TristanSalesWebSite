@@ -64,9 +64,19 @@ public class UserService implements UserDetailsService {
 
 
 	public User getUser(String username) {
-		return userRepository.findByUsername(username).get();
+		return userRepository.findByCredential(username).get();
 	}
 	
+	public User findUser(String credential) {
+		return userRepository.findByCredential(credential).orElseThrow(() -> new UsernameNotFoundException(String
+				.format(USER_NOT_FOUND_MSG, credential)));
+	}
+
+
+	public void updatePassword(User user, String password) {
+		userRepository.updatePassword(bCryptPasswordEncoder.encode(password), user.getId());
+		
+	}
 	
 	
 }

@@ -31,24 +31,20 @@ public class RegistrationController {
 		this.registrationService = registrationService;
 	}
 
-	@PostMapping("/addgh")
-	public String register(@RequestParam String username,
-			@RequestParam String email, @RequestParam String password, String passwordcheck, Model model) {
+	@PostMapping("/newpass")
+	public String register(@RequestParam String email, Model model) {
 		
 		
-		model.addAttribute("error", registrationService.register(
-				new RegistrationRequest(username, email, password, passwordcheck)
-		));
 		
 		
 		return "index";
 	}
 	
 	@PostMapping("/add")
-	public String registerObject(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
+	public String register(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
 		
 		
-		model.addAttribute("error", registrationService.register(request));
+		model.addAttribute("message", registrationService.register(request));
 		
 		
 		return "index";
@@ -65,9 +61,31 @@ public class RegistrationController {
 		return userRepository.findAll();
 	}
 	
-	
-	boolean isBlankString(String string) {
-	    return string == null || string.isBlank();
+	@GetMapping("/forgot")
+	String forgotPassword(Model model) {
+		model.addAttribute("request", new RegistrationRequest());
+		return "new pass/forgot";
 	}
 
+	@PostMapping("/passrequest")
+	public String newPasswordRequest(@RequestParam String email, Model model) {
+		model.addAttribute("request", new RegistrationRequest());
+		model.addAttribute("message", registrationService.requestNewPassword(email));
+		return "index";
+	}
+
+	@GetMapping("/enternewpass")
+	public String enterNewPassword(Model model) {
+		model.addAttribute("request", new RegistrationRequest());
+		model.addAttribute("passrequest", new PasswordRequest());
+		return "new pass/newpass";
+	}
+	
+	@PostMapping("/savenewpass")
+	public String saveNewPassword(@Valid @ModelAttribute("passrequest") PasswordRequest request, Model model) {
+		model.addAttribute("request", new RegistrationRequest());
+		model.addAttribute("message", registrationService.updatePassword(request));
+		return "login";
+	}
+	
 }

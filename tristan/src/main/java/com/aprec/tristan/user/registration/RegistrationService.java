@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.aprec.tristan.user.User;
@@ -16,12 +18,15 @@ import com.aprec.tristan.user.registration.email.EmailReader;
 import com.aprec.tristan.user.registration.email.EmailService;
 import com.aprec.tristan.user.registration.token.ConfirmationToken;
 import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
+import com.aprec.tristan.user.token.PasswordToken;
+import com.aprec.tristan.user.token.PasswordTokenService;
 
 @Service
 public class RegistrationService {
 	
 	private final UserService userService;
 	private final ConfirmationTokenService confirmationTokenService;
+	private final PasswordTokenService passwordTokenService;
 	private final EmailService emailService;
 	private final EmailReader emailReader;
     private final String hostName;
@@ -31,6 +36,7 @@ public class RegistrationService {
 	
 	public RegistrationService(UserService userService, 
 			ConfirmationTokenService confirmationTokenService, 
+			PasswordTokenService passwordTokenService,
 			EmailService emailService,
 			EmailReader emailReader,
 			@Value("${host.name}") String hostName
@@ -38,6 +44,7 @@ public class RegistrationService {
 		super();
 		this.userService = userService;
 		this.confirmationTokenService = confirmationTokenService;
+		this.passwordTokenService = passwordTokenService;
 		this.emailService = emailService;
 		this.emailReader = emailReader;
 		this.hostName = hostName;
@@ -55,16 +62,17 @@ public class RegistrationService {
 //	                request.getEmail(),
 //	                buildEmail(request.getUsername(), link));
 		
-		return "user saved";
+		return "registered";
 	}
 	
-	public void resendMail(String username) {
+	
+	public void resendConfirmationMail(String username) {
 		User user = userService.getUser(username);
 		String token = userService.getNewToken(user);
 			String link = hostName + "/confirm?token=" + token; 
 			emailService.send(
 					user.getEmail(),
-		                buildEmail(user.getUsername(), link));
+		                buildConfirmationEmail(user.getUsername(), link));
 			
 	}
 	
@@ -90,12 +98,43 @@ public class RegistrationService {
 		return "confirmed";
 	}
 	
-	private String buildEmail(String name, String link) {
+	@Transactional
+	private User confirmPasswordToken(String token) {
+		PasswordToken passwordToken = passwordTokenService.getToken(token)
+				.orElseThrow(() -> new IllegalStateException("token not found"));
+
+
+		LocalDateTime expiredAt = passwordToken.getExpirationTime();
+
+		if (expiredAt.isBefore(LocalDateTime.now())) {
+			throw new IllegalStateException("token expired");
+		}
+		passwordTokenService.deletePasswordToken(token);;
+		return passwordToken.getUser();
+	}
+	
+	private String buildConfirmationEmail(String name, String link) {
 		Locale locale = LocaleContextHolder.getLocale();
 		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
 			return String.format(emailReader.readFileToString("classpath:email/email.txt"), name, link);
 		} else {
 			return String.format(emailReader.readFileToString("classpath:email/email_fr.txt"), name, link);
 		}
+	}
+	
+	public String requestNewPassword(String email) {
+		User user = userService.findUser(email);
+		
+		passwordTokenService.createPasswordToken(user);
+		return "password mail send";
+	}
+
+
+
+	public String updatePassword(PasswordRequest request) {
+		User user = confirmPasswordToken(request.getToken());
+		userService.updatePassword(user, request.getPassword());
+		
+		return "password changed";
 	}
 }

@@ -60,7 +60,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
         if (exception.getMessage().equalsIgnoreCase("disabled")) {
 //            errorMessage = messages.getMessage("disabled", null, locale);
-            registrationService.resendMail(request.getParameter("username"));
+            registrationService.resendConfirmationMail(request.getParameter("username"));
 //        } else if (exception.getMessage().equalsIgnoreCase("User account has expired")) {
 //            errorMessage = messages.getMessage("auth.message.expired", null, locale);
 //        } else if (exception.getMessage().equalsIgnoreCase("User account has expired")) {
