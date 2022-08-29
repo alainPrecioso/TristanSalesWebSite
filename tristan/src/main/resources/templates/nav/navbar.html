@@ -1,3 +1,4 @@
+<!-- My header fragment-->
 <header th:fragment="nav">
 	<nav class="mynavbar">
 		<div id="myhome">
@@ -9,14 +10,13 @@
 				<p th:text="${result} != null ? ${result} :''" />
 			</form>
 		</div>
-
-		<div>
+		<div sec:authorize="isAuthenticated()">
+			<form id="login" th:action="@{/logout}" method="post">
+				<button type="submit" class="btn btn-primary" th:text="#{display.logout}"></button>
+			</form>
+		</div>
+		<div sec:authorize="isAnonymous()">
 			<form id="login">
-<!-- 				<div th:if="${param.error != null}" -->
-<!-- 					th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div> -->
-				<!-- 		<div th:if="${param.error}"> -->
-				<!-- 			<p th:text="${param.error}"></p> -->
-				<!-- 			<p th:text="#{${param.error}}"></p></div> -->
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#loginModal" th:text="#{display.login}"></button>
 					
@@ -25,10 +25,11 @@
 			</form>
 		</div>
 	</nav>
+	<div th:if="${message != null}"><div th:replace="/nav/navbar.html :: message"></div></div>
 </header>
 
 
-
+<!-- Login Modal Fragment -->
 <div th:fragment="loginModal" class="modal" id="loginModal"
 	data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="modalLoginLabel" aria-hidden="true">
@@ -39,15 +40,10 @@
 				data-bs-target="#loginModal" th:text="#{display.login}"></button>
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 				data-bs-target="#signinModal" th:text="#{display.signin}"></button>
-<!-- 				<h5 class="modal-title" id="modalLoginLabel" th:text="#{login}"></h5> -->
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<!-- 							<form id="formLogin" method="post" th:action="@{/login}"> -->
-				<!-- 							<input id="username" name="username" type="text" placeholder="username" required> -->
-				<!-- 							<input id="password" name="password" type="password" placeholder="password" required> -->
-				<!-- 							</form> -->
 				<section class="sign-in">
 					<div class="signin-content">
 						<div class="signin-form">
@@ -60,12 +56,12 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-warning"
 					data-bs-dismiss="modal">Close</button>
-				<!-- 								<button form="formLogin" type="submit" class="btn btn-primary">Log</button> -->
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- Register Modal Fragment -->
 <div th:fragment="signinModal" class="modal" id="signinModal"
 	data-bs-keyboard="false" tabindex="-1"
 	aria-labelledby="modalLoginLabel" aria-hidden="true">
@@ -76,16 +72,10 @@
 				data-bs-target="#loginModal" th:text="#{display.login}"></button>
 			<button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
 				data-bs-target="#signinModal" th:text="#{display.signin}"></button>
-<!-- 				<h5 class="modal-title" id="modalLoginLabel" th:text="#{signin}"></h5> -->
 				<button type="button" class="btn-close" data-bs-dismiss="modal"
 					aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<!-- 							<form id="signform" th:action="@{/add}"  method="post"> -->
-				<!-- 							<input th:name="username" type="text" placeholder="username" required> -->
-				<!-- 							<input th:name="email" type="email" placeholder="email" required> -->
-				<!-- 							<input th:name="password" type="password" placeholder="password" required> -->
-				<!-- 							</form> -->
 				<section class="signup">
 					<div class="signup-content">
 						<div class="signup-form">
@@ -98,12 +88,21 @@
 				<button type="button" class="btn btn-warning"
 					data-bs-dismiss="modal">Close</button>
 					
-				<!-- 								<button form="signform" type="submit" class="btn btn-primary">Sign</button> -->
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- Message fragment -->
+<div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert" th:fragment="message">
+  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+  	<div th:text="#{display.registered}">
+    	Message
+  	</div>
+  	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+<!-- My footer fragment -->
 <footer class="myfooter" th:fragment="foot">
 	<a th:href="${@replaceOrAddParam.apply('lang', 'fr')}">Français </a><a th:href="${@replaceOrAddParam.apply('lang', 'eng')}">English</a>
 </footer>

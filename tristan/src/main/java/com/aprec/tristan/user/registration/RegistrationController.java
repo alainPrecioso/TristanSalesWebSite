@@ -51,8 +51,9 @@ public class RegistrationController {
 	}
 	
 	@GetMapping(path = "/confirm")
-    public String confirm(@RequestParam("token") String token) {
+    public String confirm(@RequestParam("token") String token, Model model) {
         registrationService.confirmToken(token);
+        model.addAttribute("message", registrationService.confirmToken(token));
         return "index";
     }
 

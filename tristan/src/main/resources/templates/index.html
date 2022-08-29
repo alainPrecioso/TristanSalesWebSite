@@ -20,10 +20,6 @@
 	<div sec:authorize="isAuthenticated()"><a th:href="@{/userroletest}"><h1>test role</h1></a></div>
 	<div th:if="${param.error}" class="alert alert-error" th:text="${param.error}"></div>
 	
-	<div>
-	<input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-    <label for="remember-me" class="label-agree-term">Remember me</label>
-	</div>
 	
 	
 	

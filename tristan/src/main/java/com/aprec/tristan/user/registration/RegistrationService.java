@@ -4,11 +4,9 @@ import java.time.LocalDateTime;
 import java.util.Locale;
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.aprec.tristan.user.User;
@@ -56,8 +54,8 @@ public class RegistrationService {
 		
 		String token = userService.signUpUser(
 			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
-		String link = hostName + "/confirm?token=" + token; 
 		//TODO
+//		String link = hostName + "/confirm?token=" + token; 
 //		emailService.send(
 //	                request.getEmail(),
 //	                buildEmail(request.getUsername(), link));
@@ -139,7 +137,7 @@ public class RegistrationService {
 		emailService.send(
 				user.getEmail(),
 	                buildPasswordEmail(user.getUsername(), link));
-		return "password mail send";
+		return "passwordmailsent";
 	}
 
 
@@ -147,6 +145,6 @@ public class RegistrationService {
 	public String updatePassword(PasswordRequest request) {
 		User user = confirmPasswordToken(request.getToken());
 		userService.updatePassword(user, request.getPassword());
-		return "password changed";
+		return "passwordchanged";
 	}
 }
