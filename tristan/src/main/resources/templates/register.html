@@ -50,6 +50,8 @@
 <!--                             </div> -->
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit" th:value="#{display.register}"/>
+                                <h3 style="color:#FF0000" th:if="${param.error != null}" 
+  								th:text="${session.errormessage}">error</h3>
                             </div>
                         </form>
                     </div>

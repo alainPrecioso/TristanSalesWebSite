@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
 		Boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
 				|| userRepository.findByUsername(user.getUsername()).isPresent();
 		if (userExists) {
-			throw new IllegalStateException("email or username already taken");
+			throw new IllegalStateException("userexists");
 		}
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);

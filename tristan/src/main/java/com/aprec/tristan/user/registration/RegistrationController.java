@@ -54,6 +54,7 @@ public class RegistrationController {
     public String confirm(@RequestParam("token") String token, Model model) {
         registrationService.confirmToken(token);
         model.addAttribute("message", registrationService.confirmToken(token));
+        model.addAttribute("request", new RegistrationRequest());
         return "index";
     }
 

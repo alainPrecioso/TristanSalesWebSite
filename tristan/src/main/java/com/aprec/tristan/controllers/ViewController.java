@@ -14,6 +14,7 @@ public class ViewController {
 	@GetMapping(value= {"/", "/index"})
 	public String home(Model model) {
 		model.addAttribute("request", new RegistrationRequest());
+		//throw new IllegalStateException("testa");
 		return "index";
 	}
 
