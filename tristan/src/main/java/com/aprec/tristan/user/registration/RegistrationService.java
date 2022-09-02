@@ -3,11 +3,16 @@ package com.aprec.tristan.user.registration;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.LocaleResolver;
 
 import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.UserRole;
@@ -28,6 +33,7 @@ public class RegistrationService {
 	private final EmailService emailService;
 	private final EmailReader emailReader;
     private final String hostName;
+    private  final LocaleResolver localeResolver;
 	
 	
 	
@@ -37,7 +43,8 @@ public class RegistrationService {
 			PasswordTokenService passwordTokenService,
 			EmailService emailService,
 			EmailReader emailReader,
-			@Value("${host.name}") String hostName
+			@Value("${host.name}") String hostName,
+			LocaleResolver localeResolver
 			) {
 		super();
 		this.userService = userService;
@@ -46,6 +53,7 @@ public class RegistrationService {
 		this.emailService = emailService;
 		this.emailReader = emailReader;
 		this.hostName = hostName;
+		this.localeResolver = localeResolver;
 	}
 
 	
@@ -115,7 +123,7 @@ public class RegistrationService {
 	}
 	
 	private String buildConfirmationEmail(String username, String link) {
-		Locale locale = LocaleContextHolder.getLocale();
+		Locale locale = getLocale();
 		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
 			return String.format(emailReader.readFileToString("classpath:email/confirmation_email.txt"), username, link);
 		} else {
@@ -124,12 +132,17 @@ public class RegistrationService {
 	}
 	
 	private String buildPasswordEmail(String username, String link) {
-		Locale locale = LocaleContextHolder.getLocale();
+		Locale locale = getLocale();
 		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
 			return String.format(emailReader.readFileToString("classpath:email/password_email.txt"), username, link);
 		} else {
 			return String.format(emailReader.readFileToString("classpath:email/password_email_fr.txt"), username, link);
 		}
+	}
+	
+	private Locale getLocale() {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		return localeResolver.resolveLocale(request);
 	}
 	
 	public String requestNewPassword(String email) {
