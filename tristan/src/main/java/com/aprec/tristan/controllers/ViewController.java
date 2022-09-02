@@ -6,29 +6,33 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.aprec.tristan.user.registration.RegistrationRequest;
+import static com.aprec.tristan.controllers.HtmlPage.INDEX;
+import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
+import static com.aprec.tristan.controllers.HtmlPage.REGISTER;
+import static com.aprec.tristan.controllers.Attribute.REQUEST;
 
 @Controller
 public class ViewController {
 	
 	
-	@GetMapping(value= {"/", "/index"})
-	public String home(Model model) {
+	
+	@GetMapping({"/", "/index", "/home"})
+	public HtmlPage home(Model model) {
 		model.addAttribute("request", new RegistrationRequest());
-		//throw new IllegalStateException("testa");
-		return "index";
+		return INDEX;
 	}
 
 	
 	@GetMapping("/login")
-	String login(Model model) {
-		model.addAttribute("request", new RegistrationRequest());
-		return "login";
+	HtmlPage login(Model model) {
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+		return LOGIN;
 	}
 	
 	@GetMapping("/register")
-	String register(Model model) {
-		model.addAttribute("request", new RegistrationRequest());
-		return "register";
+	HtmlPage register(Model model) {
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+		return REGISTER;
 	}
 	
 	

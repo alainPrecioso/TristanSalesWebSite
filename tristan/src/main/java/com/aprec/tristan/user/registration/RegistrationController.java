@@ -1,5 +1,12 @@
 package com.aprec.tristan.user.registration;
 
+import static com.aprec.tristan.controllers.Attribute.MESSAGE;
+import static com.aprec.tristan.controllers.Attribute.REQUEST;
+import static com.aprec.tristan.controllers.HtmlPage.FORGOT;
+import static com.aprec.tristan.controllers.HtmlPage.INDEX;
+import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
+import static com.aprec.tristan.controllers.HtmlPage.NEW_PASSWORD;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -12,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aprec.tristan.controllers.HtmlPage;
 import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.UserRepository;
 
@@ -32,30 +40,30 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/newpass")
-	public String register(@RequestParam String email, Model model) {
+	public HtmlPage register(@RequestParam String email, Model model) {
 		
 		
 		
 		
-		return "index";
+		return INDEX;
 	}
 	
 	@PostMapping("/add")
-	public String register(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
+	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
 		
 		
-		model.addAttribute("message", registrationService.register(request));
+		model.addAttribute(MESSAGE.getAttribute(), registrationService.register(request));
 		
 		
-		return "index";
+		return INDEX;
 	}
 	
 	@GetMapping(path = "/confirm")
-    public String confirm(@RequestParam("token") String token, Model model) {
+    public HtmlPage confirm(@RequestParam("token") String token, Model model) {
         registrationService.confirmToken(token);
         model.addAttribute("message", registrationService.confirmToken(token));
-        model.addAttribute("request", new RegistrationRequest());
-        return "index";
+        model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+        return INDEX;
     }
 
 	@GetMapping(path = "/all")
@@ -64,30 +72,30 @@ public class RegistrationController {
 	}
 	
 	@GetMapping("/forgot")
-	String forgotPassword(Model model) {
-		model.addAttribute("request", new RegistrationRequest());
-		return "new pass/forgot";
+	HtmlPage forgotPassword(Model model) {
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+		return FORGOT;
 	}
 
 	@PostMapping("/passrequest")
-	public String newPasswordRequest(@RequestParam String email, Model model) {
-		model.addAttribute("request", new RegistrationRequest());
-		model.addAttribute("message", registrationService.requestNewPassword(email));
-		return "index";
+	public HtmlPage newPasswordRequest(@RequestParam String email, Model model) {
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+		model.addAttribute(MESSAGE.getAttribute(), registrationService.requestNewPassword(email));
+		return INDEX;
 	}
 
 	@GetMapping("/enternewpass")
-	public String enterNewPassword(Model model) {
-		model.addAttribute("request", new RegistrationRequest());
+	public HtmlPage enterNewPassword(Model model) {
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		model.addAttribute("passrequest", new PasswordRequest());
-		return "new pass/newpass";
+		return NEW_PASSWORD;
 	}
 	
 	@PostMapping("/savenewpass")
-	public String saveNewPassword(@Valid @ModelAttribute("passrequest") PasswordRequest request, Model model) {
-		model.addAttribute("request", new RegistrationRequest());
-		model.addAttribute("message", registrationService.updatePassword(request));
-		return "login";
+	public HtmlPage saveNewPassword(@Valid @ModelAttribute("passrequest") PasswordRequest request, Model model) {
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+		model.addAttribute(MESSAGE.getAttribute(), registrationService.updatePassword(request));
+		return LOGIN;
 	}
 	
 }
