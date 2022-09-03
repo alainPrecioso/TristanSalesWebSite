@@ -18,7 +18,7 @@ public class ViewController {
 	
 	@GetMapping({"/", "/index", "/home"})
 	public HtmlPage home(Model model) {
-		model.addAttribute("request", new RegistrationRequest());
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		return INDEX;
 	}
 

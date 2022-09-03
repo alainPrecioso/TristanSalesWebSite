@@ -2,6 +2,7 @@ package com.aprec.tristan.user.registration;
 
 import static com.aprec.tristan.controllers.Attribute.MESSAGE;
 import static com.aprec.tristan.controllers.Attribute.REQUEST;
+import static com.aprec.tristan.controllers.Attribute.PASSWORD_REQUEST;
 import static com.aprec.tristan.controllers.HtmlPage.FORGOT;
 import static com.aprec.tristan.controllers.HtmlPage.INDEX;
 import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
@@ -61,7 +62,7 @@ public class RegistrationController {
 	@GetMapping(path = "/confirm")
     public HtmlPage confirm(@RequestParam("token") String token, Model model) {
         registrationService.confirmToken(token);
-        model.addAttribute("message", registrationService.confirmToken(token));
+        model.addAttribute(MESSAGE.getAttribute(), registrationService.confirmToken(token));
         model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
         return INDEX;
     }
@@ -87,7 +88,7 @@ public class RegistrationController {
 	@GetMapping("/enternewpass")
 	public HtmlPage enterNewPassword(Model model) {
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-		model.addAttribute("passrequest", new PasswordRequest());
+		model.addAttribute(PASSWORD_REQUEST.getAttribute(), new PasswordRequest());
 		return NEW_PASSWORD;
 	}
 	

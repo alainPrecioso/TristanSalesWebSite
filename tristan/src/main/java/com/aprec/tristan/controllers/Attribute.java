@@ -2,7 +2,8 @@ package com.aprec.tristan.controllers;
 
 public enum Attribute {
 	MESSAGE("message"),
-	REQUEST("request");
+	REQUEST("request"),
+	PASSWORD_REQUEST("passrequest");
 	
 	private final String attribute;
 	
