@@ -1,6 +1,5 @@
 package com.aprec.tristan.user;
 
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +12,7 @@ import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
 public class UserService implements UserDetailsService {
 
 	
-	private final static String USER_NOT_FOUND_MSG = "user %s not found";
+	private static final String USER_NOT_FOUND_MSG = "user %s not found";
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final ConfirmationTokenService confirmationTokenService;
@@ -41,7 +40,8 @@ public class UserService implements UserDetailsService {
 		Boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
 				|| userRepository.findByUsername(user.getUsername()).isPresent();
 		if (userExists) {
-			throw new IllegalStateException("userexists");
+			//throw new IllegalStateException("userexists");
+			return "userexists";
 		}
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
@@ -65,7 +65,8 @@ public class UserService implements UserDetailsService {
 
 
 	public User getUser(String username) {
-		return userRepository.findByCredential(username).get();
+		return userRepository.findByCredential(username).orElseThrow(() -> new UsernameNotFoundException(String
+				.format(USER_NOT_FOUND_MSG, username)));
 	}
 	
 	public User findUser(String credential) {
@@ -84,8 +85,7 @@ public class UserService implements UserDetailsService {
 		String encodedPassword = getUser(username).getPassword();
 		return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
 	}
-	
-	
-	
+
+
 	
 }

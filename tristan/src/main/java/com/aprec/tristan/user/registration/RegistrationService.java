@@ -7,9 +7,9 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -34,9 +34,9 @@ public class RegistrationService {
 	private final EmailService emailService;
 	private final EmailReader emailReader;
     private final String hostName;
-    private  final LocaleResolver localeResolver;
+    private final LocaleResolver localeResolver;
 	
-	
+    private static final Logger log = LoggerFactory.getLogger(RegistrationService.class);
 	
 	
 	public RegistrationService(UserService userService, 
@@ -63,11 +63,14 @@ public class RegistrationService {
 		
 		String token = userService.signUpUser(
 			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
+		if (token.equalsIgnoreCase("userexists")) {
+			return "userexists";
+		}
 		//TODO uncomment
-//		String link = hostName + "/confirm?token=" + token; 
+		String link = hostName + "/confirm?token=" + token; 
 //		emailService.send(
 //	                request.getEmail(),
-//	                buildEmail(request.getUsername(), link));
+//	                buildConfirmationEmail(request.getUsername(), link));
 		
 		return "registered";
 	}
@@ -76,7 +79,8 @@ public class RegistrationService {
 	public void resendConfirmationMail(String username) {
 		User user = userService.getUser(username);
 		String token = userService.getNewToken(user);
-			String link = hostName + "/confirm?token=" + token; 
+			String link = hostName + "/confirm?token=" + token;
+			log.info("resendConfirmationMail in RegistrationService");
 			//TODO uncomment
 //			emailService.send(
 //					user.getEmail(),
@@ -126,6 +130,7 @@ public class RegistrationService {
 		return passwordToken.getUser();
 	}
 	
+	@SuppressWarnings("unused")
 	private String buildConfirmationEmail(String username, String link) {
 		Locale locale = getLocale();
 		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
@@ -167,10 +172,15 @@ public class RegistrationService {
 		userService.updatePassword(user, request.getPassword());
 		return "passwordchanged";
 	}
-
-
+	
 
 	public boolean checkPassword(String username, String password) {
 		return userService.checkPassword(username, password);
+	}
+
+
+
+	public void resendConfirmationMailFromToken(String token) {
+		resendConfirmationMail(confirmationTokenService.getToken(token).orElseThrow(() -> new IllegalStateException("token not found")).getUser().getUsername());
 	}
 }

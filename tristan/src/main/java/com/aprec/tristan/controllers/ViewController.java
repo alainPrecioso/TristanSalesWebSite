@@ -1,20 +1,23 @@
 package com.aprec.tristan.controllers;
 
+import static com.aprec.tristan.controllers.Attribute.REQUEST;
+import static com.aprec.tristan.controllers.HtmlPage.INDEX;
+import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
+import static com.aprec.tristan.controllers.HtmlPage.REGISTER;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.aprec.tristan.user.registration.RegistrationRequest;
-import static com.aprec.tristan.controllers.HtmlPage.INDEX;
-import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
-import static com.aprec.tristan.controllers.HtmlPage.REGISTER;
-import static com.aprec.tristan.controllers.Attribute.REQUEST;
 
 @Controller
 public class ViewController {
 	
-	
+	private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
 	
 	@GetMapping({"/", "/index", "/home"})
 	public HtmlPage home(Model model) {

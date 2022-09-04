@@ -51,9 +51,11 @@ public class RegistrationController {
 	
 	@PostMapping("/add")
 	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
-		
-		
-		model.addAttribute(MESSAGE.getAttribute(), registrationService.register(request));
+		String register = registrationService.register(request);
+		if (!register.equalsIgnoreCase("registered")) {
+			throw new IllegalStateException("userexists");
+		}
+		model.addAttribute(MESSAGE.getAttribute(), register);
 		
 		
 		return INDEX;

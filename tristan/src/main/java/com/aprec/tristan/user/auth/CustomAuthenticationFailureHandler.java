@@ -7,6 +7,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.AuthenticationException;
@@ -29,21 +31,20 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     @Autowired
     private RegistrationService registrationService;
 
-    
+    private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationFailureHandler.class);
     
 
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
         Locale locale = localeResolver.resolveLocale(request);
-        System.out.println("onAuthenticationFailure in CustomAuthenticationFailureHandler");
-        System.out.println("exception : " + exception.getMessage() + " " + exception.getClass());
+        log.info("onAuthenticationFailure");
+        log.info("exception : [message : " + exception.getMessage() + ", class: " + exception.getClass()+ "]");
         
         String errorMessage = messages.getMessage(exception.getMessage(), null, locale);
         if (exception.getMessage().equalsIgnoreCase("disabled")) {
         	if (registrationService.checkPassword(request.getParameter("username"), request.getParameter("password"))) {
         		registrationService.resendConfirmationMail(request.getParameter("username"));
-        		System.out.println("resends mail");
         	} else {
         		errorMessage = messages.getMessage("badcredentials", null, locale);;
         	}

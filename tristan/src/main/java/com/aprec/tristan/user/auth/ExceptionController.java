@@ -6,6 +6,8 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,29 +15,41 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.aprec.tristan.user.registration.RegistrationService;
+
 @ControllerAdvice
 public class ExceptionController {
 	
 	@Autowired
     private MessageSource messages;
 	
+	@Autowired
+    private RegistrationService registrationService;
+	
+	private static final Logger log = LoggerFactory.getLogger(ExceptionController.class);
+	
 	@ExceptionHandler(IllegalStateException.class)
-	public void handleException(IllegalStateException e, 
+	public void handleExceptionIllegalStateException(IllegalStateException e, 
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Locale locale
 			) throws IOException {
-		System.out.println("handleException in ExceptionController");
+		log.info("handleExceptionIllegalStateException");
 		
 		switch(e.getMessage()) {
-		  case "tokenexpired", "emailalreadyconfirmed":
-			  String errorMessage = messages.getMessage(e.getMessage(), null, locale);
-			  request.getSession().setAttribute("errormessage", errorMessage);
-			  response.sendRedirect("/register?error=true");
-		    break;
+			case "tokenexpired":
+				registrationService.resendConfirmationMailFromToken(request.getParameter("token"));
+				// fallthrough
+			case "emailalreadyconfirmed", "userexists":
+				String errorMessage = messages.getMessage(e.getMessage(), null, locale);
+				request.getSession().setAttribute("errormessage", errorMessage);
+				response.sendRedirect("/register?error=true");
+				break;
 		  case "tokennotfound":
 		    // code block
 		    break;
+		  default:
+			  break;
 		}
 	}
 	
@@ -45,7 +59,7 @@ public class ExceptionController {
 			HttpServletResponse response,
 			Locale locale
 			) throws IOException {
-		System.out.println("handleBadCredentialsException in ExceptionController");
+		log.info("handleBadCredentialsException");
 		String errorMessage = messages.getMessage(e.getMessage(), null, locale);
 		request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
 		response.sendRedirect("/login?error=true");
