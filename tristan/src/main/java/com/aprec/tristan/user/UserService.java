@@ -1,5 +1,6 @@
 package com.aprec.tristan.user;
 
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -77,6 +78,14 @@ public class UserService implements UserDetailsService {
 		userRepository.updatePassword(bCryptPasswordEncoder.encode(password), user.getId());
 		
 	}
+
+
+	public boolean checkPassword(String username, String rawPassword) {
+		String encodedPassword = getUser(username).getPassword();
+		return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
+	}
+	
+	
 	
 	
 }

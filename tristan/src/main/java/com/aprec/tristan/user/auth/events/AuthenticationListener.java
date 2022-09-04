@@ -16,6 +16,7 @@ public class AuthenticationListener {
     @EventListener
     public void onFailure(AbstractAuthenticationFailureEvent failures) {
     	System.out.println("test failure log");
+    	System.out.println(failures.getException().getMessage());
     }
 	
 	

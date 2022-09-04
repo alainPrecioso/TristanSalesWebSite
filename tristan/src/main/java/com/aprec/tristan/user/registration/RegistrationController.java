@@ -61,8 +61,11 @@ public class RegistrationController {
 	
 	@GetMapping(path = "/confirm")
     public HtmlPage confirm(@RequestParam("token") String token, Model model) {
-        registrationService.confirmToken(token);
-        model.addAttribute(MESSAGE.getAttribute(), registrationService.confirmToken(token));
+        String confirm = registrationService.confirmToken(token);
+        if (!confirm.equalsIgnoreCase("confirmed")) {
+        	throw new IllegalStateException(confirm);
+        }
+        model.addAttribute(MESSAGE.getAttribute(), confirm);
         model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
         return INDEX;
     }

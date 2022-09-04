@@ -35,12 +35,18 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-
         Locale locale = localeResolver.resolveLocale(request);
+        System.out.println("onAuthenticationFailure in CustomAuthenticationFailureHandler");
+        System.out.println("exception : " + exception.getMessage() + " " + exception.getClass());
+        
         String errorMessage = messages.getMessage(exception.getMessage(), null, locale);
-
         if (exception.getMessage().equalsIgnoreCase("disabled")) {
-            registrationService.resendConfirmationMail(request.getParameter("username"));
+        	if (registrationService.checkPassword(request.getParameter("username"), request.getParameter("password"))) {
+        		registrationService.resendConfirmationMail(request.getParameter("username"));
+        		System.out.println("resends mail");
+        	} else {
+        		errorMessage = messages.getMessage("badcredentials", null, locale);;
+        	}
         }
 
         request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);

@@ -2,6 +2,7 @@ package com.aprec.tristan.user.registration;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -62,7 +63,7 @@ public class RegistrationService {
 		
 		String token = userService.signUpUser(
 			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
-		//TODO
+		//TODO uncomment
 //		String link = hostName + "/confirm?token=" + token; 
 //		emailService.send(
 //	                request.getEmail(),
@@ -76,35 +77,38 @@ public class RegistrationService {
 		User user = userService.getUser(username);
 		String token = userService.getNewToken(user);
 			String link = hostName + "/confirm?token=" + token; 
-			emailService.send(
-					user.getEmail(),
-		                buildConfirmationEmail(user.getUsername(), link));
+			//TODO uncomment
+//			emailService.send(
+//					user.getEmail(),
+//		                buildConfirmationEmail(user.getUsername(), link));
 			
 	}
 	
 	
 
 	public String confirmToken(String token) {
-		ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
-				.orElseThrow(() -> new IllegalStateException("token not found"));
-
-		testToken(confirmationToken);
-
-		confirmationTokenService.setConfirmedAt(token);
-		userService.enableUser(confirmationToken.getUser().getEmail());
-		return "confirmed";
-	}
-	
-	private void testToken(ConfirmationToken confirmationToken) {
+//		ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
+//				.orElseThrow(() -> new IllegalStateException("token not found"));
+		
+		Optional<ConfirmationToken>optionalToken = confirmationTokenService.getToken(token);
+		if (optionalToken.isEmpty()) {
+			return "tokennotfound";
+		}
+		ConfirmationToken confirmationToken = optionalToken.get();
+		
 		if (confirmationToken.getConfirmationTime() != null) {
-			throw new IllegalStateException("emailalreadyconfirmed");
+			return "emailalreadyconfirmed";
 		}
 		
 		LocalDateTime expiredAt = confirmationToken.getExpirationTime();
 
 		if (expiredAt.isBefore(LocalDateTime.now())) {
-			throw new IllegalStateException("token expired");
+			return "tokenexpired";
 		}
+
+		confirmationTokenService.setConfirmedAt(token);
+		userService.enableUser(confirmationToken.getUser().getEmail());
+		return "confirmed";
 	}
 	
 	@Transactional
@@ -162,5 +166,11 @@ public class RegistrationService {
 		User user = confirmPasswordToken(request.getToken());
 		userService.updatePassword(user, request.getPassword());
 		return "passwordchanged";
+	}
+
+
+
+	public boolean checkPassword(String username, String password) {
+		return userService.checkPassword(username, password);
 	}
 }
