@@ -30,6 +30,7 @@
                         <a th:href="@{/register}" class="signup-image-link" th:text="#{display.createaccount}">Create an account</a>
                     </div>
                     <div class="signin-form">
+                    <div th:if="${param.error != null}"><div th:replace="/nav/navbar.html :: error"></div></div>
                         <h2 class="form-title" th:text="#{display.login}">login</h2>
                         <form th:fragment="signin-form" method="POST" class="register-form" id="login-form" th:action="@{/login}">
                             <div class="form-group">
@@ -50,8 +51,6 @@
                             <div class="form-group form-button">
                                 <input type="submit" name="signin" id="signin" class="form-submit" th:value="#{display.login}"/>
                                 <p></p>
-                                <h3 style="color:#FF0000" th:if="${param.error != null}" 
-  								th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</h3>
                             </div>
                         </form>
                         <div th:fragment="social-login" class="social-login">

@@ -26,6 +26,7 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
+                    	<div th:if="${param.error != null}"><div th:replace="/nav/navbar.html :: error"></div></div>
                         <h2 class="form-title" th:text="#{display.signin}">Sign up</h2>
                         <form th:action="@{/add}"  th:object="${request}" th:fragment="signup-form" method="POST" class="register-form" id="register-form">
                             <div class="form-group">
@@ -50,8 +51,6 @@
 <!--                             </div> -->
                             <div class="form-group form-button">
                                 <input type="submit" name="signup" id="signup" class="form-submit" th:value="#{display.register}"/>
-                                <h3 style="color:#FF0000" th:if="${param.error != null}" 
-  								th:text="${session.errormessage}">error</h3>
                             </div>
                         </form>
                     </div>
