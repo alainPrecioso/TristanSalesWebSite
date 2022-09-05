@@ -1,8 +1,8 @@
 package com.aprec.tristan.user.registration;
 
 import static com.aprec.tristan.controllers.Attribute.MESSAGE;
-import static com.aprec.tristan.controllers.Attribute.REQUEST;
 import static com.aprec.tristan.controllers.Attribute.PASSWORD_REQUEST;
+import static com.aprec.tristan.controllers.Attribute.REQUEST;
 import static com.aprec.tristan.controllers.HtmlPage.FORGOT;
 import static com.aprec.tristan.controllers.HtmlPage.INDEX;
 import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.aprec.tristan.config.exceptions.PasswordRequestException;
+import com.aprec.tristan.config.exceptions.RegistrationException;
 import com.aprec.tristan.controllers.HtmlPage;
 import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.UserRepository;
@@ -29,8 +31,6 @@ import com.aprec.tristan.user.UserRepository;
 @RequestMapping(path = "/")
 public class RegistrationController {
 
-//	@Autowired
-//	private UserRepo userRepo;
 	private UserRepository userRepository;
 	private RegistrationService registrationService;
 
@@ -53,7 +53,8 @@ public class RegistrationController {
 	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
 		String register = registrationService.register(request);
 		if (!register.equalsIgnoreCase("registered")) {
-			throw new IllegalStateException("userexists");
+			//TODO handle exception
+			throw new RegistrationException(register);
 		}
 		model.addAttribute(MESSAGE.getAttribute(), register);
 		
@@ -63,11 +64,12 @@ public class RegistrationController {
 	
 	@GetMapping(path = "/confirm")
     public HtmlPage confirm(@RequestParam("token") String token, Model model) {
-        String confirm = registrationService.confirmToken(token);
-        if (!confirm.equalsIgnoreCase("confirmed")) {
-        	throw new IllegalStateException(confirm);
+        String result = registrationService.confirmToken(token);
+        if (!result.equalsIgnoreCase("confirmed")) {
+        	//TODO handle exception
+        	throw new RegistrationException(result);
         }
-        model.addAttribute(MESSAGE.getAttribute(), confirm);
+        model.addAttribute(MESSAGE.getAttribute(), result);
         model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
         return INDEX;
     }
@@ -100,7 +102,13 @@ public class RegistrationController {
 	@PostMapping("/savenewpass")
 	public HtmlPage saveNewPassword(@Valid @ModelAttribute("passrequest") PasswordRequest request, Model model) {
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-		model.addAttribute(MESSAGE.getAttribute(), registrationService.updatePassword(request));
+		String result = registrationService.updatePassword(request);
+		if (!result.equalsIgnoreCase("passwordchanged")) {
+			//TODO handle exception
+        	throw new PasswordRequestException(result);
+        }
+		
+		model.addAttribute(MESSAGE.getAttribute(), result);
 		return LOGIN;
 	}
 	

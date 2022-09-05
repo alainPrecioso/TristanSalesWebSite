@@ -46,7 +46,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         	if (registrationService.checkPassword(request.getParameter("username"), request.getParameter("password"))) {
         		registrationService.resendConfirmationMail(request.getParameter("username"));
         	} else {
-        		errorMessage = messages.getMessage("badcredentials", null, locale);;
+        		errorMessage = messages.getMessage("badcredentials", null, locale);
         	}
         }
 

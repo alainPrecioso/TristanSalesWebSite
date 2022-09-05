@@ -17,7 +17,8 @@ import com.aprec.tristan.user.registration.RegistrationRequest;
 @Controller
 public class ViewController {
 	
-	private static final Logger LOG = LoggerFactory.getLogger(ViewController.class);
+	@SuppressWarnings("unused")
+	private static final Logger log = LoggerFactory.getLogger(ViewController.class);
 	
 	@GetMapping({"/", "/index", "/home"})
 	public HtmlPage home(Model model) {

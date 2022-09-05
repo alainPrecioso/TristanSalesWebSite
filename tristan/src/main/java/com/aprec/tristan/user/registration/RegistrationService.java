@@ -80,7 +80,7 @@ public class RegistrationService {
 		User user = userService.getUser(username);
 		String token = userService.getNewToken(user);
 			String link = hostName + "/confirm?token=" + token;
-			log.info("resendConfirmationMail in RegistrationService");
+			log.info("resendConfirmationMail");
 			//TODO uncomment
 //			emailService.send(
 //					user.getEmail(),
@@ -115,19 +115,25 @@ public class RegistrationService {
 		return "confirmed";
 	}
 	
-	@Transactional
-	private User confirmPasswordToken(String token) {
-		PasswordToken passwordToken = passwordTokenService.getToken(token)
-				.orElseThrow(() -> new IllegalStateException("token not found"));
+	private String confirmPasswordToken(PasswordRequest request) {
+//		PasswordToken passwordToken = passwordTokenService.getToken(token)
+//				.orElseThrow(() -> new IllegalStateException("token not found"));
+		Optional<PasswordToken>optionalToken = passwordTokenService.getToken(request.getToken());
+		if (optionalToken.isEmpty()) {
+			return "tokennotfound";
+		}
+		
+		PasswordToken passwordToken = optionalToken.get();
 
 
 		LocalDateTime expiredAt = passwordToken.getExpirationTime();
 
 		if (expiredAt.isBefore(LocalDateTime.now())) {
-			throw new IllegalStateException("token expired");
+			return "tokenexpired";
 		}
-		passwordTokenService.deletePasswordToken(token);;
-		return passwordToken.getUser();
+		passwordTokenService.deletePasswordToken(request.getToken());
+		userService.updatePassword(passwordToken.getUser(), request.getPassword());
+		return "passwordchanged";
 	}
 	
 	@SuppressWarnings("unused")
@@ -168,9 +174,7 @@ public class RegistrationService {
 
 
 	public String updatePassword(PasswordRequest request) {
-		User user = confirmPasswordToken(request.getToken());
-		userService.updatePassword(user, request.getPassword());
-		return "passwordchanged";
+		return confirmPasswordToken(request);
 	}
 	
 
@@ -181,6 +185,7 @@ public class RegistrationService {
 
 
 	public void resendConfirmationMailFromToken(String token) {
-		resendConfirmationMail(confirmationTokenService.getToken(token).orElseThrow(() -> new IllegalStateException("token not found")).getUser().getUsername());
+		resendConfirmationMail(confirmationTokenService.getToken(token).orElseThrow(() -> new IllegalStateException("token not found"))
+				.getUser().getUsername());
 	}
 }
