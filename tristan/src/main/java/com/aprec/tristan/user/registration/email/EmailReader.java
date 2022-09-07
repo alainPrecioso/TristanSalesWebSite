@@ -16,10 +16,8 @@ import org.springframework.util.FileCopyUtils;
 @Service
 public class EmailReader {
 	
-//	ResourceLoader resourceLoader = new DefaultResourceLoader();
-//	Resource resource = resourceLoader.getResource("classpath:resource.txt");
 	
-    public String asString(Resource resource) {
+    private String asString(Resource resource) {
         try (Reader reader = new InputStreamReader(resource.getInputStream(), UTF_8)) {
             return FileCopyUtils.copyToString(reader);
         } catch (IOException e) {

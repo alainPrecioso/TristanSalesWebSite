@@ -1,5 +1,6 @@
 package com.aprec.tristan.controllers;
 
+// html attributes
 public enum Attribute {
 	MESSAGE("message"),
 	REQUEST("request"),

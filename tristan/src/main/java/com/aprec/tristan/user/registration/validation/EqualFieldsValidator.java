@@ -9,10 +9,6 @@ public class EqualFieldsValidator
 	implements ConstraintValidator<EqualFields, PasswordRequest> {
 	 
     @Override
-    public void initialize(EqualFields constraint) {
-    }
- 
-    @Override
     public boolean isValid(PasswordRequest form, ConstraintValidatorContext context) {
         return form.getPassword().equals(form.getPasswordcheck());
     }

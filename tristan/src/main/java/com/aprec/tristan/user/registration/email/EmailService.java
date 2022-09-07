@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService implements EmailSender {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
+	private static final Logger log = LoggerFactory.getLogger(EmailService.class);
 	
 	@Autowired
 	private final JavaMailSender mailSender;
@@ -43,7 +43,7 @@ public class EmailService implements EmailSender {
 			helper.setFrom(fromEmailAddress);
 			mailSender.send(mimeMessage);
 		} catch(MessagingException e) {
-			LOGGER.error("failed to send email", e);
+			log.error("failed to send email", e);
 			throw new IllegalStateException("failed to send email");
 		}
 	}

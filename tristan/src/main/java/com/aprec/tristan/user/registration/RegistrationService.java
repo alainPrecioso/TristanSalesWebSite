@@ -161,7 +161,7 @@ public class RegistrationService {
 	}
 	
 	public String requestNewPassword(String email) {
-		User user = userService.findUser(email);
+		User user = userService.getUser(email);
 		
 		String token = passwordTokenService.createPasswordToken(user);
 		String link = hostName + "/enternewpass?token=" + token; 

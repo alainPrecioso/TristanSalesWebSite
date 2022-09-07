@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
 		this.confirmationTokenService = confirmationTokenService;
 	}
 
-	
+	//actually loads user by either username or email
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		return userRepository
@@ -35,7 +35,12 @@ public class UserService implements UserDetailsService {
 						.format(USER_NOT_FOUND_MSG, username)));
 	}
 
-
+	
+	/**
+	 * saves the user if it doen't exists yet with a corresponding ConfirmationToken
+	 * @param User
+	 * @return the token of the ConfirmationToken
+	 */
 	public String signUpUser(User user) {
 		Boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
 				|| userRepository.findByUsername(user.getUsername()).isPresent();
@@ -53,6 +58,11 @@ public class UserService implements UserDetailsService {
 	}
 	
 	
+	/**
+	 * calls the update of the ConfirmationToken of an User
+	 * @param user
+	 * @return the token of the ConfirmationToken
+	 */
 	public String getNewToken(User user) {
 		return confirmationTokenService.createNewToken(user);
 		
@@ -63,17 +73,12 @@ public class UserService implements UserDetailsService {
         return userRepository.enableUser(email);
     }
 
-
-	public User getUser(String username) {
-		return userRepository.findByCredential(username).orElseThrow(() -> new UsernameNotFoundException(String
-				.format(USER_NOT_FOUND_MSG, username)));
-	}
 	
-	public User findUser(String credential) {
+	public User getUser(String credential) {
 		return userRepository.findByCredential(credential).orElseThrow(() -> new UsernameNotFoundException(String
 				.format(USER_NOT_FOUND_MSG, credential)));
 	}
-
+	
 
 	public void updatePassword(User user, String password) {
 		userRepository.updatePassword(bCryptPasswordEncoder.encode(password), user.getId());

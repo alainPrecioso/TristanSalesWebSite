@@ -10,7 +10,7 @@ import com.aprec.tristan.user.registration.validation.EqualFields;
 public class PasswordRequest {
 
 	private String token;
-	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{12,30}$", 
+	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\u00C0-\\u00FF_\\d]{12,30}$",
 			message="passwordpattern")
 	private String password;
 	private String passwordcheck;
@@ -20,7 +20,7 @@ public class PasswordRequest {
 	}
 	
 	public PasswordRequest(String token,
-			@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{12,30}$", message = "passwordpattern") String password,
+			String password,
 			String passwordcheck) {
 		super();
 		this.token = token;

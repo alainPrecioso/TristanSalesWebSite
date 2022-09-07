@@ -1,4 +1,4 @@
-package com.aprec.tristan.user.auth;
+package com.aprec.tristan.controllers;
 
 import static com.aprec.tristan.controllers.HtmlPage.ERROR;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_404;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aprec.tristan.config.exceptions.RegistrationException;
-import com.aprec.tristan.controllers.HtmlPage;
 import com.aprec.tristan.user.registration.RegistrationService;
 
 @Controller

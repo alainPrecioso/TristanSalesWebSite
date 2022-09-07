@@ -22,7 +22,7 @@ public class RegistrationRequest extends PasswordRequest{
 	@Email(message = "emailinvalid")
 	private String email;
 	
-	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\d]{12,30}$", 
+	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\u00C0-\\u00FF_\\d]{12,30}$", 
 			message="passwordpattern")
 	private String password;
 	private String passwordcheck;
