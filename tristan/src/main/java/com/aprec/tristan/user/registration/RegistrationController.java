@@ -53,7 +53,6 @@ public class RegistrationController {
 	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
 		String register = registrationService.register(request);
 		if (!register.equalsIgnoreCase("registered")) {
-			//TODO handle exception
 			throw new RegistrationException(register);
 		}
 		model.addAttribute(MESSAGE.getAttribute(), register);
@@ -66,7 +65,6 @@ public class RegistrationController {
     public HtmlPage confirm(@RequestParam("token") String token, Model model) {
         String result = registrationService.confirmToken(token);
         if (!result.equalsIgnoreCase("confirmed")) {
-        	//TODO handle exception
         	throw new RegistrationException(result);
         }
         model.addAttribute(MESSAGE.getAttribute(), result);

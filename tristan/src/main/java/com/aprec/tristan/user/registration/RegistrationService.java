@@ -66,8 +66,10 @@ public class RegistrationService {
 		if (token.equalsIgnoreCase("userexists")) {
 			return "userexists";
 		}
+		String link = hostName + "/confirm?token=" + token;
+		log.info("sends confirmation mail");
+		log.info(link);
 		//TODO uncomment
-		String link = hostName + "/confirm?token=" + token; 
 //		emailService.send(
 //	                request.getEmail(),
 //	                buildConfirmationEmail(request.getUsername(), link));
@@ -80,7 +82,8 @@ public class RegistrationService {
 		User user = userService.getUser(username);
 		String token = userService.getNewToken(user);
 			String link = hostName + "/confirm?token=" + token;
-			log.info("resendConfirmationMail");
+			log.info("resends confirmation mail");
+			log.info(link);
 			//TODO uncomment
 //			emailService.send(
 //					user.getEmail(),

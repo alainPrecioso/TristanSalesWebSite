@@ -43,6 +43,8 @@ public class WebSecurityConfig {
         		.permitAll()
         		.and()
         		.rememberMe()
+        	.and().oauth2Login()
+        		//.loginPage("/oauth_login")
         	.and().logout()
         		.logoutUrl("/logout")
         		.clearAuthentication(true)
