@@ -31,7 +31,7 @@ public class ConfirmationTokenService {
 	                token, LocalDateTime.now());
 	}
 	
-	public String createNewToken(User user) {
+	public String refreshConfirmationToken(User user) {
 		String newToken = UUID.randomUUID().toString();
 		confirmationTokenRepository
 		.updateToken(confirmationTokenRepository.findByUser(user).get().getToken(), 

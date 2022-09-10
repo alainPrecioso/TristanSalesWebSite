@@ -59,12 +59,12 @@ public class UserService implements UserDetailsService {
 	
 	
 	/**
-	 * calls the update of the ConfirmationToken of an User
+	 * calls the refresh of the ConfirmationToken of an User
 	 * @param user
 	 * @return the token of the ConfirmationToken
 	 */
 	public String getNewToken(User user) {
-		return confirmationTokenService.createNewToken(user);
+		return confirmationTokenService.refreshConfirmationToken(user);
 		
 	}
 	

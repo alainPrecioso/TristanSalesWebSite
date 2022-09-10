@@ -99,7 +99,7 @@ class UserServiceTest {
 		//when
 		underTest.getNewToken(user);
 		//then
-		verify(confirmationTokenService).createNewToken(user);
+		verify(confirmationTokenService).refreshConfirmationToken(user);
 	}
 
 	@Test
