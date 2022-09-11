@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Configuration
 public class MyConfig implements WebMvcConfigurer{
 	
-		
+	//Region Localization
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 	    registry.addInterceptor(localeChangeInterceptor());
@@ -59,6 +59,7 @@ public class MyConfig implements WebMvcConfigurer{
 	     return localeChangeInterceptor;
 	}
 	
+	//changes the lang parameter in any page
 	@Bean
 	public BiFunction<String, String, String> replaceOrAddParam() {
 	  return (paramName, newValue) -> ServletUriComponentsBuilder
@@ -67,6 +68,9 @@ public class MyConfig implements WebMvcConfigurer{
 	        .toUriString();
 	}
 	
+	//EndRegion
+	
+	// allows HtmlPage to be availible as a return type fo controllers
 	@Override
 	public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
 		returnValueHandlers.add(new MyViewEnumModelAndViewResolver());

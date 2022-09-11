@@ -120,7 +120,8 @@ public class WebSecurityConfig {
 		return provider;
 	}
 	
-    private AuthenticationFailureHandler authenticationFailureHandler() {
+	@Bean
+    AuthenticationFailureHandler authenticationFailureHandler() {
         return new CustomAuthenticationFailureHandler();
     }
 	
