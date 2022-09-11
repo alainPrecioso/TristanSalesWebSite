@@ -17,10 +17,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
+import com.aprec.tristan.user.token.PasswordTokenService;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 	
+	@Mock
+	private PasswordTokenService passwordTokenService;
 	@Mock
 	private ConfirmationTokenService confirmationTokenService;
 	@Mock
@@ -34,7 +37,9 @@ class UserServiceTest {
 	void setUp() throws Exception {
 		underTest = new UserService(userRepository, 
 				bCryptPasswordEncoder, 
-				confirmationTokenService);
+				confirmationTokenService,
+				passwordTokenService
+				);
 	}
 
 	@AfterEach

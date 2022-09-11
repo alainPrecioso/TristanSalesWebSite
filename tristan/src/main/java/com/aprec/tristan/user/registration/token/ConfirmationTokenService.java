@@ -52,4 +52,8 @@ public class ConfirmationTokenService {
 		
 		return confirmationToken.getToken();
 	}
+
+	public void delete(User user) {
+		confirmationTokenRepository.findByUser(user).ifPresent(confirmationTokenRepository::delete);
+	}
 }

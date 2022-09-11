@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.UserRepository;
 
-@Service
+//@Service
 public class GitHubUserService extends DefaultOAuth2UserService {
 
 	@Autowired

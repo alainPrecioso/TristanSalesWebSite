@@ -8,8 +8,11 @@ import static com.aprec.tristan.controllers.HtmlPage.INDEX;
 import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
 import static com.aprec.tristan.controllers.HtmlPage.NEW_PASSWORD;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -48,6 +51,7 @@ public class RegistrationController {
 		
 		return INDEX;
 	}
+	
 	
 	@PostMapping("/add")
 	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {

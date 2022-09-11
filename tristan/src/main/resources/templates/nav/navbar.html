@@ -11,17 +11,18 @@
 			</form>
 		</div>
 		<div sec:authorize="isAuthenticated()">
+			<a th:href="@{/user}" th:text="${#authentication.getPrincipal().getUsername()}">Username</a>
 			<form id="login" th:action="@{/logout}" method="post">
-				<button type="submit" class="btn btn-primary" th:text="#{display.logout}"></button>
+				<button type="submit" class="btn btn-link" th:text="#{display.logout}">log out</button>
 			</form>
 		</div>
 		<div sec:authorize="isAnonymous()">
 			<form id="login">
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#loginModal" th:text="#{display.login}"></button>
+					data-bs-target="#loginModal" th:text="#{display.login}">log in</button>
 					
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#signinModal" th:text="#{display.signin}"></button>
+					data-bs-target="#signinModal" th:text="#{display.signin}">sign in</button>
 			</form>
 		</div>
 	</nav>

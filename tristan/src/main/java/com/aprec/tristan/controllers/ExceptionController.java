@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -70,4 +71,18 @@ public class ExceptionController implements ErrorController {
 			  break;
 		}
 	}
+	
+//	@ExceptionHandler(UsernameNotFoundException.class)
+//	public void handleUsernameNotFoundException(RegistrationException e, 
+//			HttpServletRequest request,
+//			HttpServletResponse response,
+//			Locale locale
+//			) throws IOException {
+//		log.info("handleUsernameNotFoundException");
+//		String errorMessage = messages.getMessage(e.getMessage(), null, locale);
+//		request.getSession().setAttribute("errormessage", errorMessage);
+//		response.sendRedirect(REGISTER_ERROR.getPage());
+//		
+//	}
+	
 }

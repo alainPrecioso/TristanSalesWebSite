@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.registration.token.ConfirmationToken;
 
 @Service
 public class PasswordTokenService {
@@ -49,5 +50,9 @@ public class PasswordTokenService {
 		
 		savePasswordToken(passwordToken);
 		return passwordToken.getToken();
+	}
+
+	public void delete(User user) {
+		passwordTokenRepository.findByUser(user).ifPresent(passwordTokenRepository::delete);
 	}
 }

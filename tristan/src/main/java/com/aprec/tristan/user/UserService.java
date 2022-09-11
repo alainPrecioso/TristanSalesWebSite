@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
+import com.aprec.tristan.user.token.PasswordTokenService;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -16,14 +17,18 @@ public class UserService implements UserDetailsService {
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final ConfirmationTokenService confirmationTokenService;
+	private final PasswordTokenService passwordTokenService;
 	
 	public UserService(UserRepository userRepository, 
 			BCryptPasswordEncoder bCryptPasswordEncoder, 
-			ConfirmationTokenService confirmationTokenService) {
+			ConfirmationTokenService confirmationTokenService,
+			PasswordTokenService passwordTokenService
+			) {
 		super();
 		this.userRepository = userRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.confirmationTokenService = confirmationTokenService;
+		this.passwordTokenService = passwordTokenService;
 	}
 
 	//actually loads user by either username or email
@@ -90,7 +95,12 @@ public class UserService implements UserDetailsService {
 		String encodedPassword = getUser(username).getPassword();
 		return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
 	}
-
+	
+	public void deleteUser(String username) {
+		passwordTokenService.delete(getUser(username));
+		confirmationTokenService.delete(getUser(username));
+		userRepository.delete(getUser(username));
+	}
 
 	
 }
