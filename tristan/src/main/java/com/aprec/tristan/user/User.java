@@ -1,5 +1,6 @@
 package com.aprec.tristan.user;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -44,7 +45,8 @@ public class User implements UserDetails {
 	private UserRole userRole;
 	private boolean locked;
 	private boolean enabled;
-	
+	private LocalDateTime deleteTime;
+	private boolean deleteScheduled;
 	
 	public User() {
 		super();
@@ -83,7 +85,6 @@ public class User implements UserDetails {
 	}
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return enabled;
 	}
 	
@@ -136,6 +137,18 @@ public class User implements UserDetails {
 		return Objects.equals(email, other.email) && enabled == other.enabled && Objects.equals(id, other.id)
 				&& locked == other.locked && Objects.equals(password, other.password) && userRole == other.userRole
 				&& Objects.equals(username, other.username);
+	}
+	public LocalDateTime getDeleteTime() {
+		return deleteTime;
+	}
+	public void setDeleteTime(LocalDateTime deleteTime) {
+		this.deleteTime = deleteTime;
+	}
+	public boolean isDeleteScheduled() {
+		return deleteScheduled;
+	}
+	public void setDeleteScheduled(boolean deleteScheduled) {
+		this.deleteScheduled = deleteScheduled;
 	}
 	
 

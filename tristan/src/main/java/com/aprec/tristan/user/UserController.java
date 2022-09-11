@@ -59,22 +59,19 @@ public class UserController {
 	@GetMapping("/delete")
 	public HtmlPage delete(Model model, Principal principal, HttpServletRequest request, HttpServletResponse response) {
 
-		userService.deleteUser(principal.getName());
-		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-		request.getSession().invalidate();
-		Cookie sessionIdCookie = new Cookie("JSESSIONID", null);
-		sessionIdCookie.setMaxAge(0);
-		response.addCookie(sessionIdCookie);
-		Cookie rememberMeCookie = new Cookie("remember-me", null);
-		rememberMeCookie.setMaxAge(0);
-		response.addCookie(rememberMeCookie);
-		Cookie test = new Cookie("test", "yum");
-		test.setMaxAge(0);
-		response.addCookie(test);
-//		ResponseCookie sessionIdCookie = ResponseCookie.from("JSESSIONID", null).build();
-//		ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, sessionIdCookie.toString()).build();
-//		ResponseCookie rememberMeIdCookie = ResponseCookie.from("remember-me", null).build();
-//		ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, rememberMeIdCookie.toString()).build();
+		userService.scheduleDelete(principal.getName());
+		
+//		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+//		request.getSession().invalidate();
+//		Cookie sessionIdCookie = new Cookie("JSESSIONID", null);
+//		sessionIdCookie.setMaxAge(0);
+//		response.addCookie(sessionIdCookie);
+//		Cookie rememberMeCookie = new Cookie("remember-me", null);
+//		rememberMeCookie.setMaxAge(0);
+//		response.addCookie(rememberMeCookie);
+//		Cookie test = new Cookie("test", "yum");
+//		test.setMaxAge(60);
+//		response.addCookie(test);
 		return INDEX;
 	}
 

@@ -1,5 +1,7 @@
 package com.aprec.tristan.user;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,5 +32,19 @@ public interface UserRepository extends JpaRepository<User, Long>{
     @Query("UPDATE User u " +
             "SET u.password = ?1 WHERE u.id = ?2")
     int updatePassword(String password, Long id);
-
+	
+	@Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE User u " +
+            "SET u.deleteTime = ?1, u.deleteScheduled = 1 WHERE u.username = ?2")
+    int scheduleDelete(LocalDateTime deleteTime, String username);
+	
+	@Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE User u " +
+            "SET u.deleteTime = null, u.deleteScheduled = 1 WHERE u.username = ?1")
+    int unScheduleDelete(String username);
+	
+	@Query("SELECT u FROM User u WHERE u.deleteScheduled = 1")
+	List<User> findScheduledDelete();
 }
