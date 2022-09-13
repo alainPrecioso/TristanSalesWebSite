@@ -27,7 +27,7 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                    	<div th:if="${param.error != null}"><div th:replace="/nav/navbar.html :: error"></div></div>
+                    	<div th:if="${alert != null}" th:replace="/nav/navbar.html :: alert"></div>
                         <h2 class="form-title" th:text="#{display.signin}">Sign up</h2>
                         <form th:action="@{/add}"  th:object="${request}" th:fragment="signup-form" method="POST" class="register-form" id="register-form">
                             <div class="form-group">

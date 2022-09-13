@@ -92,7 +92,6 @@ public class WebSecurityConfig {
 			OAuth2AccessToken accessToken = userRequest.getAccessToken();
 			Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
 			
-			// TODO
 			// 1) Fetch the authority information from the protected resource using accessToken
 			// 2) Map the authority information to one or more GrantedAuthority's and add it to mappedAuthorities
 

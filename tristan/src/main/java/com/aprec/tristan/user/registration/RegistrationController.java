@@ -5,6 +5,7 @@ import static com.aprec.tristan.controllers.Attribute.PASSWORD_REQUEST;
 import static com.aprec.tristan.controllers.Attribute.REQUEST;
 import static com.aprec.tristan.controllers.HtmlPage.FORGOT;
 import static com.aprec.tristan.controllers.HtmlPage.INDEX;
+import static com.aprec.tristan.controllers.HtmlPage.INDEX_REDIRECT;
 import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
 import static com.aprec.tristan.controllers.HtmlPage.NEW_PASSWORD;
 
@@ -54,7 +55,8 @@ public class RegistrationController {
 	
 	
 	@PostMapping("/add")
-	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request, Model model) {
+	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request,
+			Model model) {
 		String register = registrationService.register(request);
 		if (!register.equalsIgnoreCase("registered")) {
 			throw new RegistrationException(register);
@@ -65,6 +67,12 @@ public class RegistrationController {
 		return INDEX;
 	}
 	
+	@GetMapping("/add")
+	public HtmlPage registerGet() {
+		
+		return INDEX_REDIRECT;
+	}
+	
 	@GetMapping(path = "/confirm")
     public HtmlPage confirm(@RequestParam("token") String token, Model model) {
         String result = registrationService.confirmToken(token);
@@ -72,8 +80,8 @@ public class RegistrationController {
         	throw new RegistrationException(result);
         }
         model.addAttribute(MESSAGE.getAttribute(), result);
-        model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-        return INDEX;
+        //model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+        return INDEX_REDIRECT;
     }
 
 	@GetMapping(path = "/all")
@@ -89,8 +97,8 @@ public class RegistrationController {
 
 	@PostMapping("/passrequest")
 	public HtmlPage newPasswordRequest(@RequestParam String email, Model model) {
-		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		model.addAttribute(MESSAGE.getAttribute(), registrationService.requestNewPassword(email));
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		return INDEX;
 	}
 

@@ -50,8 +50,9 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         	}
         }
 
-        request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
-        response.sendRedirect("/login?error=true");
+        //request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
+        request.setAttribute("alert", errorMessage);
+        response.sendRedirect("/login");
 	}
 
 

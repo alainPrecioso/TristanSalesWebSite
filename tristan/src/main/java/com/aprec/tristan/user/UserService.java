@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,7 +12,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.aprec.tristan.user.registration.RegistrationService;
 import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
 import com.aprec.tristan.user.token.PasswordTokenService;
 
@@ -110,10 +110,12 @@ public class UserService implements UserDetailsService {
 	
 	public void scheduleDelete(String username) {
 		this.getUser(username);
-		userRepository.scheduleDelete(LocalDateTime.now().plusSeconds(60), username);
+		//TODO change scheduled time to 30 days
+		userRepository.scheduleDelete(LocalDateTime.now().plusSeconds(10), username);
 	}
 
 	//TODO set cron to every day
+	@Async
 	@Scheduled(cron = "0 * * * * *", zone = "Europe/Paris")
 	public void scheduledDelete() {
 		log.info("scheduledDelete() tick");

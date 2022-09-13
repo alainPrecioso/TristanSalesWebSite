@@ -69,7 +69,7 @@ public class RegistrationService {
 		String link = hostName + "/confirm?token=" + token;
 		log.info("sends confirmation mail");
 		log.info(link);
-		//TODO uncomment
+		// TODO uncomment
 //		emailService.send(
 //	                request.getEmail(),
 //	                buildConfirmationEmail(request.getUsername(), link));
@@ -84,10 +84,9 @@ public class RegistrationService {
 			String link = hostName + "/confirm?token=" + token;
 			log.info("resends confirmation mail");
 			log.info(link);
-			//TODO uncomment
-//			emailService.send(
-//					user.getEmail(),
-//		                buildConfirmationEmail(user.getUsername(), link));
+			emailService.send(
+					user.getEmail(),
+		                buildConfirmationEmail(user.getUsername(), link));
 			
 	}
 	

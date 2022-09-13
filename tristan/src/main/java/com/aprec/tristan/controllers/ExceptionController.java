@@ -3,7 +3,8 @@ package com.aprec.tristan.controllers;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_404;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_500;
-import static com.aprec.tristan.controllers.HtmlPage.REGISTER_ERROR;
+import static com.aprec.tristan.controllers.HtmlPage.REGISTER;
+import static com.aprec.tristan.controllers.Attribute.ALERT;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -63,8 +64,8 @@ public class ExceptionController implements ErrorController {
 				// fallthrough
 			case "emailalreadyconfirmed", "userexists", "tokennotfound":
 				String errorMessage = messages.getMessage(e.getMessage(), null, locale);
-				request.getSession().setAttribute("errormessage", errorMessage);
-				response.sendRedirect(REGISTER_ERROR.getPage());
+				request.setAttribute(ALERT.getAttribute(), errorMessage);
+				response.sendRedirect(REGISTER.getPage());
 				break;
 		  default:
 			  response.sendRedirect(ERROR_500.getPage());
