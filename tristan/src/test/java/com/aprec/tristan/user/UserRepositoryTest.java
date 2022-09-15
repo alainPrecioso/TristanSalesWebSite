@@ -31,7 +31,7 @@ class UserRepositoryTest {
 	void shouldSelectUserByUsernameOnly() {
 		//given
 		String username = "username";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail("username@domain.tld");
 		user.setPassword("password");
@@ -40,7 +40,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<User> optionalUser = underTest.findByUsername(username);
+		Optional<SiteUser> optionalUser = underTest.findByUsername(username);
 		
 		//then
 		assertThat(optionalUser)
@@ -54,7 +54,7 @@ class UserRepositoryTest {
 	void shouldNotSelectUserByUsernameOnly() {
 		//given
 		String email = "username@domain.tld";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername("username");
 		user.setEmail(email);
 		user.setPassword("password");
@@ -63,7 +63,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<User> optionalUser = underTest.findByUsername(email);
+		Optional<SiteUser> optionalUser = underTest.findByUsername(email);
 		
 		//then
 		assertThat(optionalUser).isEmpty();
@@ -74,7 +74,7 @@ class UserRepositoryTest {
 	void shouldSelectUserByEmailOnly() {
 		//given
 		String email = "username@domain.tld";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername("username");
 		user.setEmail(email);
 		user.setPassword("password");
@@ -83,7 +83,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<User> optionalUser = underTest.findByEmail(email);
+		Optional<SiteUser> optionalUser = underTest.findByEmail(email);
 		
 		//then
 		assertThat(optionalUser)
@@ -97,7 +97,7 @@ class UserRepositoryTest {
 	void shouldNotSelectUserByEmailOnly() {
 		//given
 		String username = "username";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail("username@domain.tld");
 		user.setPassword("password");
@@ -106,7 +106,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<User> optionalUser = underTest.findByEmail(username);
+		Optional<SiteUser> optionalUser = underTest.findByEmail(username);
 		
 		//then
 		assertThat(optionalUser).isEmpty();
@@ -117,7 +117,7 @@ class UserRepositoryTest {
 		//given
 		String username = "username";
 		String email = "username@domain.tld";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword("password");
@@ -126,7 +126,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<User> optionalUser = underTest.findByCredential(email);
+		Optional<SiteUser> optionalUser = underTest.findByCredential(email);
 		
 		//then
 		assertThat(optionalUser)
@@ -143,7 +143,7 @@ class UserRepositoryTest {
 		//given
 		String username = "username";
 		String email = "username@domain.tld";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword("password");
@@ -152,7 +152,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<User> optionalUser = underTest.findByCredential(username);
+		Optional<SiteUser> optionalUser = underTest.findByCredential(username);
 		
 		//then
 		assertThat(optionalUser)
@@ -167,7 +167,7 @@ class UserRepositoryTest {
 		//given
 		String username = "username";
 		String email = "username@domain.tld";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword("password");
@@ -176,8 +176,8 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<User> optionalUserWithUsername = underTest.findByCredential(username);
-		Optional<User> optionalUserWithEmail = underTest.findByCredential(email);
+		Optional<SiteUser> optionalUserWithUsername = underTest.findByCredential(username);
+		Optional<SiteUser> optionalUserWithEmail = underTest.findByCredential(email);
 		//then
 		assertThat(optionalUserWithUsername)
         .isPresent()
@@ -193,7 +193,7 @@ class UserRepositoryTest {
 		//given
 		String username = "username";
 		String email = "username@domain.tld";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword("password");
@@ -202,7 +202,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<User> optionalUser = underTest.findByCredential("fakenameington");
+		Optional<SiteUser> optionalUser = underTest.findByCredential("fakenameington");
 		//then
 		assertThat(optionalUser).isEmpty();
 	}
@@ -212,7 +212,7 @@ class UserRepositoryTest {
 		//given
 		String username = "username";
 		String email = "username@domain.tld";
-		User user = new User();
+		SiteUser user = new SiteUser();
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setPassword("password");
@@ -222,7 +222,7 @@ class UserRepositoryTest {
 		underTest.save(user);
 		//when
 		underTest.enableUser(email);
-		Optional<User> optionalUser = underTest.findByUsername(username);
+		Optional<SiteUser> optionalUser = underTest.findByUsername(username);
 		//then
 		assertThat(optionalUser.get().isEnabled()).isTrue();
 	}

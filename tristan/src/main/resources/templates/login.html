@@ -31,7 +31,7 @@
                         <a th:href="@{/register}" class="signup-image-link" th:text="#{display.createaccount}">Create an account</a>
                     </div>
                     <div class="signin-form">
-                    <div th:if="${alert != null}" th:replace="/nav/navbar.html :: alert"></div>
+                    <div th:if="${param.alert != null}"><div th:replace="/nav/navbar.html :: alert"></div></div>
                         <h2 class="form-title" th:text="#{display.login}">login</h2>
                         <form th:fragment="signin-form" method="POST" class="register-form" id="login-form" th:action="@{/login}">
                             <div class="form-group">

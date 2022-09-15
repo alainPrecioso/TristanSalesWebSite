@@ -15,7 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
-import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.UserRole;
 import com.aprec.tristan.user.UserService;
 import com.aprec.tristan.user.registration.email.EmailReader;
@@ -62,7 +62,7 @@ public class RegistrationService {
 	public String register(RegistrationRequest request) {
 		
 		String token = userService.signUpUser(
-			new User(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
+			new SiteUser(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
 		if (token.equalsIgnoreCase("userexists")) {
 			return "userexists";
 		}
@@ -79,7 +79,7 @@ public class RegistrationService {
 	
 	
 	public void resendConfirmationMail(String username) {
-		User user = userService.getUser(username);
+		SiteUser user = userService.getUser(username);
 		String token = userService.getNewToken(user);
 			String link = hostName + "/confirm?token=" + token;
 			log.info("resends confirmation mail");
@@ -163,7 +163,7 @@ public class RegistrationService {
 	}
 	
 	public String requestNewPassword(String email) {
-		User user = userService.getUser(email);
+		SiteUser user = userService.getUser(email);
 		
 		String token = passwordTokenService.createPasswordToken(user);
 		String link = hostName + "/enternewpass?token=" + token; 

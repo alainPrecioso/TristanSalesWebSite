@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.User;
 
 @Service
@@ -31,7 +32,7 @@ public class ConfirmationTokenService {
 	                token, LocalDateTime.now());
 	}
 	
-	public String refreshConfirmationToken(User user) {
+	public String refreshConfirmationToken(SiteUser user) {
 		String newToken = UUID.randomUUID().toString();
 		confirmationTokenRepository
 		.updateToken(confirmationTokenRepository.findByUser(user).get().getToken(), 
@@ -41,7 +42,7 @@ public class ConfirmationTokenService {
 		return newToken;
 	}
 	
-	public String createConfirmationToken(User user) {
+	public String createConfirmationToken(SiteUser user) {
 		ConfirmationToken confirmationToken = new ConfirmationToken(
 				UUID.randomUUID().toString(),
 				LocalDateTime.now(),

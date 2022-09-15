@@ -61,7 +61,7 @@ public class MyConfig implements WebMvcConfigurer{
 	
 	//changes the lang parameter in any page
 	@Bean
-	public BiFunction<String, String, String> replaceOrAddParam() {
+	BiFunction<String, String, String> replaceOrAddParam() {
 	  return (paramName, newValue) -> ServletUriComponentsBuilder
 			.fromCurrentRequest()
 	        .replaceQueryParam(paramName, newValue)

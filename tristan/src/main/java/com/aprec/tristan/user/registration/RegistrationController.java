@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.aprec.tristan.config.exceptions.PasswordRequestException;
 import com.aprec.tristan.config.exceptions.RegistrationException;
 import com.aprec.tristan.controllers.HtmlPage;
+import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.UserRepository;
 

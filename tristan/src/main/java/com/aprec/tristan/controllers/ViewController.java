@@ -5,6 +5,8 @@ import static com.aprec.tristan.controllers.HtmlPage.INDEX;
 import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
 import static com.aprec.tristan.controllers.HtmlPage.REGISTER;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -54,7 +56,8 @@ public class ViewController {
 	
 	
 	@GetMapping("/test")
-	public String test() {
+	public String test(HttpServletRequest request) {
+		System.out.println(request.getSession().getAttribute("UserType"));
 		return "test";
 	}
 }

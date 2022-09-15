@@ -6,29 +6,23 @@ import java.util.Collections;
 import java.util.Objects;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class User implements UserDetails {
-
+public class SiteUser extends User {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -59615200861434776L;
+	private static final long serialVersionUID = -5275991924990663546L;
 	@Id
 	@SequenceGenerator(
 			name="user_sequence",
@@ -38,9 +32,9 @@ public abstract class User implements UserDetails {
 			strategy = GenerationType.SEQUENCE,
 			generator = "user_sequence")
 	private Long id;
-	//@Column(unique = true, nullable=false)
+	@Column(unique = true, nullable=false)
 	private String username;
-	//@Column(unique = true, nullable=false)
+	@Column(unique = true, nullable=false)
 	private String email;
 	@Column(nullable=false)
 	private String password;
@@ -51,12 +45,10 @@ public abstract class User implements UserDetails {
 	private LocalDateTime deleteTime;
 	private boolean deleteScheduled;
 	
-	protected String userType;
-	
-	public User() {
+	public SiteUser() {
 		super();
 	}
-	public User(String username, String email, String password, UserRole userRole) {
+	public SiteUser(String username, String email, String password, UserRole userRole) {
 		super();
 		this.username = username;
 		this.email = email;
@@ -138,7 +130,7 @@ public abstract class User implements UserDetails {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		SiteUser other = (SiteUser) obj;
 		return Objects.equals(email, other.email) && enabled == other.enabled && Objects.equals(id, other.id)
 				&& locked == other.locked && Objects.equals(password, other.password) && userRole == other.userRole
 				&& Objects.equals(username, other.username);
@@ -159,3 +151,4 @@ public abstract class User implements UserDetails {
 
 	
 }
+

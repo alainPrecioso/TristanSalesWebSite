@@ -51,7 +51,7 @@ class UserServiceTest {
 		//given
 		given(userRepository
 				.findByCredential(anyString()))
-        .willReturn(java.util.Optional.of(new User()));
+        .willReturn(java.util.Optional.of(new SiteUser()));
 		//when
 		underTest.loadUserByUsername("test");
 		//then
@@ -74,16 +74,16 @@ class UserServiceTest {
 	@Test
 	void testSignUpUser() {
 		 // given
-        User user = new User();
+        SiteUser user = new SiteUser();
         user.setUsername("username");
         // when
         underTest.signUpUser(user);
 
         // then
-        ArgumentCaptor<User> userArgumentCaptor =
-                ArgumentCaptor.forClass(User.class);
-        ArgumentCaptor<User> tokenArgumentCaptor =
-                ArgumentCaptor.forClass(User.class);
+        ArgumentCaptor<SiteUser> userArgumentCaptor =
+                ArgumentCaptor.forClass(SiteUser.class);
+        ArgumentCaptor<SiteUser> tokenArgumentCaptor =
+                ArgumentCaptor.forClass(SiteUser.class);
         
         verify(userRepository)
                 .save(userArgumentCaptor.capture());
@@ -91,16 +91,16 @@ class UserServiceTest {
         verify(confirmationTokenService)
         .createConfirmationToken(tokenArgumentCaptor.capture());
         
-        User capturedUser = userArgumentCaptor.getValue();
-        User capturedUserToken = tokenArgumentCaptor.getValue();
+        SiteUser capturedUser = userArgumentCaptor.getValue();
+        SiteUser capturedUserToken = tokenArgumentCaptor.getValue();
 
         assertThat(capturedUser).isEqualTo(capturedUserToken).isEqualTo(user);
 	}
 
 	@Test
-	void testResetConfirmationToken() {
+	void testRefreshConfirmationToken() {
 		//given
-		User user = new User();
+		SiteUser user = new SiteUser();
 		//when
 		underTest.getNewToken(user);
 		//then
@@ -120,12 +120,12 @@ class UserServiceTest {
 	void testGetUser() {
 		//given
 		given(userRepository
-				.findByUsername(anyString()))
-			.willReturn(java.util.Optional.of(new User()));
+				.findByCredential(anyString()))
+			.willReturn(java.util.Optional.of(new SiteUser()));
 		//when
 		underTest.getUser("test");
 		//then
-		verify(userRepository).findByUsername("test");
+		verify(userRepository).findByCredential("test");
 		
 	}
 

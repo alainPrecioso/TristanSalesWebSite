@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.SiteUser;
 
 @Entity
 public class PasswordToken {
@@ -34,7 +34,7 @@ public class PasswordToken {
 	private LocalDateTime confirmationTime;
 	@OneToOne
 	@JoinColumn(nullable=false, name= "user_id")
-	private User user;
+	private SiteUser user;
 
 	
 	
@@ -43,7 +43,7 @@ public class PasswordToken {
 	}
 
 	public PasswordToken(String token, LocalDateTime localDateTime, LocalDateTime localDateTime2,
-			User user) {
+			SiteUser user) {
 		super();
 		this.token = token;
 		this.creationTime = localDateTime;
@@ -83,11 +83,11 @@ public class PasswordToken {
 		this.expirationTime = expirationTime;
 	}
 
-	public User getUser() {
+	public SiteUser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(SiteUser user) {
 		this.user = user;
 	}
 

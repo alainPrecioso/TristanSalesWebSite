@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.User;
 import com.aprec.tristan.user.registration.token.ConfirmationToken;
 
@@ -31,7 +32,7 @@ public class PasswordTokenService {
 	        return passwordTokenRepository.findByToken(token);
 	}
 	
-	public String createNewToken(User user) {
+	public String createNewToken(SiteUser user) {
 		String newToken = UUID.randomUUID().toString();
 		passwordTokenRepository
 		.updateToken(passwordTokenRepository.findByUser(user).get().getToken(), 
@@ -41,7 +42,7 @@ public class PasswordTokenService {
 		return newToken;
 	}
 	
-	public String createPasswordToken(User user) {
+	public String createPasswordToken(SiteUser user) {
 		PasswordToken passwordToken = new PasswordToken(
 				UUID.randomUUID().toString(),
 				LocalDateTime.now(),

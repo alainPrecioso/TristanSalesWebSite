@@ -8,15 +8,19 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
 
-import com.aprec.tristan.user.User;
+import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.UserRepository;
+import com.aprec.tristan.user.UserService;
 
 //@Service
 public class GitHubUserService extends DefaultOAuth2UserService {
@@ -28,7 +32,7 @@ public class GitHubUserService extends DefaultOAuth2UserService {
 
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User oAuth2User =  super.loadUser(userRequest);
+		OAuth2User oAuth2User =  super.loadUser(userRequest);
 //        log.info("Iteration:");
 //        Iterator<Entry<String, Object>> it = oAuth2User.getAttributes().entrySet().iterator();   //line 1
 //        while (it.hasNext()) {
@@ -36,27 +40,25 @@ public class GitHubUserService extends DefaultOAuth2UserService {
 //            log.info(pair.getKey() + " = " + pair.getValue());
 //            it.remove();
 //           }
+		RequestContextHolder.currentRequestAttributes().setAttribute("UserType", "gitHub", SCOPE_SESSION);
         return processOAuth2User(oAuth2User);
     }
 
 	private GitHubUser processOAuth2User(OAuth2User oAuth2User) {
 		GitHubUser gitHubUser = new GitHubUser(oAuth2User);
-		// see what other data from userRequest or oidcUser you need
-
-//		Optional<User> userOptional = userRepository.findByUsername(gitHubUser.getUsername());
-//		if (!userOptional.isPresent()) {
-//			User user = new User();
-//			if (gitHubUser.getEmail() != null) {
-//				user.setEmail(gitHubUser.getEmail());
-//			}
-//			user.setUsername(gitHubUser.getUsername());
-//
-//			// set other needed data
-//
-//			userRepository.save(user);
-//		}
-
-		return gitHubUser;
+		
+		Optional<GitHubUser> userOptional = userRepository.findGitHubUserByUsername(gitHubUser.getName());
+		if (!userOptional.isPresent()) {
+			gitHubUser.setUsername(gitHubUser.getName());
+			gitHubUser.setEmail("undefined");
+			gitHubUser.setPassword("not applicable");
+			gitHubUser.setIdentifier(oAuth2User.getName());
+			userRepository.save(gitHubUser);
+			return gitHubUser;
+		} else {
+			userOptional.get().setOauth2User(oAuth2User);
+			return userOptional.get();
+		}
 	}
 
 }
