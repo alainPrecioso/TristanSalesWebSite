@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -37,40 +35,27 @@ public abstract class User implements UserDetails {
 	@GeneratedValue(
 			strategy = GenerationType.SEQUENCE,
 			generator = "user_sequence")
-	private Long id;
+	protected Long id;
 	//@Column(unique = true, nullable=false)
-	private String username;
+	protected String username;
 	//@Column(unique = true, nullable=false)
-	private String email;
-	@Column(nullable=false)
-	private String password;
+	protected String email;
 	@Enumerated(EnumType.STRING)
-	private UserRole userRole;
-	private boolean locked;
-	private boolean enabled;
-	private LocalDateTime deleteTime;
-	private boolean deleteScheduled;
+	protected UserRole userRole;
+	protected boolean locked;
+	protected boolean enabled;
+	protected LocalDateTime deleteTime;
+	protected boolean deleteScheduled;
 	
 	protected String userType;
 	
 	public User() {
 		super();
 	}
-	public User(String username, String email, String password, UserRole userRole) {
-		super();
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.userRole = userRole;
-	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
 		return Collections.singletonList(authority);
-	}
-	@Override
-	public String getPassword() {
-		return password;
 	}
 	@Override
 	public String getUsername() {
@@ -120,15 +105,12 @@ public abstract class User implements UserDetails {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, enabled, id, locked, password, userRole, username);
+		return Objects.hash(email, enabled, id, locked, userRole, username);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -140,7 +122,7 @@ public abstract class User implements UserDetails {
 			return false;
 		User other = (User) obj;
 		return Objects.equals(email, other.email) && enabled == other.enabled && Objects.equals(id, other.id)
-				&& locked == other.locked && Objects.equals(password, other.password) && userRole == other.userRole
+				&& locked == other.locked && userRole == other.userRole
 				&& Objects.equals(username, other.username);
 	}
 	public LocalDateTime getDeleteTime() {

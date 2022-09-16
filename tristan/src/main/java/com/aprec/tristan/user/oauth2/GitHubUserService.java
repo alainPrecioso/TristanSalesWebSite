@@ -1,26 +1,20 @@
 package com.aprec.tristan.user.oauth2;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
+import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
+
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
-import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
 
-import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.UserRepository;
-import com.aprec.tristan.user.UserService;
+import com.aprec.tristan.user.UserRole;
 
 //@Service
 public class GitHubUserService extends DefaultOAuth2UserService {
@@ -28,6 +22,7 @@ public class GitHubUserService extends DefaultOAuth2UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(GitHubUserService.class);
 
 	@Override
@@ -40,7 +35,7 @@ public class GitHubUserService extends DefaultOAuth2UserService {
 //            log.info(pair.getKey() + " = " + pair.getValue());
 //            it.remove();
 //           }
-		RequestContextHolder.currentRequestAttributes().setAttribute("UserType", "gitHub", SCOPE_SESSION);
+		RequestContextHolder.currentRequestAttributes().setAttribute("userType", "gitHub", SCOPE_SESSION);
         return processOAuth2User(oAuth2User);
     }
 
@@ -48,16 +43,22 @@ public class GitHubUserService extends DefaultOAuth2UserService {
 		GitHubUser gitHubUser = new GitHubUser(oAuth2User);
 		
 		Optional<GitHubUser> userOptional = userRepository.findGitHubUserByUsername(gitHubUser.getName());
-		if (!userOptional.isPresent()) {
-			gitHubUser.setUsername(gitHubUser.getName());
-			gitHubUser.setEmail("undefined");
-			gitHubUser.setPassword("not applicable");
-			gitHubUser.setIdentifier(oAuth2User.getName());
-			userRepository.save(gitHubUser);
-			return gitHubUser;
-		} else {
+		if (userOptional.isPresent()) {
+			
 			userOptional.get().setOauth2User(oAuth2User);
 			return userOptional.get();
+			
+		} else {
+			gitHubUser.setUsername(gitHubUser.getName());
+			
+			Optional.ofNullable(gitHubUser.getEmailAttribute())
+				.ifPresentOrElse(gitHubUser::setEmail, () -> gitHubUser.setEmail("undefined"));
+			
+			//gitHubUser.setPassword("not applicable");
+			gitHubUser.setUserRole(UserRole.ROLE_USER);
+//			gitHubUser.setIdentifier(oAuth2User.getName());
+			userRepository.save(gitHubUser);
+			return gitHubUser;
 		}
 	}
 

@@ -20,7 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	Optional<SiteUser> findByEmail(String email);
 
-	Optional<SiteUser> findByUsername(String username);
+	@Query("SELECT u FROM SiteUser u WHERE u.username = ?1")
+	Optional<SiteUser> findSiteUserByUsername(String username);
 	
 	@Query("SELECT u FROM GitHubUser u WHERE u.username = ?1")
 	Optional<GitHubUser> findGitHubUserByUsername(String username);
@@ -50,5 +51,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
     int unScheduleDelete(String username);
 	
 	@Query("SELECT u FROM User u WHERE u.deleteScheduled = 1")
-	List<User> findScheduledDelete();
+	List<User> findUsersScheduledForDelete();
 }

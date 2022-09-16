@@ -76,12 +76,18 @@ public class RegistrationController {
 	
 	@GetMapping(path = "/confirm")
     public HtmlPage confirm(@RequestParam("token") String token, Model model) {
-        String result = registrationService.confirmToken(token);
-        if (!result.equalsIgnoreCase("confirmed")) {
-        	throw new RegistrationException(result);
-        }
+		String result ;
+		try {
+			result = registrationService.confirmToken(token);
+			
+		} catch (IllegalStateException e){
+			throw new RegistrationException(e.getMessage());
+		}
+//        if (!result.equalsIgnoreCase("confirmed")) {
+//        	throw new RegistrationException(result);
+//        }
         model.addAttribute(MESSAGE.getAttribute(), result);
-        //model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+        model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
         return INDEX_REDIRECT;
     }
 

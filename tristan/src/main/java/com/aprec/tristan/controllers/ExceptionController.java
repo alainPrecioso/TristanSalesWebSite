@@ -1,10 +1,10 @@
 package com.aprec.tristan.controllers;
 
+import static com.aprec.tristan.controllers.Attribute.ALERT;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_404;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_500;
 import static com.aprec.tristan.controllers.HtmlPage.REGISTER;
-import static com.aprec.tristan.controllers.Attribute.ALERT;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -40,7 +39,7 @@ public class ExceptionController implements ErrorController {
 	private static final Logger log = LoggerFactory.getLogger(ExceptionController.class);
 	
 	@RequestMapping("/error")
-    public HtmlPage handleError(HttpServletResponse response) {
+    public HtmlPage handleError(HttpServletResponse response, Exception e) {
         int status = response.getStatus();
         if ( status == HttpStatus.NOT_FOUND.value()) {
             return ERROR_404;
@@ -52,7 +51,7 @@ public class ExceptionController implements ErrorController {
 	
 	
 	@ExceptionHandler(RegistrationException.class)
-	public void handleRegistrationException(RegistrationException e, 
+	public HtmlPage handleRegistrationException(RegistrationException e, 
 			HttpServletRequest request,
 			HttpServletResponse response,
 			Locale locale
@@ -65,25 +64,27 @@ public class ExceptionController implements ErrorController {
 			case "emailalreadyconfirmed", "userexists", "tokennotfound":
 				String errorMessage = messages.getMessage(e.getMessage(), null, locale);
 				request.setAttribute(ALERT.getAttribute(), errorMessage);
-				response.sendRedirect(REGISTER.getPage());
-				break;
+//				response.sendRedirect(REGISTER.getPage());
+//				break;
+				return REGISTER;
 		  default:
-			  response.sendRedirect(ERROR_500.getPage());
-			  break;
+//			  response.sendRedirect(ERROR_500.getPage());
+//			  break;
+			  return ERROR_500;
 		}
 	}
 	
-//	@ExceptionHandler(UsernameNotFoundException.class)
-//	public void handleUsernameNotFoundException(RegistrationException e, 
-//			HttpServletRequest request,
-//			HttpServletResponse response,
-//			Locale locale
-//			) throws IOException {
-//		log.info("handleUsernameNotFoundException");
+	@ExceptionHandler(IllegalStateException.class)
+	public void handleUsernameNotFoundException(RegistrationException e, 
+			HttpServletRequest request,
+			HttpServletResponse response,
+			Locale locale
+			) throws IOException {
+		log.info("handleIllegalStateException");
 //		String errorMessage = messages.getMessage(e.getMessage(), null, locale);
 //		request.getSession().setAttribute("errormessage", errorMessage);
-//		response.sendRedirect(REGISTER_ERROR.getPage());
-//		
-//	}
+		response.sendRedirect("/test");
+		
+	}
 	
 }

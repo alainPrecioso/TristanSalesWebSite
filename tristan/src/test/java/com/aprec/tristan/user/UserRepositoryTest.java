@@ -40,7 +40,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<SiteUser> optionalUser = underTest.findByUsername(username);
+		Optional<SiteUser> optionalUser = underTest.findSiteUserByUsername(username);
 		
 		//then
 		assertThat(optionalUser)
@@ -63,7 +63,7 @@ class UserRepositoryTest {
 		user.setLocked(false);
 		underTest.save(user);
 		//when
-		Optional<SiteUser> optionalUser = underTest.findByUsername(email);
+		Optional<SiteUser> optionalUser = underTest.findSiteUserByUsername(email);
 		
 		//then
 		assertThat(optionalUser).isEmpty();
@@ -222,7 +222,7 @@ class UserRepositoryTest {
 		underTest.save(user);
 		//when
 		underTest.enableUser(email);
-		Optional<SiteUser> optionalUser = underTest.findByUsername(username);
+		Optional<SiteUser> optionalUser = underTest.findSiteUserByUsername(username);
 		//then
 		assertThat(optionalUser.get().isEnabled()).isTrue();
 	}

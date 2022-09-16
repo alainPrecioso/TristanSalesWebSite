@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService {
 				.findByCredential(username)
 				.orElseThrow(() -> new UsernameNotFoundException(String
 						.format(USER_NOT_FOUND_MSG, username)));
-		RequestContextHolder.currentRequestAttributes().setAttribute("UserType", "site", SCOPE_SESSION);
+		RequestContextHolder.currentRequestAttributes().setAttribute("userType", "site", SCOPE_SESSION);
 		return userDetails;
 	}
 
@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
 	 */
 	public String signUpUser(SiteUser user) {
 		Boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
-				|| userRepository.findByUsername(user.getUsername()).isPresent();
+				|| userRepository.findSiteUserByUsername(user.getUsername()).isPresent();
 		if (userExists) {
 			//throw new IllegalStateException("userexists");
 			return "userexists";
@@ -113,16 +113,32 @@ public class UserService implements UserDetailsService {
 		userRepository.delete(user);
 	}
 	
-	public void scheduleDelete(User username) {
+	public void scheduleDelete(User user) {
 		//TODO change scheduled time to 30 days
-		userRepository.scheduleDelete(LocalDateTime.now().plusSeconds(10), username);
+		userRepository.scheduleDelete(LocalDateTime.now().plusSeconds(10), user);
 	}
 
 	//TODO uncomment and set cron to every day
 	@Async
-	@Scheduled(cron = "0 * * * * *", zone = "Europe/Paris")
+	//@Scheduled(cron = "0 * * * * *", zone = "Europe/Paris")
 	public void scheduledDelete() {
 		log.info("scheduledDelete() tick");
-		//userRepository.findScheduledDelete().stream().filter(user -> user.getDeleteTime().isBefore(LocalDateTime.now())).forEach(this::deleteUser);
+		userRepository.findUsersScheduledForDelete().stream().filter(user -> user.getDeleteTime().isBefore(LocalDateTime.now())).forEach(this::deleteUser);
+	}
+	
+	public User getUserWithType(String username, String type) {
+		User user = null;
+		if (type.equals("gitHub")) {
+			user = userRepository.findGitHubUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username not found"));
+		}
+		if (type.equals("site")) {
+			user = userRepository.findSiteUserByUsername(username).orElseThrow(() -> new UsernameNotFoundException("username not found"));
+		}
+		return user;
+	}
+	
+	public User getLoggedUser() {
+		return getUserWithType(SecurityContextHolder.getContext().getAuthentication().getName(),
+				(String) RequestContextHolder.getRequestAttributes().getAttribute("userType", SCOPE_SESSION));
 	}
 }

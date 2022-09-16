@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,24 +91,24 @@ public class RegistrationService {
 	
 	
 
-	public String confirmToken(String token) {
-//		ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
-//				.orElseThrow(() -> new IllegalStateException("token not found"));
+	public String confirmToken(String token) throws IllegalStateException {
+		ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
+				.orElseThrow(() -> new IllegalStateException("tokennotfound"));
 		
-		Optional<ConfirmationToken>optionalToken = confirmationTokenService.getToken(token);
-		if (optionalToken.isEmpty()) {
-			return "tokennotfound";
-		}
-		ConfirmationToken confirmationToken = optionalToken.get();
+//		Optional<ConfirmationToken>optionalToken = confirmationTokenService.getToken(token);
+//		if (optionalToken.isEmpty()) {
+//			return "tokennotfound";
+//		}
+//		ConfirmationToken confirmationToken = optionalToken.get();
 		
 		if (confirmationToken.getConfirmationTime() != null) {
-			return "emailalreadyconfirmed";
+			throw new IllegalStateException("emailalreadyconfirmed");
 		}
 		
 		LocalDateTime expiredAt = confirmationToken.getExpirationTime();
 
 		if (expiredAt.isBefore(LocalDateTime.now())) {
-			return "tokenexpired";
+			throw new IllegalStateException("tokenexpired");
 		}
 
 		confirmationTokenService.setConfirmedAt(token);
