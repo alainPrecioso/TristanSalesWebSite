@@ -7,8 +7,6 @@ import org.springframework.security.authentication.event.AbstractAuthenticationF
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 
-import com.aprec.tristan.user.registration.RegistrationService;
-
 @Component
 public class AuthenticationListener {
 	

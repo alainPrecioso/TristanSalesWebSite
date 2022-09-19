@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Configuration
 public class MyConfig implements WebMvcConfigurer{
 	
-	//Region Localization
+	//region Localization
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 	    registry.addInterceptor(localeChangeInterceptor());
@@ -67,8 +67,7 @@ public class MyConfig implements WebMvcConfigurer{
 	        .replaceQueryParam(paramName, newValue)
 	        .toUriString();
 	}
-	
-	//EndRegion
+	//endRegion
 	
 	// allows HtmlPage to be availible as a return type fo controllers
 	@Override

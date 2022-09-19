@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(path = "/")
 public class UserController {
 
-	private UserService userService;
+	private UserServiceInterface userService;
 
-	public UserController(UserService userService) {
+	public UserController(UserServiceInterface userService) {
 		super();
 		this.userService = userService;
 	}

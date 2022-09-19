@@ -2,7 +2,6 @@ package com.aprec.tristan.user.registration;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +15,9 @@ import org.springframework.web.servlet.LocaleResolver;
 
 import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.UserRole;
-import com.aprec.tristan.user.UserService;
+import com.aprec.tristan.user.UserServiceInterface;
 import com.aprec.tristan.user.registration.email.EmailReader;
-import com.aprec.tristan.user.registration.email.EmailService;
+import com.aprec.tristan.user.registration.email.EmailSender;
 import com.aprec.tristan.user.registration.token.ConfirmationToken;
 import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
 import com.aprec.tristan.user.token.PasswordToken;
@@ -27,10 +26,10 @@ import com.aprec.tristan.user.token.PasswordTokenService;
 @Service
 public class RegistrationService {
 	
-	private final UserService userService;
+	private final UserServiceInterface userService;
 	private final ConfirmationTokenService confirmationTokenService;
 	private final PasswordTokenService passwordTokenService;
-	private final EmailService emailService;
+	private final EmailSender emailSender;
 	private final EmailReader emailReader;
     private final String hostName;
     private final LocaleResolver localeResolver;
@@ -38,10 +37,10 @@ public class RegistrationService {
     private static final Logger log = LoggerFactory.getLogger(RegistrationService.class);
 	
 	
-	public RegistrationService(UserService userService, 
+	public RegistrationService(UserServiceInterface userService, 
 			ConfirmationTokenService confirmationTokenService, 
 			PasswordTokenService passwordTokenService,
-			EmailService emailService,
+			EmailSender emailService,
 			EmailReader emailReader,
 			@Value("${host.name}") String hostName,
 			LocaleResolver localeResolver
@@ -50,7 +49,7 @@ public class RegistrationService {
 		this.userService = userService;
 		this.confirmationTokenService = confirmationTokenService;
 		this.passwordTokenService = passwordTokenService;
-		this.emailService = emailService;
+		this.emailSender = emailService;
 		this.emailReader = emailReader;
 		this.hostName = hostName;
 		this.localeResolver = localeResolver;
@@ -58,18 +57,15 @@ public class RegistrationService {
 
 	
 
-	public String register(RegistrationRequest request) {
+	public String register(RegistrationRequest request) throws IllegalStateException {
 		
 		String token = userService.signUpUser(
 			new SiteUser(request.getUsername(), request.getEmail(), request.getPassword(), UserRole.ROLE_USER));
-		if (token.equalsIgnoreCase("userexists")) {
-			return "userexists";
-		}
 		String link = hostName + "/confirm?token=" + token;
 		log.info("sends confirmation mail");
 		log.info(link);
 		// TODO uncomment
-//		emailService.send(
+//		emailSender.send(
 //	                request.getEmail(),
 //	                buildConfirmationEmail(request.getUsername(), link));
 		
@@ -83,7 +79,7 @@ public class RegistrationService {
 			String link = hostName + "/confirm?token=" + token;
 			log.info("resends confirmation mail");
 			log.info(link);
-			emailService.send(
+			emailSender.send(
 					user.getEmail(),
 		                buildConfirmationEmail(user.getUsername(), link));
 			
@@ -95,11 +91,6 @@ public class RegistrationService {
 		ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
 				.orElseThrow(() -> new IllegalStateException("tokennotfound"));
 		
-//		Optional<ConfirmationToken>optionalToken = confirmationTokenService.getToken(token);
-//		if (optionalToken.isEmpty()) {
-//			return "tokennotfound";
-//		}
-//		ConfirmationToken confirmationToken = optionalToken.get();
 		
 		if (confirmationToken.getConfirmationTime() != null) {
 			throw new IllegalStateException("emailalreadyconfirmed");
@@ -116,28 +107,18 @@ public class RegistrationService {
 		return "confirmed";
 	}
 	
-	private String confirmPasswordToken(PasswordRequest request) {
-//		PasswordToken passwordToken = passwordTokenService.getToken(token)
-//				.orElseThrow(() -> new IllegalStateException("token not found"));
-		Optional<PasswordToken>optionalToken = passwordTokenService.getToken(request.getToken());
-		if (optionalToken.isEmpty()) {
-			return "tokennotfound";
-		}
-		
-		PasswordToken passwordToken = optionalToken.get();
+	public String confirmPasswordToken(PasswordRequest request) throws IllegalStateException {
+		PasswordToken passwordToken = passwordTokenService.getToken(request.getToken())
+				.orElseThrow(() -> new IllegalStateException("tokennotfound"));
 
-
-		LocalDateTime expiredAt = passwordToken.getExpirationTime();
-
-		if (expiredAt.isBefore(LocalDateTime.now())) {
-			return "tokenexpired";
+		if (passwordToken.getExpirationTime().isBefore(LocalDateTime.now())) {
+			throw new IllegalStateException("tokenexpired");
 		}
 		passwordTokenService.deletePasswordToken(request.getToken());
 		userService.updatePassword(passwordToken.getUser(), request.getPassword());
 		return "passwordchanged";
 	}
 	
-	@SuppressWarnings("unused")
 	private String buildConfirmationEmail(String username, String link) {
 		Locale locale = getLocale();
 		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
@@ -149,9 +130,12 @@ public class RegistrationService {
 	
 	private String buildPasswordEmail(String username, String link) {
 		Locale locale = getLocale();
-		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
+		switch (locale.getISO3Language()) {
+		case "eng" :
 			return String.format(emailReader.readFileToString("classpath:email/password_email.txt"), username, link);
-		} else {
+		case "fr" :
+			//fallthrough
+		default :
 			return String.format(emailReader.readFileToString("classpath:email/password_email_fr.txt"), username, link);
 		}
 	}
@@ -166,17 +150,12 @@ public class RegistrationService {
 		
 		String token = passwordTokenService.createPasswordToken(user);
 		String link = hostName + "/enternewpass?token=" + token; 
-		emailService.send(
+		emailSender.send(
 				user.getEmail(),
 	                buildPasswordEmail(user.getUsername(), link));
 		return "passwordmailsent";
 	}
 
-
-
-	public String updatePassword(PasswordRequest request) {
-		return confirmPasswordToken(request);
-	}
 	
 
 	public boolean checkPassword(String username, String password) {

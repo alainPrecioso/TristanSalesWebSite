@@ -51,5 +51,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
     int unScheduleDelete(String username);
 	
 	@Query("SELECT u FROM User u WHERE u.deleteScheduled = 1")
-	List<User> findUsersScheduledForDelete();
+	List<User> findListUsersScheduledForDelete();
 }

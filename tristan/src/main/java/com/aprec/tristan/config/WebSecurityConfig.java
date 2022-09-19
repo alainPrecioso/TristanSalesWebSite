@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -26,6 +27,7 @@ import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import com.aprec.tristan.user.auth.CustomAuthenticationFailureHandler;
 import com.aprec.tristan.user.oauth2.GitHubUserService;
 
+@EnableAsync
 @EnableScheduling
 @Configuration
 @EnableWebSecurity
@@ -36,11 +38,11 @@ public class WebSecurityConfig {
 	private static final Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
 	
 	@Resource
-	private final UserDetailsService userService;
+	private final UserDetailsService userDetailsService;
 	
-	public WebSecurityConfig(UserDetailsService userService) {
+	public WebSecurityConfig(UserDetailsService userDetailsService) {
 		super();
-		this.userService = userService;
+		this.userDetailsService = userDetailsService;
 	}
 
     @Bean
@@ -109,7 +111,7 @@ public class WebSecurityConfig {
 		DaoAuthenticationProvider provider =
 				new DaoAuthenticationProvider();
 		provider.setPasswordEncoder(bCryptPasswordEncoder);
-		provider.setUserDetailsService(userService);
+		provider.setUserDetailsService(userDetailsService);
 		return provider;
 	}
 	
@@ -122,7 +124,6 @@ public class WebSecurityConfig {
     SpringSecurityDialect springSecurityDialect(){
         return new SpringSecurityDialect();
     }
-	
 	
 	
 }

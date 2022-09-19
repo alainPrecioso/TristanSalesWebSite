@@ -9,11 +9,8 @@ import static com.aprec.tristan.controllers.HtmlPage.INDEX_REDIRECT;
 import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
 import static com.aprec.tristan.controllers.HtmlPage.NEW_PASSWORD;
 
-import java.security.Principal;
-
 import javax.validation.Valid;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -22,35 +19,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.aprec.tristan.config.exceptions.PasswordRequestException;
 import com.aprec.tristan.config.exceptions.RegistrationException;
 import com.aprec.tristan.controllers.HtmlPage;
-import com.aprec.tristan.user.SiteUser;
-import com.aprec.tristan.user.User;
-import com.aprec.tristan.user.UserRepository;
 
 @Validated
 @Controller
 @RequestMapping(path = "/")
 public class RegistrationController {
 
-	private UserRepository userRepository;
 	private RegistrationService registrationService;
 
-	public RegistrationController(UserRepository userRepository, RegistrationService registrationService) {
+	public RegistrationController(RegistrationService registrationService) {
 		super();
-		this.userRepository = userRepository;
 		this.registrationService = registrationService;
 	}
 
 	@PostMapping("/newpass")
 	public HtmlPage register(@RequestParam String email, Model model) {
-		
-		
-		
-		
 		return INDEX;
 	}
 	
@@ -58,12 +45,14 @@ public class RegistrationController {
 	@PostMapping("/add")
 	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request,
 			Model model) {
-		String register = registrationService.register(request);
-		if (!register.equalsIgnoreCase("registered")) {
-			throw new RegistrationException(register);
+		String register;
+		try {
+			register = registrationService.register(request);
+		} catch (IllegalStateException e) {
+			throw new RegistrationException(e.getMessage());
 		}
 		model.addAttribute(MESSAGE.getAttribute(), register);
-		
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		
 		return INDEX;
 	}
@@ -83,18 +72,10 @@ public class RegistrationController {
 		} catch (IllegalStateException e){
 			throw new RegistrationException(e.getMessage());
 		}
-//        if (!result.equalsIgnoreCase("confirmed")) {
-//        	throw new RegistrationException(result);
-//        }
         model.addAttribute(MESSAGE.getAttribute(), result);
         model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
         return INDEX_REDIRECT;
     }
-
-	@GetMapping(path = "/all")
-	public @ResponseBody Iterable<User> getAllUsers() {
-		return userRepository.findAll();
-	}
 	
 	@GetMapping("/forgot")
 	HtmlPage forgotPassword(Model model) {
@@ -119,11 +100,13 @@ public class RegistrationController {
 	@PostMapping("/savenewpass")
 	public HtmlPage saveNewPassword(@Valid @ModelAttribute("passrequest") PasswordRequest request, Model model) {
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-		String result = registrationService.updatePassword(request);
-		if (!result.equalsIgnoreCase("passwordchanged")) {
+		String result;
+		try {
+			result = registrationService.confirmPasswordToken(request);
+		} catch (IllegalStateException e) {
 			//TODO handle exception
-        	throw new PasswordRequestException(result);
-        }
+			throw new PasswordRequestException(e.getMessage());
+		}
 		
 		model.addAttribute(MESSAGE.getAttribute(), result);
 		return LOGIN;

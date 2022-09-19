@@ -1,6 +1,7 @@
 package com.aprec.tristan.controllers;
 
 import static com.aprec.tristan.controllers.Attribute.ALERT;
+import static com.aprec.tristan.controllers.Attribute.REQUEST;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_404;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_500;
@@ -19,14 +20,16 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.aprec.tristan.config.exceptions.PasswordRequestException;
 import com.aprec.tristan.config.exceptions.RegistrationException;
+import com.aprec.tristan.user.registration.RegistrationRequest;
 import com.aprec.tristan.user.registration.RegistrationService;
 
-@Controller
 @ControllerAdvice
 public class ExceptionController implements ErrorController {
 	
@@ -54,8 +57,10 @@ public class ExceptionController implements ErrorController {
 	public HtmlPage handleRegistrationException(RegistrationException e, 
 			HttpServletRequest request,
 			HttpServletResponse response,
-			Locale locale
+			Locale locale,
+			Model model
 			) throws IOException {
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		log.info("handleRegistrationException");
 		switch(e.getMessage()) {
 			case "tokenexpired":
@@ -63,28 +68,33 @@ public class ExceptionController implements ErrorController {
 				// fallthrough
 			case "emailalreadyconfirmed", "userexists", "tokennotfound":
 				String errorMessage = messages.getMessage(e.getMessage(), null, locale);
-				request.setAttribute(ALERT.getAttribute(), errorMessage);
-//				response.sendRedirect(REGISTER.getPage());
-//				break;
+				request.getSession().setAttribute(ALERT.getAttribute(), errorMessage);
 				return REGISTER;
 		  default:
-//			  response.sendRedirect(ERROR_500.getPage());
-//			  break;
 			  return ERROR_500;
 		}
 	}
 	
-	@ExceptionHandler(IllegalStateException.class)
-	public void handleUsernameNotFoundException(RegistrationException e, 
+	
+	@ExceptionHandler(PasswordRequestException.class)
+	public HtmlPage handlePasswordRequestException(RegistrationException e, 
 			HttpServletRequest request,
 			HttpServletResponse response,
-			Locale locale
+			Locale locale,
+			Model model
 			) throws IOException {
-		log.info("handleIllegalStateException");
-//		String errorMessage = messages.getMessage(e.getMessage(), null, locale);
-//		request.getSession().setAttribute("errormessage", errorMessage);
-		response.sendRedirect("/test");
-		
+		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+		log.info("handlePasswordRequestException");
+		switch(e.getMessage()) {
+			case "tokenexpired":
+				// fallthrough
+			case "tokennotfound":
+				String errorMessage = messages.getMessage(e.getMessage(), null, locale);
+				request.getSession().setAttribute(ALERT.getAttribute(), errorMessage);
+				return REGISTER;
+		  default:
+			  return ERROR_500;
+		}
 	}
 	
 }

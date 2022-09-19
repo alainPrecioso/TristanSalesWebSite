@@ -1,20 +1,13 @@
 package com.aprec.tristan.user.oauth2;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Map;
 
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.User;
-import com.aprec.tristan.user.UserRole;
 
 @Entity
 public class GitHubUser extends User implements OAuth2User {

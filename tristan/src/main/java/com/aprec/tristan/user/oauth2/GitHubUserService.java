@@ -54,9 +54,7 @@ public class GitHubUserService extends DefaultOAuth2UserService {
 			Optional.ofNullable(gitHubUser.getEmailAttribute())
 				.ifPresentOrElse(gitHubUser::setEmail, () -> gitHubUser.setEmail("undefined"));
 			
-			//gitHubUser.setPassword("not applicable");
 			gitHubUser.setUserRole(UserRole.ROLE_USER);
-//			gitHubUser.setIdentifier(oAuth2User.getName());
 			userRepository.save(gitHubUser);
 			return gitHubUser;
 		}

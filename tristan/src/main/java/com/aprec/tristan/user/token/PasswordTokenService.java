@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.User;
-import com.aprec.tristan.user.registration.token.ConfirmationToken;
 
 @Service
 public class PasswordTokenService {
