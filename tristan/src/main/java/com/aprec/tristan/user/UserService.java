@@ -92,7 +92,7 @@ public class UserService implements UserDetailsService, UserServiceInterface {
     }
 
 	@Override
-	public SiteUser getUser(String credential) {
+	public SiteUser getSiteUser(String credential) {
 		return userRepository.findByCredential(credential).orElseThrow(() -> new UsernameNotFoundException(String
 				.format(USER_NOT_FOUND_MSG, credential)));
 	}
@@ -105,7 +105,7 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 
 	@Override
 	public boolean checkPassword(String username, String rawPassword) {
-		String encodedPassword = getUser(username).getPassword();
+		String encodedPassword = getSiteUser(username).getPassword();
 		return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
 	}
 	
@@ -118,9 +118,9 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	}
 	
 	@Override
-	public void scheduleDelete(User user) {
+	public void scheduleDelete() {
 		//TODO change scheduled time to 30 days
-		userRepository.scheduleDelete(LocalDateTime.now().plusSeconds(10), user);
+		userRepository.scheduleDelete(LocalDateTime.now().plusSeconds(10), getLoggedUser());
 	}
 
 	//TODO uncomment and set cron to every day
@@ -151,7 +151,7 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	}
 
 	@Override
-	public void cancelDelete(User loggedUser) {
-		userRepository.cancelDelete(loggedUser);
+	public void cancelDelete() {
+		userRepository.cancelDelete(getLoggedUser());
 	}
 }

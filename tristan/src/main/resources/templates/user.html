@@ -10,11 +10,11 @@
 <body>
 
 <div th:if="${delete != true}">
-	<form method="Post" th:action="@{/delete}">
+	<form method="Post" th:action="@{/user/delete}">
 		<button type="submit" class="btn btn-link">delete</button>
 	</form>
 </div>
-<div th:if="${delete == true}"><p th:text="#{display.delete.days(${daysleft})}"></p><a th:href="@{/canceldelete}">cancel delete</a></div>
+<div th:if="${delete == true}"><p th:text="#{display.delete.days(${daysleft})}"></p><a th:href="@{/user/canceldelete}">cancel delete</a></div>
 
 <a href="/">Go Home</a>
 

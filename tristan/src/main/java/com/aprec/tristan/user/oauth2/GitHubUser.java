@@ -13,8 +13,6 @@ import com.aprec.tristan.user.User;
 @Entity
 public class GitHubUser extends User implements OAuth2User {
 
-	private static final long serialVersionUID = 670348870114028786L;
-	
 	@Transient
 	private OAuth2User oauth2User;
 	
@@ -47,11 +45,6 @@ public class GitHubUser extends User implements OAuth2User {
 
 	public void setOauth2User(OAuth2User oauth2User) {
 		this.oauth2User = oauth2User;
-	}
-
-	@Override
-	public String getPassword() {
-		return null;
 	}
 
 	public int getIdentifier() {

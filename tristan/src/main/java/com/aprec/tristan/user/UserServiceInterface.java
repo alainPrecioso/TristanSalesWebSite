@@ -8,7 +8,7 @@ public interface UserServiceInterface {
 	
 	public int enableUser(String email);
 	
-	public SiteUser getUser(String credential);
+	public SiteUser getSiteUser(String credential);
 	
 	public void updatePassword(SiteUser user, String password);
 	
@@ -16,7 +16,7 @@ public interface UserServiceInterface {
 	
 	public void deleteUser(User user);
 	
-	public void scheduleDelete(User user);
+	public void scheduleDelete();
 	
 	public void deleteUsers();
 	
@@ -24,5 +24,5 @@ public interface UserServiceInterface {
 	
 	public User getLoggedUser();
 
-	public void cancelDelete(User loggedUser);
+	public void cancelDelete();
 }

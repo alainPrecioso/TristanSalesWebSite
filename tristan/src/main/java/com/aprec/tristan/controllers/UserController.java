@@ -12,7 +12,7 @@ import com.aprec.tristan.user.UserServiceInterface;
 
 @PreAuthorize("hasRole('USER')")
 @Controller
-@RequestMapping(path = "/")
+@RequestMapping(path = "/user")
 public class UserController {
 
 	private UserServiceInterface userService;
@@ -23,7 +23,7 @@ public class UserController {
 	}
 
 	
-	@GetMapping("/user")
+	@GetMapping
 	public String user(Model model) {
 		model.addAttribute("delete", userService.getLoggedUser().isDeleteScheduled());
 		model.addAttribute("daysleft", userService.getLoggedUser().getDaysToDelete());
@@ -33,15 +33,15 @@ public class UserController {
 	@PostMapping("/delete")
 	public String delete() {
 		
-		userService.scheduleDelete(userService.getLoggedUser());
-		return "redirect:user";
+		userService.scheduleDelete();
+		return "redirect:";
 	}
 	
 	@GetMapping("/canceldelete")
 	public String cancelDelete() {
 		
-		userService.cancelDelete(userService.getLoggedUser());
-		return "redirect:user";
+		userService.cancelDelete();
+		return "redirect:";
 	}
 
 }

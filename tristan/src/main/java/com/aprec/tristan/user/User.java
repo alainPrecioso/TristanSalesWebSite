@@ -18,16 +18,11 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class User implements UserDetails {
+public abstract class User {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -59615200861434776L;
 	@Id
 	@SequenceGenerator(
 			name="user_sequence",
@@ -37,46 +32,21 @@ public abstract class User implements UserDetails {
 			strategy = GenerationType.SEQUENCE,
 			generator = "user_sequence")
 	protected Long id;
-	//@Column(unique = true, nullable=false)
 	protected String username;
-	//@Column(unique = true, nullable=false)
 	protected String email;
 	@Enumerated(EnumType.STRING)
 	protected UserRole userRole;
-	protected boolean locked;
-	protected boolean enabled;
 	protected LocalDateTime deleteTime;
 	protected boolean deleteScheduled;
-	
 	protected String userType;
 	
 	public User() {
 		super();
 	}
-	@Override
+	
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
 		return Collections.singletonList(authority);
-	}
-	@Override
-	public String getUsername() {
-		return username;
-	}
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-	@Override
-	public boolean isAccountNonLocked() {
-		return !locked;
-	}
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-	@Override
-	public boolean isEnabled() {
-		return enabled;
 	}
 	
 	public Long getId() {
@@ -84,6 +54,9 @@ public abstract class User implements UserDetails {
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getUsername() {
+		return username;
 	}
 	public String getEmail() {
 		return email;
@@ -97,18 +70,7 @@ public abstract class User implements UserDetails {
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
-	public boolean isLocked() {
-		return locked;
-	}
-	public void setLocked(boolean locked) {
-		this.locked = locked;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
+	
 	public LocalDateTime getDeleteTime() {
 		return deleteTime;
 	}
@@ -128,10 +90,12 @@ public abstract class User implements UserDetails {
 		}
 		return 0l;
 	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(deleteScheduled, deleteTime, email, enabled, id, locked, userRole, userType, username);
+		return Objects.hash(deleteScheduled, deleteTime, email, id, userRole, userType, username);
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -142,10 +106,10 @@ public abstract class User implements UserDetails {
 			return false;
 		User other = (User) obj;
 		return deleteScheduled == other.deleteScheduled && Objects.equals(deleteTime, other.deleteTime)
-				&& Objects.equals(email, other.email) && enabled == other.enabled && Objects.equals(id, other.id)
-				&& locked == other.locked && userRole == other.userRole && Objects.equals(userType, other.userType)
-				&& Objects.equals(username, other.username);
+				&& Objects.equals(email, other.email) && Objects.equals(id, other.id) && userRole == other.userRole
+				&& Objects.equals(userType, other.userType) && Objects.equals(username, other.username);
 	}
-
+	
+	
 	
 }

@@ -123,7 +123,7 @@ class UserServiceTest {
 				.findByCredential(anyString()))
 			.willReturn(java.util.Optional.of(new SiteUser()));
 		//when
-		underTest.getUser("test");
+		underTest.getSiteUser("test");
 		//then
 		verify(userRepository).findByCredential("test");
 		

@@ -74,7 +74,7 @@ public class RegistrationService {
 	
 	
 	public void resendConfirmationMail(String username) {
-		SiteUser user = userService.getUser(username);
+		SiteUser user = userService.getSiteUser(username);
 		String token = userService.getNewToken(user);
 			String link = hostName + "/confirm?token=" + token;
 			log.info("resends confirmation mail");
@@ -146,7 +146,7 @@ public class RegistrationService {
 	}
 	
 	public String requestNewPassword(String email) {
-		SiteUser user = userService.getUser(email);
+		SiteUser user = userService.getSiteUser(email);
 		
 		String token = passwordTokenService.createPasswordToken(user);
 		String link = hostName + "/enternewpass?token=" + token; 
