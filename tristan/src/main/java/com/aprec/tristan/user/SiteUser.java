@@ -34,15 +34,6 @@ public class SiteUser extends User implements UserDetails {
 		super.userRole = userRole;
 	}
 	
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	public String getPassword() {
 		return password;
 	}
@@ -59,8 +50,6 @@ public class SiteUser extends User implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;
@@ -95,6 +84,18 @@ public class SiteUser extends User implements UserDetails {
 		SiteUser other = (SiteUser) obj;
 		return Objects.equals(email, other.email) && enabled == other.enabled && locked == other.locked
 				&& Objects.equals(password, other.password) && Objects.equals(username, other.username);
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	
