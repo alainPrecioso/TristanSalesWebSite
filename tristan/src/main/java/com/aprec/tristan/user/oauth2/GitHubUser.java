@@ -1,6 +1,7 @@
 package com.aprec.tristan.user.oauth2;
 
 import java.util.Map;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -59,6 +60,26 @@ public class GitHubUser extends User implements OAuth2User {
 
 	public void setIdentifier(int identifier) {
 		this.identifier = identifier;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(identifier, oauth2User);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GitHubUser other = (GitHubUser) obj;
+		return identifier == other.identifier && Objects.equals(oauth2User, other.oauth2User);
 	}
 
 	

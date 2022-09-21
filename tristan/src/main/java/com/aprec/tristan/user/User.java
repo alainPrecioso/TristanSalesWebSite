@@ -109,23 +109,6 @@ public abstract class User implements UserDetails {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	@Override
-	public int hashCode() {
-		return Objects.hash(email, enabled, id, locked, userRole, username);
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		return Objects.equals(email, other.email) && enabled == other.enabled && Objects.equals(id, other.id)
-				&& locked == other.locked && userRole == other.userRole
-				&& Objects.equals(username, other.username);
-	}
 	public LocalDateTime getDeleteTime() {
 		return deleteTime;
 	}
@@ -144,6 +127,24 @@ public abstract class User implements UserDetails {
 			return LocalDateTime.now().until(this.deleteTime,ChronoUnit.DAYS);
 		}
 		return 0l;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(deleteScheduled, deleteTime, email, enabled, id, locked, userRole, userType, username);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return deleteScheduled == other.deleteScheduled && Objects.equals(deleteTime, other.deleteTime)
+				&& Objects.equals(email, other.email) && enabled == other.enabled && Objects.equals(id, other.id)
+				&& locked == other.locked && userRole == other.userRole && Objects.equals(userType, other.userType)
+				&& Objects.equals(username, other.username);
 	}
 
 	

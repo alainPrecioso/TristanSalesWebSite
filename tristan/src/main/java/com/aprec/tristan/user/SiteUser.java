@@ -29,24 +29,6 @@ public class SiteUser extends User {
 		super.userRole = userRole;
 	}
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(email, username);
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SiteUser other = (SiteUser) obj;
-		return Objects.equals(email, other.email) && Objects.equals(username, other.username);
-	}
 	public String getUsername() {
 		return username;
 	}
@@ -64,6 +46,25 @@ public class SiteUser extends User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(email, password, username);
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SiteUser other = (SiteUser) obj;
+		return Objects.equals(email, other.email) && Objects.equals(password, other.password)
+				&& Objects.equals(username, other.username);
 	}
 	
 
