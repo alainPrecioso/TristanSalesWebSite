@@ -28,28 +28,20 @@ public class GitHubUserService extends DefaultOAuth2UserService {
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		OAuth2User oAuth2User =  super.loadUser(userRequest);
-//        log.info("Iteration:");
-//        Iterator<Entry<String, Object>> it = oAuth2User.getAttributes().entrySet().iterator();   //line 1
-//        while (it.hasNext()) {
-//            Entry<String, Object> pair = it.next();
-//            log.info(pair.getKey() + " = " + pair.getValue());
-//            it.remove();
-//           }
 		RequestContextHolder.currentRequestAttributes().setAttribute("userType", "gitHub", SCOPE_SESSION);
         return processOAuth2User(oAuth2User);
     }
 
 	private GitHubUser processOAuth2User(OAuth2User oAuth2User) {
 		GitHubUser gitHubUser = new GitHubUser(oAuth2User);
-		
-		Optional<GitHubUser> userOptional = userRepository.findGitHubUserByUsername(gitHubUser.getName());
+		oAuth2User.getAttributes().forEach((s, o) -> System.out.println(s + " : " + o));
+		Optional<GitHubUser> userOptional = userRepository.findGitHubUserByIdentifier(gitHubUser.getIdentifier());
 		if (userOptional.isPresent()) {
 			
 			userOptional.get().setOauth2User(oAuth2User);
 			return userOptional.get();
 			
 		} else {
-			gitHubUser.setUsername(gitHubUser.getName());
 			
 			Optional.ofNullable(gitHubUser.getEmailAttribute())
 				.ifPresentOrElse(gitHubUser::setEmail, () -> gitHubUser.setEmail("undefined"));

@@ -1,4 +1,4 @@
-package com.aprec.tristan.user.registration;
+package com.aprec.tristan.controllers;
 
 import static com.aprec.tristan.controllers.Attribute.MESSAGE;
 import static com.aprec.tristan.controllers.Attribute.PASSWORD_REQUEST;
@@ -22,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aprec.tristan.config.exceptions.PasswordRequestException;
 import com.aprec.tristan.config.exceptions.RegistrationException;
-import com.aprec.tristan.controllers.HtmlPage;
+import com.aprec.tristan.user.registration.PasswordRequest;
+import com.aprec.tristan.user.registration.RegistrationRequest;
+import com.aprec.tristan.user.registration.RegistrationService;
 
 @Validated
 @Controller
@@ -104,7 +106,6 @@ public class RegistrationController {
 		try {
 			result = registrationService.confirmPasswordToken(request);
 		} catch (IllegalStateException e) {
-			//TODO handle exception
 			throw new PasswordRequestException(e.getMessage());
 		}
 		

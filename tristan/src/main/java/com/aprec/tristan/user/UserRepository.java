@@ -1,12 +1,12 @@
 package com.aprec.tristan.user;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +25,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	@Query("SELECT u FROM GitHubUser u WHERE u.username = ?1")
 	Optional<GitHubUser> findGitHubUserByUsername(String username);
+	
+	@Query("SELECT u FROM GitHubUser u WHERE u.identifier = ?1")
+	Optional<GitHubUser> findGitHubUserByIdentifier(int i);
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
@@ -51,5 +54,12 @@ public interface UserRepository extends JpaRepository<User, Long>{
     int unScheduleDelete(String username);
 	
 	@Query("SELECT u FROM User u WHERE u.deleteScheduled = 1")
-	List<User> findListUsersScheduledForDelete();
+	Streamable<User> findListUsersScheduledForDelete();
+
+	@Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE User u " +
+            "SET u.deleteTime = NULL, u.deleteScheduled = 0 WHERE u = ?1")
+	void cancelDelete(User loggedUser);
+
 }

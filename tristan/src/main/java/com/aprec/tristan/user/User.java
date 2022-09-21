@@ -1,6 +1,7 @@
 package com.aprec.tristan.user;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -138,6 +139,12 @@ public abstract class User implements UserDetails {
 		this.deleteScheduled = deleteScheduled;
 	}
 	
+	public long getDaysToDelete() {
+		if (this.deleteScheduled) {
+			return LocalDateTime.now().until(this.deleteTime,ChronoUnit.DAYS);
+		}
+		return 0l;
+	}
 
 	
 }

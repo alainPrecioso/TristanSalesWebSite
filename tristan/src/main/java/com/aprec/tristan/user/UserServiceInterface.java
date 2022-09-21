@@ -18,9 +18,11 @@ public interface UserServiceInterface {
 	
 	public void scheduleDelete(User user);
 	
-	public void scheduledDelete();
+	public void deleteUsers();
 	
 	public User getUserWithType(String username, String type);
 	
 	public User getLoggedUser();
+
+	public void cancelDelete(User loggedUser);
 }

@@ -22,14 +22,16 @@ import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 import com.aprec.tristan.user.auth.CustomAuthenticationFailureHandler;
 import com.aprec.tristan.user.oauth2.GitHubUserService;
 
-@EnableAsync
-@EnableScheduling
 @Configuration
+@EnableAsync
+@EnableTransactionManagement
+@EnableScheduling
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig {
@@ -73,25 +75,6 @@ public class WebSecurityConfig {
         return http.build();
     }
 	
-//    private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
-//		final OidcUserService delegate = new OidcUserService();
-//
-//		return userRequest -> {
-//			// Delegate to the default implementation for loading a user
-//			OidcUser oidcUser = delegate.loadUser(userRequest);
-//
-//			OAuth2AccessToken accessToken = userRequest.getAccessToken();
-//			Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
-//			
-//			// 1) Fetch the authority information from the protected resource using accessToken
-//			// 2) Map the authority information to one or more GrantedAuthority's and add it to mappedAuthorities
-//
-//			// 3) Create a copy of oidcUser but use the mappedAuthorities instead
-//			oidcUser = new DefaultOidcUser(mappedAuthorities, oidcUser.getIdToken(), oidcUser.getUserInfo());
-//			
-//			return oidcUser;
-//		};
-//	}
     
     @Bean
     OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
@@ -103,8 +86,6 @@ public class WebSecurityConfig {
     AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
     	return auth.getAuthenticationManager();
     }
-    
-	
 	
 	@Bean
 	DaoAuthenticationProvider daoAuthenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder) {

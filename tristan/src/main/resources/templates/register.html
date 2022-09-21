@@ -19,7 +19,7 @@
     <link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
-	<header th:replace="/nav/navbar.html :: nav"></header>
+	<header th:replace="/fragments/frags.html :: nav"></header>
 
     <div class="main">
         <!-- Sign up form -->
@@ -27,7 +27,7 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                    	<div th:if="${alert != null}" th:replace="/nav/navbar.html :: alert"></div>
+                    	<div th:if="${alert != null}" th:replace="/fragments/frags.html :: alert"></div>
                         <h2 class="form-title" th:text="#{display.signin}">Sign up</h2>
                         <form th:action="@{/add}"  th:object="${request}" th:fragment="signup-form" method="POST" class="register-form" id="register-form">
                             <div class="form-group">
@@ -65,9 +65,9 @@
     </div>
     
     
-	<footer th:replace="/nav/navbar.html :: foot"></footer>		
-	<div th:replace="/nav/navbar.html :: loginModal"></div>
-	<div th:replace="/nav/navbar.html :: signinModal"></div>
+	<footer th:replace="/fragments/frags.html :: foot"></footer>		
+	<div th:replace="/fragments/frags.html :: loginModal"></div>
+	<div th:replace="/fragments/frags.html :: signinModal"></div>
 	<script type="text/javascript" th:src="@{/modal.js}"></script>
 	<script type="text/javascript"
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"

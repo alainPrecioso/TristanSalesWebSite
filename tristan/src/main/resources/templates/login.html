@@ -19,7 +19,7 @@
     <link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
-	<header th:replace="/nav/navbar.html :: nav"></header>
+	<header th:replace="/fragments/frags.html :: nav"></header>
 
     <div class="main">
         <!-- Sing in  Form -->
@@ -31,7 +31,7 @@
                         <a th:href="@{/register}" class="signup-image-link" th:text="#{display.createaccount}">Create an account</a>
                     </div>
                     <div class="signin-form">
-                    <div th:if="${param.alert != null}"><div th:replace="/nav/navbar.html :: alert"></div></div>
+                    <div th:if="${param.alert != null}"><div th:replace="/fragments/frags.html :: alert"></div></div>
                         <h2 class="form-title" th:text="#{display.login}">login</h2>
                         <form th:fragment="signin-form" method="POST" class="register-form" id="login-form" th:action="@{/login}">
                             <div class="form-group">
@@ -69,9 +69,9 @@
         </section>
     </div>
     
-	<footer th:replace="/nav/navbar.html :: foot"></footer>		
-	<div th:replace="/nav/navbar.html :: loginModal"></div>
-	<div th:replace="/nav/navbar.html :: signinModal"></div>
+	<footer th:replace="/fragments/frags.html :: foot"></footer>		
+	<div th:replace="/fragments/frags.html :: loginModal"></div>
+	<div th:replace="/fragments/frags.html :: signinModal"></div>
 	<script type="text/javascript" th:src="@{/modal.js}"></script>
 	<script type="text/javascript"
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"

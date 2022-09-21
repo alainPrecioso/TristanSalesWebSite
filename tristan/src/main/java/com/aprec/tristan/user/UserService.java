@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
@@ -108,6 +109,7 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 		return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
 	}
 	
+	@Transactional
 	@Override
 	public void deleteUser(User user) {
 		passwordTokenService.delete(user);
@@ -125,9 +127,9 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	@Async
 	//@Scheduled(cron = "0 * * * * *", zone = "Europe/Paris")
 	@Override
-	public void scheduledDelete() {
+	public void deleteUsers() {
 		log.info("scheduledDelete() tick");
-		userRepository.findListUsersScheduledForDelete().stream().filter(user -> user.getDeleteTime().isBefore(LocalDateTime.now())).forEach(this::deleteUser);
+		userRepository.findListUsersScheduledForDelete().filter(user -> user.getDeleteTime().isBefore(LocalDateTime.now())).forEach(this::deleteUser);
 	}
 	
 	@Override
@@ -146,5 +148,10 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	public User getLoggedUser() {
 		return getUserWithType(SecurityContextHolder.getContext().getAuthentication().getName(),
 				(String) RequestContextHolder.getRequestAttributes().getAttribute("userType", SCOPE_SESSION));
+	}
+
+	@Override
+	public void cancelDelete(User loggedUser) {
+		userRepository.cancelDelete(loggedUser);
 	}
 }

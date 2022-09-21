@@ -11,27 +11,12 @@ public class SiteUser extends User {
 	 * 
 	 */
 	private static final long serialVersionUID = -5275991924990663546L;
-//	@Id
-//	@SequenceGenerator(
-//			name="user_sequence",
-//			sequenceName = "user_sequence",
-//			allocationSize = 1)
-//	@GeneratedValue(
-//			strategy = GenerationType.SEQUENCE,
-//			generator = "user_sequence")
-//	private Long id;
 	@Column(unique = true, nullable=false)
 	private String username;
 	@Column(unique = true, nullable=false)
 	private String email;
 	@Column(nullable=false)
 	private String password;
-//	@Enumerated(EnumType.STRING)
-//	private UserRole userRole;
-//	private boolean locked;
-//	private boolean enabled;
-//	private LocalDateTime deleteTime;
-//	private boolean deleteScheduled;
 	
 	public SiteUser() {
 		super();

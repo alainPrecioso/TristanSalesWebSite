@@ -17,7 +17,7 @@ public class GitHubUser extends User implements OAuth2User {
 	@Transient
 	private OAuth2User oauth2User;
 	
-//	private String identifier;
+	private int identifier;
 	
     public GitHubUser() {
 		super();
@@ -26,6 +26,8 @@ public class GitHubUser extends User implements OAuth2User {
 	public GitHubUser(OAuth2User oauth2User) {
     	super();
         this.oauth2User = oauth2User;
+        this.identifier = oauth2User.getAttribute("id");
+        super.username = oauth2User.getAttribute("login");
     }
  
 	@Override
@@ -48,8 +50,15 @@ public class GitHubUser extends User implements OAuth2User {
 
 	@Override
 	public String getPassword() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public int getIdentifier() {
+		return identifier;
+	}
+
+	public void setIdentifier(int identifier) {
+		this.identifier = identifier;
 	}
 
 	
