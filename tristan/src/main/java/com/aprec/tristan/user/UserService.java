@@ -99,7 +99,7 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	
 	@Override
 	public void updatePassword(SiteUser user, String password) {
-		userRepository.updatePassword(bCryptPasswordEncoder.encode(password), user.getId());
+		userRepository.updatePassword(bCryptPasswordEncoder.encode(password), user);
 		
 	}
 

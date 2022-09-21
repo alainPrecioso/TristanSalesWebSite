@@ -7,35 +7,21 @@ public class Password {
 	
 	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\u00C0-\\u00FF_\\d]{12,30}$",
 			message="passwordpattern")
-	protected String pass;
-	protected String passcheck;
+	protected String password;
+	protected String passwordcheck;
 	
-	public Password() {
-		super();
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getPasswordcheck() {
+		return passwordcheck;
+	}
+	public void setPasswordcheck(String passwordcheck) {
+		this.passwordcheck = passwordcheck;
 	}
 	
-	public Password(
-			String password,
-			String passwordcheck) {
-		super();
-		this.pass = password;
-		this.passcheck = passwordcheck;
-	}
-
-	public String getPass() {
-		return pass;
-	}
-
-	public void setPass(String password) {
-		this.pass = password;
-	}
-
-	public String getPasscheck() {
-		return passcheck;
-	}
-
-	public void setPasscheck(String passwordcheck) {
-		this.passcheck = passwordcheck;
-	}
 
 }

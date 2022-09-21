@@ -37,9 +37,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE User u " +
-            "SET u.password = ?1 WHERE u.id = ?2")
-    int updatePassword(String password, Long id);
+    @Query("UPDATE SiteUser u " +
+            "SET u.password = ?1 WHERE u = ?2")
+    int updatePassword(String password, SiteUser user);
 	
 	@Transactional
     @Modifying(clearAutomatically = true)

@@ -3,13 +3,11 @@ package com.aprec.tristan.user.registration.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.aprec.tristan.user.registration.PasswordRequest;
-
 public class EqualFieldsValidator 
-	implements ConstraintValidator<EqualFields, PasswordRequest> {
+	implements ConstraintValidator<EqualFields, Password> {
 	 
     @Override
-    public boolean isValid(PasswordRequest form, ConstraintValidatorContext context) {
+    public boolean isValid(Password form, ConstraintValidatorContext context) {
         return form.getPassword().equals(form.getPasswordcheck());
     }
  
