@@ -76,7 +76,7 @@ public class RegistrationController {
 		}
         model.addAttribute(MESSAGE.getAttribute(), result);
         model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-        return INDEX_REDIRECT;
+        return LOGIN;
     }
 	
 	@GetMapping("/forgot")
