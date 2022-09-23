@@ -6,6 +6,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +53,7 @@ class UserServiceTest {
 		//given
 		given(userRepository
 				.findByCredential(anyString()))
-        .willReturn(java.util.Optional.of(new SiteUser()));
+        .willReturn(Optional.of(new SiteUser()));
 		//when
 		underTest.loadUserByUsername("test");
 		//then
@@ -63,7 +65,7 @@ class UserServiceTest {
 		//given
 		given(userRepository
 				.findByCredential(anyString()))
-        .willReturn(java.util.Optional.empty());
+        .willReturn(Optional.empty());
 		//when
 		//then
 		assertThatThrownBy(() -> underTest.loadUserByUsername("test"))
@@ -113,7 +115,7 @@ class UserServiceTest {
 		//when
 		underTest.enableUser(null);
 		//then
-		verify(userRepository).enableUser(null);
+		verify(userRepository).enableSiteUser(null);
 	}
 
 	@Test

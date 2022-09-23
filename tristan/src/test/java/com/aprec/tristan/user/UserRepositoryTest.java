@@ -217,11 +217,11 @@ class UserRepositoryTest {
 		user.setEmail(email);
 		user.setPassword("password");
 		user.setUserRole(UserRole.ROLE_USER);
-		user.setEnabled(false);
-		user.setLocked(false);
+		//user.setEnabled(false);
+		//user.setLocked(false);
 		underTest.save(user);
 		//when
-		underTest.enableUser(email);
+		underTest.enableSiteUser(email);
 		Optional<SiteUser> optionalUser = underTest.findSiteUserByUsername(username);
 		//then
 		assertThat(optionalUser.get().isEnabled()).isTrue();

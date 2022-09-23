@@ -20,20 +20,19 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	Optional<SiteUser> findByEmail(String email);
 
-	@Query("SELECT u FROM SiteUser u WHERE u.username = ?1")
 	Optional<SiteUser> findSiteUserByUsername(String username);
 	
-	@Query("SELECT u FROM GitHubUser u WHERE u.username = ?1")
 	Optional<GitHubUser> findGitHubUserByUsername(String username);
 	
-	@Query("SELECT u FROM GitHubUser u WHERE u.identifier = ?1")
 	Optional<GitHubUser> findGitHubUserByIdentifier(int i);
+	
+	Streamable<User> findUserByDeleteScheduledTrue();
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE User u " +
+    @Query("UPDATE SiteUser u " +
             "SET u.enabled = TRUE WHERE u.email = ?1")
-    int enableUser(String email);
+    int enableSiteUser(String email);
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
@@ -47,15 +46,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
             "SET u.deleteTime = ?1, u.deleteScheduled = 1 WHERE u = ?2")
     int scheduleDelete(LocalDateTime deleteTime, User username);
 	
-	@Transactional
-    @Modifying(clearAutomatically = true)
-    @Query("UPDATE User u " +
-            "SET u.deleteTime = null, u.deleteScheduled = 1 WHERE u.username = ?1")
-    int unScheduleDelete(String username);
-	
-	@Query("SELECT u FROM User u WHERE u.deleteScheduled = 1")
-	Streamable<User> findListUsersScheduledForDelete();
-
 	@Transactional
     @Modifying(clearAutomatically = true)
     @Query("UPDATE User u " +

@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -78,7 +79,7 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	/**
 	 * calls the refresh of the ConfirmationToken of an User
 	 * @param user
-	 * @return the token of the ConfirmationToken
+	 * @return the new token of the ConfirmationToken
 	 */
 	@Override
 	public String getNewToken(SiteUser user) {
@@ -88,7 +89,7 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	
 	@Override
 	public int enableUser(String email) {
-        return userRepository.enableUser(email);
+        return userRepository.enableSiteUser(email);
     }
 
 	@Override
@@ -105,14 +106,18 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 
 	@Override
 	public boolean checkPassword(String username, String rawPassword) {
-		String encodedPassword = getSiteUser(username).getPassword();
-		return bCryptPasswordEncoder.matches(rawPassword, encodedPassword);
+		return bCryptPasswordEncoder.matches(rawPassword, getSiteUser(username).getPassword());
 	}
 	
+	/**
+	 * Deletes the PasswordToken and ConfirmationToken of the User then the User itself
+	 */
 	@Transactional
 	@Override
 	public void deleteUser(User user) {
-		passwordTokenService.delete(user);
+		if (user.getClass().equals(SiteUser.class)) {
+			passwordTokenService.delete(user);
+		}
 		confirmationTokenService.delete(user);
 		userRepository.delete(user);
 	}
@@ -120,18 +125,23 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	@Override
 	public void scheduleDelete() {
 		//TODO change scheduled time to 30 days
-		userRepository.scheduleDelete(LocalDateTime.now().plusSeconds(10), getLoggedUser());
+		userRepository.scheduleDelete(LocalDateTime.now().plusDays(30), getLoggedUser());
 	}
 
-	//TODO uncomment and set cron to every day
 	@Async
-	//@Scheduled(cron = "0 * * * * *", zone = "Europe/Paris")
+	//@Scheduled(fixedRate = 5, timeUnit = TimeUnit.SECONDS) //for testing purposes
+	@Scheduled(cron = "* * 3 * * *", zone = "Europe/Paris") //every day at 3AM
 	@Override
 	public void deleteUsers() {
 		log.info("scheduledDelete() tick");
-		userRepository.findListUsersScheduledForDelete().filter(user -> user.getDeleteTime().isBefore(LocalDateTime.now())).forEach(this::deleteUser);
+		userRepository.findUserByDeleteScheduledTrue().filter(user -> user.getDeleteTime().isBefore(LocalDateTime.now())).forEach(this::deleteUser);
 	}
 	
+	/**
+	 * @param username the username of an User
+	 * @param the specific type of User
+	 * @return an User object that correspond to theu user with that username and class
+	 */
 	@Override
 	public User getUserWithType(String username, String type) {
 		User user = null;
@@ -144,6 +154,9 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 		return user;
 	}
 	
+	/**
+	 *	retrieves the username and the user type from the current request to get an User
+	 */
 	@Override
 	public User getLoggedUser() {
 		return getUserWithType(SecurityContextHolder.getContext().getAuthentication().getName(),

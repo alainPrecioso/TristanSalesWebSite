@@ -26,7 +26,7 @@ public class UserController {
 	@GetMapping
 	public String user(Model model) {
 		model.addAttribute("delete", userService.getLoggedUser().isDeleteScheduled());
-		model.addAttribute("daysleft", userService.getLoggedUser().getDaysToDelete());
+		model.addAttribute("daysleft", userService.getLoggedUser().getDaysToDeletion());
 		return "user";
 	}
 

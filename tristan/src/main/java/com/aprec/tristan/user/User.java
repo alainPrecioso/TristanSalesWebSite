@@ -84,7 +84,7 @@ public abstract class User {
 		this.deleteScheduled = deleteScheduled;
 	}
 	
-	public long getDaysToDelete() {
+	public long getDaysToDeletion() {
 		if (this.deleteScheduled) {
 			return LocalDateTime.now().until(this.deleteTime,ChronoUnit.DAYS);
 		}

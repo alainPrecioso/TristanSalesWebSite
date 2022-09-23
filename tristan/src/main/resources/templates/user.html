@@ -14,7 +14,15 @@
 		<button type="submit" class="btn btn-link">delete</button>
 	</form>
 </div>
-<div th:if="${delete == true}"><p th:text="#{display.delete.days(${daysleft})}"></p><a th:href="@{/user/canceldelete}">cancel delete</a></div>
+<div th:if="${delete == true}">
+	<div  th:if="${daysleft >= 1}">
+		<p th:text="#{display.delete.days(${daysleft})}"></p>
+	</div>
+	<div  th:if="${daysleft < 1}">
+		<p th:text="#{display.delete.soon}"></p>
+	</div>
+	<a th:href="@{/user/canceldelete}">cancel delete</a>
+</div>
 
 <a href="/">Go Home</a>
 

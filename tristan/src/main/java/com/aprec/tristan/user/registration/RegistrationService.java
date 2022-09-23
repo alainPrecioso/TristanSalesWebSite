@@ -65,9 +65,9 @@ public class RegistrationService {
 		log.info("sends confirmation mail");
 		log.info(link);
 		// TODO uncomment
-//		emailSender.send(
-//	                request.getEmail(),
-//	                buildConfirmationEmail(request.getUsername(), link));
+		emailSender.send(
+	                request.getEmail(),
+	                buildConfirmationEmail(request.getUsername(), link));
 		
 		return "registered";
 	}

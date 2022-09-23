@@ -57,7 +57,6 @@ public class ViewController {
 	
 	@GetMapping("/test")
 	public String test(HttpServletRequest request) {
-		System.out.println(request.getSession().getAttribute("UserType"));
 		throw new IllegalStateException("test");
 		//return "test";
 	}

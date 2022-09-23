@@ -54,7 +54,7 @@ public class WebSecurityConfig {
             .and().formLogin()
         		.loginPage("/login")
         		.failureHandler(this.authenticationFailureHandler())
-        		.defaultSuccessUrl("/logged")
+        		.defaultSuccessUrl("/index")
         		.permitAll()
         		.and()
         		.rememberMe()
@@ -62,7 +62,7 @@ public class WebSecurityConfig {
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
         	.oauth2Login()
         		.loginPage("/oauth_login")
-        		.defaultSuccessUrl("/logged")
+        		.defaultSuccessUrl("/index")
         		.userInfoEndpoint(userInfo -> userInfo
         				.userService(oAuth2UserService()))
         	.and().logout()
