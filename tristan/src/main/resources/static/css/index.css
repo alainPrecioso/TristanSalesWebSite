@@ -6,12 +6,16 @@ body{
   grid-template-rows: auto 1fr auto;
 }
 
+.myheader {
+	position: sticky;
+    top: 0;
+    z-index: 1;
+}
 
 .mynavbar {
 	
     background-color: azure;
-    position: sticky;
-    top: 0;
+    
     width: 99%;
     text-indent: 20px;
 
@@ -62,5 +66,5 @@ body{
 /*     flex-direction: row; */
 /*     flex-wrap: nowrap; */
 /*     align-items: center; */
-}
+/* } */
 

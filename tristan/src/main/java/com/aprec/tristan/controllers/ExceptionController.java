@@ -5,7 +5,8 @@ import static com.aprec.tristan.controllers.Attribute.REQUEST;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_404;
 import static com.aprec.tristan.controllers.HtmlPage.ERROR_500;
-import static com.aprec.tristan.controllers.HtmlPage.REGISTER;
+import static com.aprec.tristan.controllers.HtmlPage.LOGIN_ALERT;
+import static com.aprec.tristan.controllers.HtmlPage.REGISTER_ALERT;
 
 import java.io.IOException;
 
@@ -21,6 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.aprec.tristan.config.exceptions.PasswordRequestException;
 import com.aprec.tristan.config.exceptions.RegistrationException;
@@ -57,17 +59,20 @@ public class ExceptionController implements ErrorController {
 
 	@ExceptionHandler(RegistrationException.class)
 	public HtmlPage handleRegistrationException(RegistrationException e, 
-			HttpServletRequest request, Model model)
+			HttpServletRequest request,
+			Model model)
 			throws IOException {
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
+		request.getSession().setAttribute(ALERT.getAttribute(), e.getMessage());
 		log.info("handleRegistrationException");
 		switch (e.getMessage()) {
+		case "emailalreadyconfirmed":
+			return LOGIN_ALERT;
 		case "tokenexpired":
 			registrationService.resendConfirmationMailFromToken(request.getParameter("token"));
 			// fallthrough
-		case "emailalreadyconfirmed", "userexists", "tokennotfound":
-			request.getSession().setAttribute(ALERT.getAttribute(), e.getMessage());
-			return REGISTER;
+		case "userexists", "tokennotfound":
+			return REGISTER_ALERT;
 		default:
 			return ERROR_500;
 		}
@@ -82,7 +87,7 @@ public class ExceptionController implements ErrorController {
 		switch (e.getMessage()) {
 		case "tokennotfound", "tokenexpired":
 			request.getSession().setAttribute(ALERT.getAttribute(), e.getMessage());
-			return REGISTER;
+			return REGISTER_ALERT;
 		default:
 			return ERROR_500;
 		}
