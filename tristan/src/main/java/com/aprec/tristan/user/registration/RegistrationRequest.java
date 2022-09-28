@@ -21,15 +21,19 @@ public class RegistrationRequest extends Password {
 	@Email(message = "emailinvalid")
 	private String email;
 	
-	public RegistrationRequest(String password, String passwordcheck, String username, String email) {
+	
+	
+	public RegistrationRequest() {
 		super();
+	}
+
+
+	public RegistrationRequest(String password, String passwordcheck, String username, String email) {
+		super(password, passwordcheck);
 		this.username = username;
 		this.email = email;
 	}
 
-
-	public RegistrationRequest() {
-	}
 
 	public String getUsername() {
 		return username;

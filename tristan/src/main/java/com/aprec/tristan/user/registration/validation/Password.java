@@ -3,12 +3,20 @@ package com.aprec.tristan.user.registration.validation;
 import javax.validation.constraints.Pattern;
 
 @EqualFields(baseField = "pass", matchField = "passcheck")
-public class Password {
+public abstract class Password {
 	
 	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\u00C0-\\u00FF_\\d]{12,30}$",
 			message="passwordpattern")
 	protected String password;
 	protected String passwordcheck;
+	
+	protected Password() {
+		super();
+	}
+	protected Password(String password, String passwordcheck) {
+		this.password= password;
+		this.passwordcheck= passwordcheck;
+	}
 	
 	public String getPassword() {
 		return password;
