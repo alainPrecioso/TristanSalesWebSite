@@ -33,12 +33,17 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         if (exception.getMessage().equalsIgnoreCase("disabled")) {
         	if (registrationService.checkPassword(request.getParameter("username"), request.getParameter("password"))) {
         		registrationService.resendConfirmationMail(request.getParameter("username"));
+        	} else {
+        		request.getSession().setAttribute("alert", "badcredentials");
+        		response.sendRedirect("/login?alert=true");
         	}
+        } else {
+        	request.getSession().setAttribute("alert", exception.getMessage());
+            response.sendRedirect("/login?alert=true");
         }
 
         //request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
-        request.getSession().setAttribute("alert", exception.getMessage());
-        response.sendRedirect("/login?alert=true");
+        
 	}
 
 

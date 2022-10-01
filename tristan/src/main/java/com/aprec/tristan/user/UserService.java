@@ -3,6 +3,7 @@ package com.aprec.tristan.user;
 import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,13 +56,13 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 
 	
 	/**
-	 * saves the user if it doen't exists yet with a corresponding ConfirmationToken
-	 * @param SiteUser
+	 * saves the user if it doesn't exist yet with a corresponding ConfirmationToken
+	 * @param user a SiteUser
 	 * @return the token of the ConfirmationToken
 	 */
 	@Override
 	public String signUpUser(SiteUser user) throws IllegalStateException {
-		Boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
+		boolean userExists = userRepository.findByEmail(user.getEmail()).isPresent()
 				|| userRepository.findSiteUserByUsername(user.getUsername()).isPresent();
 		if (userExists) {
 			throw new IllegalStateException("userexists");
@@ -77,8 +78,8 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	
 	
 	/**
-	 * calls the refresh of the ConfirmationToken of an User
-	 * @param user
+	 * calls the refresh of the ConfirmationToken of a User
+	 * @param  user		a User
 	 * @return the new token of the ConfirmationToken
 	 */
 	@Override
@@ -138,9 +139,9 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	}
 	
 	/**
-	 * @param username the username of an User
-	 * @param the specific type of User
-	 * @return an User object that correspond to theu user with that username and class
+	 * @param username 	the username of a User
+	 * @param type 		the specific type of User
+	 * @return a User object that correspond to the user with that username and class
 	 */
 	@Override
 	public User getUserWithType(String username, String type) {
@@ -155,12 +156,15 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	}
 	
 	/**
-	 *	retrieves the username and the user type from the current request to get an User
+	 *	retrieves the username and the user type from the current request to get a User
+	 * @return the currently logged User
 	 */
 	@Override
 	public User getLoggedUser() {
 		return getUserWithType(SecurityContextHolder.getContext().getAuthentication().getName(),
-				(String) RequestContextHolder.getRequestAttributes().getAttribute("userType", SCOPE_SESSION));
+				(String) Optional.ofNullable(RequestContextHolder.getRequestAttributes()
+						.getAttribute("userType", SCOPE_SESSION))
+						.orElseThrow(() -> new IllegalStateException("user type not found")));
 	}
 
 	@Override

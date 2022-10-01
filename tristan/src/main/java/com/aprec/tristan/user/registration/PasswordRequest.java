@@ -15,7 +15,7 @@ public class PasswordRequest extends Password{
 	public PasswordRequest(String password,
 			String passwordcheck,
 			String token) {
-		super();
+		super(password, passwordcheck);
 		this.token = token;
 	}
 
