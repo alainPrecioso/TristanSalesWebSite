@@ -7,7 +7,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.aprec.tristan.controllers.HtmlPage;
 
-// allows HtmlPage to be availible as a return type fo controllers
+// allows HtmlPage to be available as a return type fo controllers
 public class MyViewEnumModelAndViewResolver implements HandlerMethodReturnValueHandler {
 
 	@Override

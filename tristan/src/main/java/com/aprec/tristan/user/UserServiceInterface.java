@@ -2,27 +2,27 @@ package com.aprec.tristan.user;
 
 public interface UserServiceInterface {
 
-	public String signUpUser(SiteUser user);
+	String signUpUser(SiteUser user);
 	
-	public String getNewToken(SiteUser user);
+	String getNewToken(SiteUser user);
 	
-	public int enableUser(String email);
+	int enableUser(String email);
 	
-	public SiteUser getSiteUser(String credential);
+	SiteUser getSiteUser(String credential);
 	
-	public void updatePassword(SiteUser user, String password);
+	void updatePassword(SiteUser user, String password);
 	
-	public boolean checkPassword(String username, String rawPassword);
+	boolean checkPassword(String username, String rawPassword);
 	
-	public void deleteUser(User user);
+	void deleteUser(User user);
 	
-	public void scheduleDelete();
+	void scheduleDelete();
 	
-	public void deleteUsers();
+	void deleteUsers();
 	
-	public User getUserWithType(String username, String type);
+	User getUserWithType(String username, String type);
 	
-	public User getLoggedUser();
+	User getLoggedUser();
 
-	public void cancelDelete();
+	void cancelDelete();
 }
