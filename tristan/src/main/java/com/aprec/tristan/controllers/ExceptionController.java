@@ -1,18 +1,9 @@
 package com.aprec.tristan.controllers;
 
-import static com.aprec.tristan.controllers.Attribute.ALERT;
-import static com.aprec.tristan.controllers.Attribute.REQUEST;
-import static com.aprec.tristan.controllers.HtmlPage.ERROR;
-import static com.aprec.tristan.controllers.HtmlPage.ERROR_404;
-import static com.aprec.tristan.controllers.HtmlPage.ERROR_500;
-import static com.aprec.tristan.controllers.HtmlPage.LOGIN_ALERT;
-import static com.aprec.tristan.controllers.HtmlPage.REGISTER_ALERT;
-
-import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.aprec.tristan.config.exceptions.PasswordRequestException;
+import com.aprec.tristan.config.exceptions.RegistrationException;
+import com.aprec.tristan.user.registration.RegistrationRequest;
+import com.aprec.tristan.user.registration.RegistrationServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +13,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.aprec.tristan.config.exceptions.PasswordRequestException;
-import com.aprec.tristan.config.exceptions.RegistrationException;
-import com.aprec.tristan.user.registration.RegistrationRequest;
-import com.aprec.tristan.user.registration.RegistrationService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static com.aprec.tristan.controllers.Attribute.ALERT;
+import static com.aprec.tristan.controllers.Attribute.REQUEST;
+import static com.aprec.tristan.controllers.HtmlPage.*;
 
 @Controller
 @ControllerAdvice
 public class ExceptionController implements ErrorController {
 
 	@Autowired
-	private RegistrationService registrationService;
+	private RegistrationServiceInterface registrationService;
 
 	private static final Logger log = LoggerFactory.getLogger(ExceptionController.class);
 

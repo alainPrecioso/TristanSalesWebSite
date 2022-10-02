@@ -1,39 +1,28 @@
 package com.aprec.tristan.controllers;
 
-import static com.aprec.tristan.controllers.Attribute.MESSAGE;
-import static com.aprec.tristan.controllers.Attribute.PASSWORD_REQUEST;
-import static com.aprec.tristan.controllers.Attribute.REQUEST;
-import static com.aprec.tristan.controllers.HtmlPage.FORGOT;
-import static com.aprec.tristan.controllers.HtmlPage.INDEX;
-import static com.aprec.tristan.controllers.HtmlPage.INDEX_REDIRECT;
-import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
-import static com.aprec.tristan.controllers.HtmlPage.NEW_PASSWORD;
-
-import javax.validation.Valid;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.aprec.tristan.config.exceptions.PasswordRequestException;
 import com.aprec.tristan.config.exceptions.RegistrationException;
 import com.aprec.tristan.user.registration.PasswordRequest;
 import com.aprec.tristan.user.registration.RegistrationRequest;
-import com.aprec.tristan.user.registration.RegistrationService;
+import com.aprec.tristan.user.registration.RegistrationServiceInterface;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+
+import static com.aprec.tristan.controllers.Attribute.*;
+import static com.aprec.tristan.controllers.HtmlPage.*;
 
 @Validated
 @Controller
 @RequestMapping(path = "/")
 public class RegistrationController {
 
-	private RegistrationService registrationService;
+	private RegistrationServiceInterface registrationService;
 
-	public RegistrationController(RegistrationService registrationService) {
+	public RegistrationController(RegistrationServiceInterface registrationService) {
 		super();
 		this.registrationService = registrationService;
 	}

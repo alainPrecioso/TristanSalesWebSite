@@ -1,11 +1,6 @@
 package com.aprec.tristan.user.auth;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.aprec.tristan.user.registration.RegistrationServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +8,16 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import com.aprec.tristan.user.registration.RegistrationService;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
     
     @Autowired
-    private RegistrationService registrationService;
+    private RegistrationServiceInterface registrationService;
 
     private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationFailureHandler.class);
     

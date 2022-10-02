@@ -24,7 +24,7 @@ import com.aprec.tristan.user.token.PasswordToken;
 import com.aprec.tristan.user.token.PasswordTokenService;
 
 @Service
-public class RegistrationService {
+public class RegistrationService implements RegistrationServiceInterface{
 	
 	private final UserServiceInterface userService;
 	private final ConfirmationTokenService confirmationTokenService;
