@@ -53,6 +53,12 @@
 			<artifactId>mariadb-java-client</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!--postgresql Driver-->
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 		<!--Java Mail Sender-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
