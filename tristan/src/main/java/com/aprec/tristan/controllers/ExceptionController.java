@@ -57,9 +57,7 @@ public class ExceptionController implements ErrorController {
 		case "tokenexpired":
 			registrationService.resendConfirmationMailFromToken(request.getParameter("token"));
 			// fallthrough
-		case "userexists":
-			return REGISTER_ALERT;
-		case "tokennotfound":
+		case "userexists", "tokennotfound":
 			return REGISTER_ALERT;
 		default:
 			return ERROR_500;
@@ -73,10 +71,7 @@ public class ExceptionController implements ErrorController {
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		log.info("handlePasswordRequestException");
 		switch (e.getMessage()) {
-		case "tokenexpired":
-			request.getSession().setAttribute(ALERT.getAttribute(), e.getMessage());
-			return REGISTER_ALERT;
-		case "tokennotfound":
+		case "tokennotfound", "tokenexpired":
 			request.getSession().setAttribute(ALERT.getAttribute(), e.getMessage());
 			return REGISTER_ALERT;
 		default:
