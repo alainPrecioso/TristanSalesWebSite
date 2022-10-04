@@ -21,7 +21,8 @@ public class MyViewEnumModelAndViewResolver implements HandlerMethodReturnValueH
 		if (returnValue == null) {
 		      return;
 		    }
-		    if (returnValue instanceof HtmlPage htmlPage) {
+		    if (returnValue.getClass().equals(HtmlPage.class)) {
+				HtmlPage htmlPage = (HtmlPage) returnValue;
 		      mavContainer.setViewName(htmlPage.getPage());
 		    }
 		    else {
