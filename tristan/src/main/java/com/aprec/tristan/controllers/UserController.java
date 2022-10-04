@@ -15,7 +15,7 @@ import com.aprec.tristan.user.UserServiceInterface;
 @RequestMapping(path = "/user")
 public class UserController {
 
-	private UserServiceInterface userService;
+	private final UserServiceInterface userService;
 
 	public UserController(UserServiceInterface userService) {
 		super();

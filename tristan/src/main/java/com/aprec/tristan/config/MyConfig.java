@@ -69,7 +69,7 @@ public class MyConfig implements WebMvcConfigurer{
 	}
 	//endRegion
 	
-	// allows HtmlPage to be availible as a return type fo controllers
+	// allows HtmlPage to be available as a return type fo controllers
 	@Override
 	public void addReturnValueHandlers(List<HandlerMethodReturnValueHandler> returnValueHandlers) {
 		returnValueHandlers.add(new MyViewEnumModelAndViewResolver());

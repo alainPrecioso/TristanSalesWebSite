@@ -8,11 +8,11 @@ import java.util.Set;
 
 public enum UserRole {
 	ROLE_USER(new HashSet<UserPermission>()),
-	ROLE_ADMIN(new HashSet<UserPermission>(Arrays.asList(PLACEHOLCER_PERMISSION)));
+	ROLE_ADMIN(new HashSet<UserPermission>(Arrays.asList(PLACEHOLDER_PERMISSION)));
 
 	private final Set<UserPermission> permissions;
 
-	private UserRole(Set<UserPermission> permissions) {
+	UserRole(Set<UserPermission> permissions) {
 		this.permissions = permissions;
 	}
 

@@ -43,10 +43,6 @@ public class GitHubUserService extends DefaultOAuth2UserService {
 			
 		} else {
 			
-//			Optional.ofNullable(gitHubUser.getEmailAttribute())
-//				.ifPresentOrElse(gitHubUser::setEmail, () -> gitHubUser.setEmail("undefined"));
-			
-//			gitHubUser.setUserRole(UserRole.ROLE_USER);
 			userRepository.save(gitHubUser);
 			return gitHubUser;
 		}

@@ -41,13 +41,6 @@ public class ExceptionController implements ErrorController {
 		default:
 			return ERROR;
 		}
-//        int status = response.getStatus();
-//        if ( status == HttpStatus.NOT_FOUND.value()) {
-//            return ERROR_404;
-//        } else if (status == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-//            return ERROR_500;
-//        }
-//        return ERROR;
 	}
 
 	@ExceptionHandler(RegistrationException.class)

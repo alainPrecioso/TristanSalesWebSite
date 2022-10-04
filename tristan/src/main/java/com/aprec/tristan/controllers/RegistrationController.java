@@ -20,7 +20,7 @@ import static com.aprec.tristan.controllers.HtmlPage.*;
 @RequestMapping(path = "/")
 public class RegistrationController {
 
-	private RegistrationServiceInterface registrationService;
+	private final RegistrationServiceInterface registrationService;
 
 	public RegistrationController(RegistrationServiceInterface registrationService) {
 		super();
