@@ -19,7 +19,7 @@
     <link rel="stylesheet" th:href="@{css/style.css}">
 </head>
 <body>
-	<header th:replace="fragments/frags.html :: nav"></header>
+	<header th:replace="fragments/frags :: nav"></header>
 
     <div class="main">
         <!-- Sign up form -->
@@ -27,7 +27,7 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                    	<div th:if="${param.alert != null}"><div th:replace="fragments/frags.html :: alert"></div></div>
+                    	<div th:if="${param.alert != null}"><div th:replace="fragments/frags :: alert"></div></div>
                         <h2 class="form-title" th:text="#{display.signin}">Sign up</h2>
                         <form th:action="@{/add}"  th:object="${request}" th:fragment="signup-form" method="POST" class="register-form" id="register-form">
                             <input type="hidden" id="passcheckmatch" th:value="#{message.match}"/>
@@ -86,9 +86,9 @@
     </div>
     
     
-	<footer th:replace="fragments/frags.html :: foot"></footer>
-	<div th:replace="fragments/frags.html :: loginModal"></div>
-	<div th:replace="fragments/frags.html :: signinModal"></div>
+	<footer th:replace="fragments/frags :: foot"></footer>
+	<div th:replace="fragments/frags :: loginModal"></div>
+	<div th:replace="fragments/frags :: signinModal"></div>
 	<script type="text/javascript" th:src="@{/modal.js}"></script>
 	<script type="text/javascript" th:src="@{/main.js}"></script>
 	<script type="text/javascript"
