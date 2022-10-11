@@ -5,6 +5,7 @@ import static org.springframework.web.context.request.RequestAttributes.SCOPE_SE
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.aprec.tristan.user.registration.token.ConfirmationTokenServiceInterface;
 import com.aprec.tristan.user.token.PasswordTokenServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
-import com.aprec.tristan.user.token.PasswordTokenService;
 
 @Service
 public class UserService implements UserDetailsService, UserServiceInterface {
@@ -29,12 +28,12 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	private static final String USER_NOT_FOUND_MSG = "user %s not found";
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	private final ConfirmationTokenService confirmationTokenService;
+	private final ConfirmationTokenServiceInterface confirmationTokenService;
 	private final PasswordTokenServiceInterface passwordTokenService;
 	
 	public UserService(UserRepository userRepository, 
-			BCryptPasswordEncoder bCryptPasswordEncoder, 
-			ConfirmationTokenService confirmationTokenService,
+			BCryptPasswordEncoder bCryptPasswordEncoder,
+			ConfirmationTokenServiceInterface confirmationTokenService,
 			PasswordTokenServiceInterface passwordTokenService
 			) {
 		super();
