@@ -5,6 +5,7 @@ import static org.springframework.web.context.request.RequestAttributes.SCOPE_SE
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.aprec.tristan.user.token.PasswordTokenServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
@@ -29,12 +30,12 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	private final ConfirmationTokenService confirmationTokenService;
-	private final PasswordTokenService passwordTokenService;
+	private final PasswordTokenServiceInterface passwordTokenService;
 	
 	public UserService(UserRepository userRepository, 
 			BCryptPasswordEncoder bCryptPasswordEncoder, 
 			ConfirmationTokenService confirmationTokenService,
-			PasswordTokenService passwordTokenService
+			PasswordTokenServiceInterface passwordTokenService
 			) {
 		super();
 		this.userRepository = userRepository;

@@ -10,7 +10,7 @@ import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.User;
 
 @Service
-public class PasswordTokenService {
+public class PasswordTokenService implements PasswordTokenServiceInterface {
 
 	private final PasswordTokenRepository passwordTokenRepository;
 

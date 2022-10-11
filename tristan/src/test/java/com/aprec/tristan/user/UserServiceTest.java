@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
+import com.aprec.tristan.user.token.PasswordTokenServiceInterface;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ import com.aprec.tristan.user.token.PasswordTokenService;
 class UserServiceTest {
 	
 	@Mock
-	private PasswordTokenService passwordTokenService;
+	private PasswordTokenServiceInterface passwordTokenService;
 	@Mock
 	private ConfirmationTokenService confirmationTokenService;
 	@Mock

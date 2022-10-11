@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.aprec.tristan.user.token.PasswordTokenServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +29,7 @@ public class RegistrationService implements RegistrationServiceInterface{
 	
 	private final UserServiceInterface userService;
 	private final ConfirmationTokenService confirmationTokenService;
-	private final PasswordTokenService passwordTokenService;
+	private final PasswordTokenServiceInterface passwordTokenService;
 	private final EmailSender emailSender;
 	private final EmailReader emailReader;
     private final String hostName;
@@ -38,8 +39,8 @@ public class RegistrationService implements RegistrationServiceInterface{
 	
 	
 	public RegistrationService(UserServiceInterface userService, 
-			ConfirmationTokenService confirmationTokenService, 
-			PasswordTokenService passwordTokenService,
+			ConfirmationTokenService confirmationTokenService,
+			PasswordTokenServiceInterface passwordTokenService,
 			EmailSender emailService,
 			EmailReader emailReader,
 			@Value("${host.name}") String hostName,
