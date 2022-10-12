@@ -13,7 +13,7 @@ public class RegistrationRequest extends Password {
 	
 	@NotEmpty
 	@NotBlank(message = "usernamerequired")
-	@Pattern(regexp="^(?!.*^_)(?!.*_$)(?!.*__)[a-zA-Z\\u00C0-\\u00FF_\\d]{5,45}$", 
+	@Pattern(regexp="^(?!.*^_|.*_$|.*__|.*^-|.*-$|.*--)[a-zA-Z\\u00C0-\\u00FF_\\d-]{5,25}$",
 			message="usernamepattern")
 	private String username;
 	
