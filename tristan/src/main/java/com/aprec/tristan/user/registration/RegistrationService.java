@@ -5,6 +5,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.aprec.tristan.user.registration.token.ConfirmationTokenServiceInterface;
+import com.aprec.tristan.user.token.PasswordTokenServiceInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,16 +21,14 @@ import com.aprec.tristan.user.UserServiceInterface;
 import com.aprec.tristan.user.registration.email.EmailReader;
 import com.aprec.tristan.user.registration.email.EmailSender;
 import com.aprec.tristan.user.registration.token.ConfirmationToken;
-import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
 import com.aprec.tristan.user.token.PasswordToken;
-import com.aprec.tristan.user.token.PasswordTokenService;
 
 @Service
 public class RegistrationService implements RegistrationServiceInterface{
 	
 	private final UserServiceInterface userService;
-	private final ConfirmationTokenService confirmationTokenService;
-	private final PasswordTokenService passwordTokenService;
+	private final ConfirmationTokenServiceInterface confirmationTokenService;
+	private final PasswordTokenServiceInterface passwordTokenService;
 	private final EmailSender emailSender;
 	private final EmailReader emailReader;
     private final String hostName;
@@ -37,9 +37,9 @@ public class RegistrationService implements RegistrationServiceInterface{
     private static final Logger log = LoggerFactory.getLogger(RegistrationService.class);
 	
 	
-	public RegistrationService(UserServiceInterface userService, 
-			ConfirmationTokenService confirmationTokenService, 
-			PasswordTokenService passwordTokenService,
+	public RegistrationService(UserServiceInterface userService,
+			ConfirmationTokenServiceInterface confirmationTokenService,
+			PasswordTokenServiceInterface passwordTokenService,
 			EmailSender emailService,
 			EmailReader emailReader,
 			@Value("${host.name}") String hostName,

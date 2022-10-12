@@ -17,9 +17,12 @@
 
     <!-- Main css -->
     <link rel="stylesheet" th:href="@{css/style.css}">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-	<header th:replace="/fragments/frags.html :: nav"></header>
+	<header th:replace="fragments/frags :: nav"></header>
 
     <div class="main">
         <!-- Sign up form -->
@@ -27,15 +30,15 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                    	<div th:if="${param.alert != null}"><div th:replace="/fragments/frags.html :: alert"></div></div>
+                    	<div th:if="${param.alert != null}"><div th:replace="fragments/frags :: alert"></div></div>
                         <h2 class="form-title" th:text="#{display.signin}">Sign up</h2>
                         <form th:action="@{/add}"  th:object="${request}" th:fragment="signup-form" method="POST" class="register-form" id="register-form">
-                            <input type="hidden" id="passcheckmatch" th:value="#{message.match}"/>
-                            <input type="hidden" id="passchecknomatch" th:value="#{message.nomatch}"/>
-                            <input type="hidden" id="regexdigit" th:value="#{message.regex.digit}"/>
-                            <input type="hidden" id="regexlowercase" th:value="#{message.regex.lowercase}"/>
-                            <input type="hidden" id="regexuppercase" th:value="#{message.regex.uppercase}"/>
-                            <input type="hidden" id="regexlength" th:value="#{message.regex.length}"/>
+                            <input type="hidden" id="passcheck-match" th:value="#{message.match}"/>
+                            <input type="hidden" id="passcheck-no-match" th:value="#{message.nomatch}"/>
+                            <input type="hidden" id="regex-digit" th:value="#{message.regex.digit}"/>
+                            <input type="hidden" id="regex-lowercase" th:value="#{message.regex.lowercase}"/>
+                            <input type="hidden" id="regex-uppercase" th:value="#{message.regex.uppercase}"/>
+                            <input type="hidden" id="regex-length" th:value="#{message.regex.length}"/>
                             <div class="form-group">
                                 <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" th:field="*{username}" id="name" th:placeholder="#{display.username}" pattern="^(?!.*^_)(?!.*_$)(?!.*__)[a-zA-Z\u00C0-\u00FF_\d]{5,45}$"/>
@@ -46,24 +49,24 @@
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" oninput='passCheck();' th:field="*{password}" id="pass" th:placeholder="#{display.password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{12,30}$"/>
+                                <input type="password" oninput='passCheck();' th:field="*{password}" id="pass" th:placeholder="#{display.password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\u00C0-\u00FF\u0021-\u007E]{12,30}$"/>
                             </div>
-                            	<p id='passwordpatternmessage'></p>
-                            	<p id='regexdigitdisplay'></p>
-                            	<p id='regexlowercasedisplay'></p>
-                            	<p id='regexuppercasedisplay'></p>
-                            	<p id='regexlengthdisplay'></p>
+                            	<p id='password-pattern-message'></p>
+                            	<p id='regex-digit-display'></p>
+                            	<p id='regex-lowercase-display'></p>
+                            	<p id='regex-uppercase-display'></p>
+                            	<p id='regex-length-display'></p>
                             <div class="form-group">
                                 <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" oninput='passCheck();' th:field="*{passwordcheck}" id="re_pass" th:placeholder="#{display.repeat}"/>
+                                <input type="password" oninput='passCheck();' th:field="*{passwordcheck}" id="re-pass" th:placeholder="#{display.repeat}"/>
                             </div>
-                                <span id='checkmessage'></span>
+                                <span id='check-message'></span>
 <!--                             <div class="form-group"> -->
 <!--                                 <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" /> -->
 <!--                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label> -->
 <!--                             </div> -->
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" th:value="#{display.register}"/>
+                                <input type="submit" name="signup" id="signup" class="btn btn-primary" th:value="#{display.register}" disabled/>
                             </div>
                         <div th:fragment="social-login" class="social-login">
                             <span class="social-label" th:text="#{display.oauth2}">Or login with</span>
@@ -86,9 +89,9 @@
     </div>
     
     
-	<footer th:replace="/fragments/frags.html :: foot"></footer>		
-	<div th:replace="/fragments/frags.html :: loginModal"></div>
-	<div th:replace="/fragments/frags.html :: signinModal"></div>
+	<footer th:replace="fragments/frags :: foot"></footer>
+	<div th:replace="fragments/frags :: loginModal"></div>
+	<div th:replace="fragments/frags :: signinModal"></div>
 	<script type="text/javascript" th:src="@{/modal.js}"></script>
 	<script type="text/javascript" th:src="@{/main.js}"></script>
 	<script type="text/javascript"

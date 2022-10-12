@@ -8,6 +8,8 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
+import com.aprec.tristan.user.registration.token.ConfirmationTokenServiceInterface;
+import com.aprec.tristan.user.token.PasswordTokenServiceInterface;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,16 +20,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.aprec.tristan.user.registration.token.ConfirmationTokenService;
-import com.aprec.tristan.user.token.PasswordTokenService;
-
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
 	
 	@Mock
-	private PasswordTokenService passwordTokenService;
+	private PasswordTokenServiceInterface passwordTokenService;
 	@Mock
-	private ConfirmationTokenService confirmationTokenService;
+	private ConfirmationTokenServiceInterface confirmationTokenService;
 	@Mock
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Mock

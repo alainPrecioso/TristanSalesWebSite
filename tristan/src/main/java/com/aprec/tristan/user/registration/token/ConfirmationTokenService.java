@@ -10,7 +10,7 @@ import com.aprec.tristan.user.SiteUser;
 import com.aprec.tristan.user.User;
 
 @Service
-public class ConfirmationTokenService {
+public class ConfirmationTokenService implements ConfirmationTokenServiceInterface {
 
 	private final ConfirmationTokenRepository confirmationTokenRepository;
 

@@ -26,7 +26,7 @@
 			</form>
 		</div>
 	</nav>
-	<div th:if="${message != null}"><div th:replace="/fragments/frags.html :: message"></div></div>
+	<div th:if="${message != null}"><div th:replace="fragments/frags :: message"></div></div>
 </header>
 
 
@@ -48,8 +48,8 @@
 				<section class="sign-in">
 					<div class="signin-content">
 						<div class="signin-form">
-							<div th:replace="/login.html :: signin-form"></div>
-							<div th:replace="/login.html :: social-login"></div>
+							<div th:replace="login :: signin-form"></div>
+							<div th:replace="login :: social-login"></div>
 						</div>
 					</div>
 				</section>
@@ -80,7 +80,7 @@
 				<section class="signup">
 					<div class="signup-content">
 						<div class="signup-form">
-							<div th:replace="/register.html :: signup-form"></div>
+							<div th:replace="register :: signup-form"></div>
 						</div>
 					</div>
 				</section>
