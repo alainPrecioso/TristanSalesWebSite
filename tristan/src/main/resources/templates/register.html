@@ -49,7 +49,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" oninput='passCheck();' th:field="*{password}" id="pass" th:placeholder="#{display.password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{12,30}$"/>
+                                <input type="password" oninput='passCheck();' th:field="*{password}" id="pass" th:placeholder="#{display.password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\u00C0-\u00FF\u0021-\u007E]{12,30}$"/>
                             </div>
                             	<p id='password-pattern-message'></p>
                             	<p id='regex-digit-display'></p>

@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern;
 @EqualFields(baseField = "pass", matchField = "passcheck")
 public abstract class Password {
 	
-	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[A-Za-z\\u00C0-\\u00FF_\\d]{12,30}$",
+	@Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[\\u00C0-\\u00FF\\u0021-\\u007E]{12,30}$",
 			message="passwordpattern")
 	protected String password;
 	protected String passwordcheck;

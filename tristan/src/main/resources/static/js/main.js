@@ -6,12 +6,16 @@ var bool= false;
 var passCheck = function() {
 	if ($('#pass').val().length >= 6 || bool) {
 		bool=true;
+		passwordMatch();
+		regexDigit();
+		regexLowercase();
+		regexUppercase();
+		regexLength();
 		if ( passwordMatch() && regexDigit() && regexLowercase() && regexUppercase() && regexLength() ) {
 		    $('#signup').prop('disabled', false);
 	    } else {
 	        $('#signup').prop('disabled', true);
-	}
-
+	    }
 	}
 }
 
