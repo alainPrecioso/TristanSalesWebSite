@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import static com.aprec.tristan.controllers.Attribute.*;
@@ -29,12 +30,13 @@ public class RegistrationController {
 
 	@PostMapping("/newpass")
 	public HtmlPage register(@RequestParam String email, Model model) {
-		return INDEX;
+		return INDEX_REDIRECT;
 	}
 	
 	
 	@PostMapping("/add")
 	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request,
+			HttpServletRequest servletRequest,
 			Model model) {
 		String register;
 		try {
@@ -42,10 +44,11 @@ public class RegistrationController {
 		} catch (IllegalStateException e) {
 			throw new RegistrationException(e.getMessage());
 		}
-		model.addAttribute(MESSAGE.getAttribute(), register);
+		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), register);
+		//model.addAttribute(MESSAGE.getAttribute(), register);
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		
-		return INDEX;
+		return INDEX_REDIRECT_MESSAGE;
 	}
 	
 	@GetMapping("/add")
@@ -55,7 +58,9 @@ public class RegistrationController {
 	}
 	
 	@GetMapping(path = "/confirm")
-    public HtmlPage confirm(@RequestParam("token") String token, Model model) {
+    public HtmlPage confirm(@RequestParam("token") String token,
+							HttpServletRequest servletRequest,
+							Model model) {
 		String result ;
 		try {
 			result = registrationService.confirmToken(token);
@@ -63,9 +68,10 @@ public class RegistrationController {
 		} catch (IllegalStateException e){
 			throw new RegistrationException(e.getMessage());
 		}
-        model.addAttribute(MESSAGE.getAttribute(), result);
+		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), result);
+        //model.addAttribute(MESSAGE.getAttribute(), result);
         model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-        return LOGIN;
+        return LOGIN_REDIRECT;
     }
 	
 	@GetMapping("/forgot")
@@ -75,10 +81,13 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/passrequest")
-	public HtmlPage newPasswordRequest(@RequestParam String email, Model model) {
-		model.addAttribute(MESSAGE.getAttribute(), registrationService.requestNewPassword(email));
+	public HtmlPage newPasswordRequest(@RequestParam String email,
+									   HttpServletRequest servletRequest,
+									   Model model) {
+		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), registrationService.requestNewPassword(email));
+		//model.addAttribute(MESSAGE.getAttribute(), registrationService.requestNewPassword(email));
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-		return INDEX;
+		return INDEX_REDIRECT_MESSAGE;
 	}
 
 	@GetMapping("/enternewpass")
@@ -89,7 +98,9 @@ public class RegistrationController {
 	}
 	
 	@PostMapping("/savenewpass")
-	public HtmlPage saveNewPassword(@Valid @ModelAttribute("passrequest") PasswordRequest request, Model model) {
+	public HtmlPage saveNewPassword(@Valid @ModelAttribute("passrequest") PasswordRequest request,
+									HttpServletRequest servletRequest,
+									Model model) {
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		String result;
 		try {
@@ -97,9 +108,9 @@ public class RegistrationController {
 		} catch (IllegalStateException e) {
 			throw new PasswordRequestException(e.getMessage());
 		}
-		
-		model.addAttribute(MESSAGE.getAttribute(), result);
-		return LOGIN;
+		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), result);
+		//model.addAttribute(MESSAGE.getAttribute(), result);
+		return LOGIN_REDIRECT;
 	}
 	
 }

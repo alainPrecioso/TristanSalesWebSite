@@ -250,13 +250,13 @@ body {
   -ms-transform: translate(-50%, -50%); }
 
 .signup {
-  margin-bottom: 150px; }
+  margin-bottom: 50px; }
 
 .signup-content {
   padding: 75px 0; }
 
 .signup-form, .signup-image, .signin-form, .signin-image {
-  width: 50%;
+  width: 100%;
   overflow: hidden; }
 
 .signup-image {

@@ -26,7 +26,7 @@
 			</form>
 		</div>
 	</nav>
-	<div th:if="${message != null}"><div th:replace="fragments/frags :: message"></div></div>
+	<div th:if="${param.message != null}"><div th:replace="fragments/frags :: message"></div></div>
 </header>
 
 
@@ -97,7 +97,7 @@
 <!-- Message fragment -->
 <div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert" th:fragment="message">
   	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-  	<div th:text="#{${message}}">
+  	<div th:text="#{${session.message}}">
     	Message
   	</div>
   	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>

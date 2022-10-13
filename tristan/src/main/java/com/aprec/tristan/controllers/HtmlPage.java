@@ -2,8 +2,10 @@ package com.aprec.tristan.controllers;
 
 public enum HtmlPage {
 	INDEX("index"),
-	INDEX_REDIRECT("redirect:/index"),
+	INDEX_REDIRECT("redirect:/"),
+	INDEX_REDIRECT_MESSAGE("redirect:/?message=true"),
 	LOGIN("login"),
+	LOGIN_REDIRECT("redirect:/login?message=true"),
 	LOGIN_ALERT("redirect:login?alert=true"),
 	REGISTER("register"),
 	REGISTER_ALERT("redirect:register?alert=true"),
