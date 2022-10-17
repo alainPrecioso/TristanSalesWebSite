@@ -34,3 +34,5 @@ build/
 /mvnw.cmd
 /mvnw
 /bin/
+/src/main/resources/META-INF/MANIFEST.MF
+/out/artifacts/tristan_jar/tristan.jar

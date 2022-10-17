@@ -5,15 +5,12 @@ import static com.aprec.tristan.controllers.HtmlPage.INDEX;
 import static com.aprec.tristan.controllers.HtmlPage.LOGIN;
 import static com.aprec.tristan.controllers.HtmlPage.REGISTER;
 
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.aprec.tristan.user.registration.RegistrationRequest;
 
@@ -29,7 +26,6 @@ public class ViewController {
 		return INDEX;
 	}
 
-	
 	@GetMapping("/login")
 	HtmlPage login(Model model) {
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
@@ -40,25 +36,5 @@ public class ViewController {
 	HtmlPage register(Model model) {
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		return REGISTER;
-	}
-	
-	
-	@GetMapping("/logged")
-	public String logged() {
-		return "logged";
-	}
-	
-	
-	@PreAuthorize("hasRole('USER')")
-	@GetMapping("/userroletest")
-	public String userroletest() {
-		return "userroletest";
-	}
-	
-	
-	@GetMapping("/test")
-	public String test(HttpServletRequest request) {
-		throw new IllegalStateException("test");
-		//return "test";
 	}
 }

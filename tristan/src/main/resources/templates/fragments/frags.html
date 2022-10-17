@@ -20,13 +20,14 @@
 			<form id="login">
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#loginModal" th:text="#{display.login}">log in</button>
-					
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#signinModal" th:text="#{display.signin}">sign in</button>
 			</form>
 		</div>
 	</nav>
-	<div th:if="${param.message != null}"><div th:replace="fragments/frags :: message"></div></div>
+	<div th:if="${param.message != null}">
+		<div th:replace="fragments/frags :: message"></div>
+	</div>
 </header>
 
 

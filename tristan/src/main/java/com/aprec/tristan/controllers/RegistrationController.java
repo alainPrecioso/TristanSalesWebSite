@@ -45,18 +45,12 @@ public class RegistrationController {
 			throw new RegistrationException(e.getMessage());
 		}
 		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), register);
-		//model.addAttribute(MESSAGE.getAttribute(), register);
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		
 		return INDEX_REDIRECT_MESSAGE;
 	}
 	
-	@GetMapping("/add")
-	public HtmlPage registerGet() {
-		
-		return INDEX_REDIRECT;
-	}
-	
+
 	@GetMapping(path = "/confirm")
     public HtmlPage confirm(@RequestParam("token") String token,
 							HttpServletRequest servletRequest,
@@ -69,7 +63,6 @@ public class RegistrationController {
 			throw new RegistrationException(e.getMessage());
 		}
 		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), result);
-        //model.addAttribute(MESSAGE.getAttribute(), result);
         model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
         return LOGIN_REDIRECT;
     }
@@ -85,7 +78,6 @@ public class RegistrationController {
 									   HttpServletRequest servletRequest,
 									   Model model) {
 		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), registrationService.requestNewPassword(email));
-		//model.addAttribute(MESSAGE.getAttribute(), registrationService.requestNewPassword(email));
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		return INDEX_REDIRECT_MESSAGE;
 	}
@@ -109,7 +101,6 @@ public class RegistrationController {
 			throw new PasswordRequestException(e.getMessage());
 		}
 		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), result);
-		//model.addAttribute(MESSAGE.getAttribute(), result);
 		return LOGIN_REDIRECT;
 	}
 	
