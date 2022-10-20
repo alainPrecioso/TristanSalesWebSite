@@ -5,7 +5,7 @@
   margin: 1cm auto;
   border: 1px #D3D3D3 solid;
   border-radius: 5px;
-  z-index: -1;
+  z-index: 0;
 }
 
 @font-face {

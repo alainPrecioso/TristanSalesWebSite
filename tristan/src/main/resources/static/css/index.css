@@ -9,16 +9,15 @@ body{
 .myheader {
 	position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 }
 
 .mynavbar {
 	
     background-color: azure;
-    
+    position: relative;
     width: 99%;
     text-indent: 20px;
-    z-index: 1;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -33,6 +32,32 @@ body{
     width: 99%;
     text-indent: 20px;
     
+}
+
+
+.EMAIL:before {
+    font-family:'Bootstrap-icons';
+    content:'\F32F';
+}
+
+.ADDRESS:before {
+    font-family:'Bootstrap-icons';
+    content:'\F425';
+}
+
+.WEBSITE:before {
+    font-family:'Bootstrap-icons';
+    content:'\F471';
+}
+
+.DRIVING_LICENSES:before {
+    font-family:'Bootstrap-icons';
+    content:'\F2DA';
+}
+
+.MOBILE_PHONE:before {
+    font-family:'Bootstrap-icons';
+    content:'\F5C1';
 }
 
 /* .mynavbar p {
