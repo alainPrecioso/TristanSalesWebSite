@@ -35,6 +35,8 @@ body{
 }
 
 
+
+
 .EMAIL:before {
     font-family:'Bootstrap-icons';
     content:'\F32F';
@@ -93,3 +95,6 @@ body{
 /*     align-items: center; */
 /* } */
 
+#resume {
+  align-items: center;
+}

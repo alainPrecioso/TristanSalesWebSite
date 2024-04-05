@@ -4,11 +4,11 @@
 		<div id="myhome">
 			<a th:href="@{/}"><h1 th:text="#{display.home}">Home</h1></a>
 
-			<form id="mysearchbar" th:action="@{/search}" method="post">
+			<!-- <form id="mysearchbar" th:action="@{/search}" method="post">
 				<input type="text" name="search">
 				<button type="submit">Chercher</button>
 				<p th:text="${result} != null ? ${result} :''" />
-			</form>
+			</form> -->
 		</div>
 		<div sec:authorize="isAuthenticated()">
 			<a th:href="@{/user}" th:text="${#authentication.getPrincipal().getUsername()}">Username</a>
