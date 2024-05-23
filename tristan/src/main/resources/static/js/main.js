@@ -1,30 +1,50 @@
-var checkingPass= false;
-var checkingName= false;
+let checkingPass= false;
+let checkingName= false;
 
-var validator = function() {
-	nameCheck();
-	passCheck();
-	if (nameCheck() && passCheck()) {
-		$('#signup').prop('disabled', false);
-	} else {
-		$('#signup').prop('disabled', true);
-	}
+let validationFlags = {
+	isNameValid: false,
+	isEmailValid: true,
+	isPassValid: false,
+	doPassMatch: false
+};
+
+function handleInput(selector, checkFunction, key) {
+	$(selector).on('input', function() {
+		validationFlags[key] = checkFunction();
+		validator();
+	});
+}
+
+const inputEvents = [
+	{ selector: '#name', checkFunction: nameCheck, key: 'isNameValid' },
+	{ selector: '#email', checkFunction: emailCheck, key: 'isEmailValid' },
+	{ selector: '#pass', checkFunction: passCheck, key: 'isPassValid' },
+	{ selector: '#re-pass', checkFunction: passwordMatch, key: 'doPassMatch' }
+];
+
+inputEvents.forEach(event => {
+	handleInput(event.selector, event.checkFunction, event.key);
+});
+
+function validator() {
+	const allValid = Object.values(validationFlags).every(flag => flag);
+	$('#signup').prop('disabled', !allValid);
 }
 
 function nameCheck() {
 	if ($('#name').val().length >= 5 || checkingName) {
-		nameLength();
-		nameUnderscores();
-		nameDashes();
-		nameSpecialCharacters();
-
-		if (nameLength() && nameUnderscores() && nameDashes() && nameSpecialCharacters()) {
-			return true;
-		} else {
-			return false;
-		}
+		let validations = [
+			nameLength(),
+			nameUnderscores(),
+			nameDashes(),
+			nameSpecialCharacters()
+		];
+		return validations.every(validation => validation);
 	}
-	return false;
+}
+
+function emailCheck() {
+
 }
 
 function nameLength() {
@@ -82,35 +102,29 @@ function nameSpecialCharacters() {
 function passCheck() {
 	checkingName= true;
 	if ($('#pass').val().length >= 6 || checkingPass) {
-		checkingPass=true;
-		passwordMatch();
-		passDigit();
-		passLowercase();
-		passUppercase();
-		passLength();
-		if ( passwordMatch() && passDigit() && passLowercase() && passUppercase() && passLength() ) {
-			return true;
-	    } else {
-			return false;
-	    }
+		let validations = [
+			passDigit(),
+			passLowercase(),
+			passUppercase(),
+			passLength()
+		];
+		return validations.every(validation => validation);
 	}
-	return false;
 }
 
 function passwordMatch() {
 	if ($('#pass').val() == $('#re-pass').val()) {
 	    $('#passmatch-message').css('color', 'green');
     	$('#passmatch-message').text($('#passmatch-match').val());
-    	return true;
+		return true;
 	} else {
 	    $('#passmatch-message').css('color', 'red');
     	$('#passmatch-message').text($('#passmatch-no-match').val());
-    	return false;
+		return false;
 	}
-	return false;
 }
 
-	
+
 function passDigit() {
 	var digit = new RegExp("^.*[0-9].*$");
 

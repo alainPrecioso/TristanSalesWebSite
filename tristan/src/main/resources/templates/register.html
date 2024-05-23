@@ -45,7 +45,7 @@
                             <input type="hidden" id="name-special" th:value="#{message.name.special}"/>
                             <div class="form-group">
                                 <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" oninput='validator();' th:field="*{username}" id="name" th:placeholder="#{display.username}" pattern="^(?!.*^_|.*_$|.*__|.*^-|.*-$|.*--)[a-zA-Z\u00C0-\u00FF_\d-]{5,25}$"/>
+                                <input type="text" th:field="*{username}" id="name" th:placeholder="#{display.username}" pattern="^(?!.*^_|.*_$|.*__|.*^-|.*-$|.*--)[a-zA-Z\u00C0-\u00FF_\d-]{5,25}$"/>
                             </div>
                             <div>
                                 <p id='name-underscores-display'></p>
@@ -59,7 +59,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" oninput='validator();' th:field="*{password}" id="pass" th:placeholder="#{display.password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\u00C0-\u00FF\u0021-\u007E]{12,30}$"/>
+                                <input type="password"  th:field="*{password}" id="pass" th:placeholder="#{display.password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\u00C0-\u00FF\u0021-\u007E]{12,30}$"/>
                             </div>
                             <div>
                                 <p id='pass-digit-display'></p>
@@ -69,7 +69,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" oninput='validator();' th:field="*{passwordcheck}" id="re-pass" th:placeholder="#{display.repeat}"/>
+                                <input type="password" th:field="*{passwordcheck}" id="re-pass" th:placeholder="#{display.repeat}"/>
                             </div>
                                 <span id='passmatch-message'></span>
 <!--                             <div class="form-group"> -->
