@@ -1,5 +1,5 @@
 <!-- My header fragment-->
-<header th:fragment="nav" class="myheader">
+<header th:fragment="nav" class="myheader" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 	<nav class="mynavbar">
 		<div id="myhome">
 			<a th:href="@{/}"><h1 th:text="#{display.home}">Home</h1></a>
@@ -12,7 +12,7 @@
 		</div>
 		<div sec:authorize="isAuthenticated()">
 			<a th:href="@{/user}" th:text="${#authentication.getPrincipal().getUsername()}">Username</a>
-			<form id="login" th:action="@{/logout}" method="post">
+			<form id="logout" th:action="@{/logout}" method="post">
 				<button type="submit" class="btn btn-link" th:text="#{display.logout}">log out</button>
 			</form>
 		</div>

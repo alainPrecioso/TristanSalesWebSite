@@ -62,11 +62,11 @@ function nameLength() {
 function nameUnderscores() {
 	var underscores = new RegExp("^(?=.*^_|.*_$|.*__).*$");
 	if (underscores.test($('#name').val())) {
-		$('#name-underscores-display').css('color', 'black');
-		$('#name-underscores-display').text($('#name-underscores').val());
+		$('#name-underscores').css('color', 'black');
+		$('#name-underscores').show();
 		return false;
 	} else {
-		$('#name-underscores-display').text('');
+		$('#name-underscores').hide();
 		return true;
 	}
 	return false;
@@ -75,11 +75,11 @@ function nameUnderscores() {
 function nameDashes() {
 	var dashes = new RegExp("^(?=.*^-|.*-$|.*--).*$");
 	if (dashes.test($('#name').val())) {
-		$('#name-dashes-display').css('color', 'black');
-		$('#name-dashes-display').text($('#name-dashes').val());
+		$('#name-dashes').css('color', 'black');
+		$('#name-dashes').show();
 		return false;
 	} else {
-		$('#name-dashes-display').text('');
+		$('#name-dashes').hide();
 		return true;
 	}
 	return false;
@@ -88,11 +88,11 @@ function nameDashes() {
 function nameSpecialCharacters() {
 	var specialCharacters = new RegExp("[^a-zA-Z\u00C0-\u00FF0-9_-]");
 	if (specialCharacters.test($('#name').val())) {
-		$('#name-special-display').css('color', 'black');
-		$('#name-special-display').text($('#name-special').val());
+		$('#name-special').css('color', 'black');
+		$('#name-special').show();
 		return false;
 	} else {
-		$('#name-special-display').text('');
+		$('#name-special').hide();
 		return true;
 	}
 	return false;
@@ -100,8 +100,8 @@ function nameSpecialCharacters() {
 
 
 function passCheck() {
-	checkingName= true;
-	if ($('#pass').val().length >= 6 || checkingPass) {
+	if ($('#pass').val().length >= 1 || checkingPass) {
+	    checkingPass= true;
 		let validations = [
 			passDigit(),
 			passLowercase(),
@@ -115,11 +115,11 @@ function passCheck() {
 function passwordMatch() {
 	if ($('#pass').val() == $('#re-pass').val()) {
 	    $('#passmatch-message').css('color', 'green');
-    	$('#passmatch-message').text($('#passmatch-match').val());
+    	$('#passmatch-message').text($('#passmatch-message').attr('match'));
 		return true;
 	} else {
 	    $('#passmatch-message').css('color', 'red');
-    	$('#passmatch-message').text($('#passmatch-no-match').val());
+    	$('#passmatch-message').text($('#passmatch-message').attr('nomatch'));
 		return false;
 	}
 }
@@ -129,26 +129,26 @@ function passDigit() {
 	var digit = new RegExp("^.*[0-9].*$");
 
 	if (digit.test($('#pass').val())) {
-		$('#pass-digit-display').text('');
+		$('#pass-digit').hide();
 		return true;
 	} else {
-		$('#pass-digit-display').css('color', 'black');
-		$('#pass-digit-display').text($('#pass-digit').val());
+		$('#pass-digit').css('color', 'black');
+		$('#pass-digit').show();
 		return false;
 	}
 	return false;
 }
 
 function passLowercase() {
-	console.log("passLowercase"); 
 	var lowercase = new RegExp("^.*[a-z].*$");
 
 	if (lowercase.test($('#pass').val())) {
-		$('#pass-lowercase-display').text('');
+	    //$('#pass-lowercase-display').text('');
+		$('#pass-lowercase').hide();
 		return true;
 	} else {
-		$('#pass-lowercase-display').css('color', 'black');
-		$('#pass-lowercase-display').text($('#pass-lowercase').val());
+	    $('#pass-lowercase').css('color', 'black');
+		$('#pass-lowercase').show();
 		return false;
 	}
 	return false;
@@ -158,11 +158,11 @@ function passUppercase() {
 	var uppercase = new RegExp("^.*[A-Z].*$");
 
 	if (uppercase.test($('#pass').val())) {
-	    $('#pass-uppercase-display').text('');
+	    $('#pass-uppercase').hide();
 	    return true;
 	} else {
-	    $('#pass-uppercase-display').css('color', 'black');
-        $('#pass-uppercase-display').text($('#pass-uppercase').val());
+	    $('#pass-uppercase').css('color', 'black');
+        $('#pass-uppercase').show();
         return false;
 	}
 	return false;
@@ -170,11 +170,11 @@ function passUppercase() {
 
 function passLength() {
 	if ($('#pass').val().length >= 12 && $('#pass').val().length <= 30) {
-	    $('#pass-length-display').text('');
+	    $('#pass-length').hide();
 	    return true;
 	} else {
-	    $('#pass-length-display').css('color', 'black');
-        $('#pass-length-display').text($('#pass-length').val());
+	    $('#pass-length').css('color', 'black');
+        $('#pass-length').show();
         return false;
 	}
 	return false;
