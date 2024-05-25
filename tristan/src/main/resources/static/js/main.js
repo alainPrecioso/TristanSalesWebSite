@@ -3,7 +3,7 @@ let checkingName= false;
 
 let validationFlags = {
 	isNameValid: false,
-	isEmailValid: true,
+	isEmailValid: false,
 	isPassValid: false,
 	doPassMatch: false
 };
@@ -27,7 +27,7 @@ inputEvents.forEach(event => {
 });
 
 function validator() {
-	const allValid = Object.values(validationFlags).every(flag => flag);
+	const allValid = Object.values(validationFlags).every(value => value === true);
 	$('#signup').prop('disabled', !allValid);
 }
 
@@ -44,7 +44,7 @@ function nameCheck() {
 }
 
 function emailCheck() {
-
+	return true;
 }
 
 function nameLength() {

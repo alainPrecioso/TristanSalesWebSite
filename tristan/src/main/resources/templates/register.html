@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,7 +35,8 @@
                         <form th:action="@{/add}"  th:object="${request}" th:fragment="signup-form" method="POST" class="register-form" id="register-form">
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" th:field="*{username}" id="name" th:placeholder="#{display.username}" pattern="^(?!.*^_|.*_$|.*__|.*^-|.*-$|.*--)[a-zA-Z\u00C0-\u00FF_\d-]{5,25}$"/>
+                                <input type="text" th:field="*{username}" id="name" th:placeholder="#{display.username}"/>
+<!--                                <input type="text" th:field="*{username}" id="name" th:placeholder="#{display.username}" pattern="^(?!.*^_|.*_$|.*__|.*^-|.*-$|.*&#45;&#45;)[a-zA-Z\u00C0-\u00FF_\d-]{5,25}$"/>-->
                             </div>
                             <div class="hidden">
                                 <p id='name-underscores' th:text="#{message.name.underscores}"></p>
