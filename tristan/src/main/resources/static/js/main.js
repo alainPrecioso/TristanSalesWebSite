@@ -1,3 +1,4 @@
+var eventListenerNameInput = false;
 let validationFlags = {
 	isNameValid: false,
 	isEmailValid: false,
@@ -29,15 +30,19 @@ function validator() {
 }
 
 function nameCheck() {
-	handleInput('#name', 'input', nameCheckInput, 'isNameValid');
+	if (!eventListenerNameInput) {
+		eventListenerNameInput = true;
+		handleInput('#name', 'input', nameCheckInput, 'isNameValid');
+	}
+	return nameCheckInput();
 }
 
 function nameCheckInput() {
 	let validations = [
-		checkPattern('#name-underscore', new RegExp("^(?=.*^_|.*_$|.*__).*$")),
-		checkPattern('#name-dash', new RegExp("^(?=.*^-|.*-$|.*--).*$")),
-		checkPattern('#name-special', new RegExp("[^a-zA-Z\u00C0-\u00FF0-9_-]")),
-		nameLength()
+		!checkPattern('#name-underscore', new RegExp("^(?=.*^_|.*_$|.*__).*$")),
+		!checkPattern('#name-dash', new RegExp("^(?=.*^-|.*-$|.*--).*$")),
+		!checkPattern('#name-special', new RegExp("[^a-zA-Z\u00C0-\u00FF0-9_-]")),
+		checkLength('#name-length', 5 , 25)
 	];
 	return validations.every(validation => validation);
 }
@@ -51,20 +56,9 @@ function passCheck() {
 			checkPattern('#pass-digit', new RegExp("^.*[0-9].*$")),
 			checkPattern('#pass-lowercase', new RegExp("^.*[a-z].*$")),
 			checkPattern('#pass-uppercase', new RegExp("^.*[A-Z].*$")),
-			passLength()
+			checkLength('#pass-length', 12, 30)
 		];
 		return validations.every(validation => validation);
-}
-
-function nameLength() {
-	let selector = '#name-length';
-	if ($('#name').val().length >= 5 && $('#name').val().length <= 25) {
-	    hideText(selector);
-	    return true;
-	} else {
-        showText(selector);
-        return false;
-	}
 }
 
 function passwordMatch() {
@@ -79,36 +73,30 @@ function passwordMatch() {
 	}
 }
 
-function passLength() {
-	let selector = '#pass-length';
-	if ($('#pass').val().length >= 12 && $('#pass').val().length <= 30) {
-	    hideText(selector);
-	    return true;
+function checkLength(selector, minLength, maxLength) {
+	let id = selector.split('-')[0];
+	let length = $(id).val().length;
+	if (length >= minLength && length <= maxLength) {
+		hideText(selector);
+		return true;
 	} else {
 		showText(selector);
-        return false;
+		return false;
 	}
 }
 
 function checkPattern(selector, pattern) {
 	let id = selector.split('-')[0];
-	if (pattern.test($(id).val())) {
-		console.log(true);
-		if (id === '#pass') {
-			hideText(selector);
-		} else {
-			showText(selector);
-		}
-		return true;
+	return toggleText(selector, pattern.test($(id).val()), id === '#pass');
+}
+
+function toggleText(selector, isValid, isPass) {
+	if (isValid) {
+		isPass ? hideText(selector) : showText(selector);
 	} else {
-		console.log(false);
-		if (id === '#pass') {
-			showText(selector);
-		} else {
-			hideText(selector);
-		}
-		return false;
+		isPass ? showText(selector) : hideText(selector);
 	}
+	return isValid
 }
 
 function hideText(element) {
