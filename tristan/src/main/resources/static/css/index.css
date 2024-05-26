@@ -34,6 +34,10 @@ body{
     
 }
 
+.hidden p {
+    display: none;
+}
+
 
 .EMAIL:before {
     font-family:'Bootstrap-icons';
@@ -93,3 +97,7 @@ body{
 /*     align-items: center; */
 /* } */
 
+.resume {
+  align-items: center;
+  background-image: linear-gradient(rgba(0, 0, 255, 0.5), rgba(255, 255, 0, 0.5));
+}

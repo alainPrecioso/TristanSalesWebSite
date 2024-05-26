@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,19 @@
     <link rel="stylesheet" th:href="@{css/style.css}">
 
     <!-- JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+
+    <script type="text/javascript" th:src="@{/modal.js}" defer></script>
+    <script type="text/javascript" th:src="@{/main.js}" defer></script>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+            crossorigin="anonymous" defer></script>
+    <script th:src="@{vendor/jquery/jquery.min.js}" defer></script>
+    <script th:src="@{js/main.js}" defer></script>
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
 </head>
 <body>
 	<header th:replace="fragments/frags :: nav"></header>
@@ -33,25 +45,16 @@
                     	<div th:if="${param.alert != null}"><div th:replace="fragments/frags :: alert"></div></div>
                         <h2 class="form-title" th:text="#{display.signin}">Sign up</h2>
                         <form th:action="@{/add}"  th:object="${request}" th:fragment="signup-form" method="POST" class="register-form" id="register-form">
-                            <input type="hidden" id="passmatch-match" th:value="#{message.pass.match}"/>
-                            <input type="hidden" id="passmatch-no-match" th:value="#{message.pass.nomatch}"/>
-                            <input type="hidden" id="pass-digit" th:value="#{message.pass.digit}"/>
-                            <input type="hidden" id="pass-lowercase" th:value="#{message.pass.lowercase}"/>
-                            <input type="hidden" id="pass-uppercase" th:value="#{message.pass.uppercase}"/>
-                            <input type="hidden" id="pass-length" th:value="#{message.pass.length}"/>
-                            <input type="hidden" id="name-length" th:value="#{message.name.length}"/>
-                            <input type="hidden" id="name-underscores" th:value="#{message.name.underscores}"/>
-                            <input type="hidden" id="name-dashes" th:value="#{message.name.dashes}"/>
-                            <input type="hidden" id="name-special" th:value="#{message.name.special}"/>
                             <div class="form-group">
-                                <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" oninput='validator();' th:field="*{username}" id="name" th:placeholder="#{display.username}" pattern="^(?!.*^_|.*_$|.*__|.*^-|.*-$|.*--)[a-zA-Z\u00C0-\u00FF_\d-]{5,25}$"/>
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" th:field="*{username}" id="name" th:placeholder="#{display.username}"/>
+<!--                                <input type="text" th:field="*{username}" id="name" th:placeholder="#{display.username}" pattern="^(?!.*^_|.*_$|.*__|.*^-|.*-$|.*&#45;&#45;)[a-zA-Z\u00C0-\u00FF_\d-]{5,25}$"/>-->
                             </div>
-                            <div>
-                                <p id='name-underscores-display'></p>
-                                <p id='name-dashes-display'></p>
-                                <p id='name-special-display'></p>
-                                <p id='name-length-display'></p>
+                            <div class="hidden">
+                                <p id='name-underscore' th:text="#{message.name.underscores}"></p>
+                                <p id='name-dash' th:text="#{message.name.dashes}"></p>
+                                <p id='name-special' th:text="#{message.name.special}"></p>
+                                <p id='name-length' th:text="#{message.name.length}"></p>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -59,19 +62,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" oninput='validator();' th:field="*{password}" id="pass" th:placeholder="#{display.password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\u00C0-\u00FF\u0021-\u007E]{12,30}$"/>
+                                <input type="password"  th:field="*{password}" id="pass" th:placeholder="#{display.password}" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\u00C0-\u00FF\u0021-\u007E]{12,30}$"/>
                             </div>
-                            <div>
-                                <p id='pass-digit-display'></p>
-                                <p id='pass-lowercase-display'></p>
-                                <p id='pass-uppercase-display'></p>
-                                <p id='pass-length-display'></p>
+                            <div class="hidden">
+                                <p id='pass-digit' th:text="#{message.pass.digit}"></p>
+                                <p id='pass-lowercase' th:text="#{message.pass.lowercase}"></p>
+                                <p id='pass-uppercase' th:text="#{message.pass.uppercase}"></p>
+                                <p id='pass-length' th:text="#{message.pass.length}"></p>
                             </div>
                             <div class="form-group">
                                 <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" oninput='validator();' th:field="*{passwordcheck}" id="re-pass" th:placeholder="#{display.repeat}"/>
+                                <input type="password" th:field="*{passwordcheck}" id="re-pass" th:placeholder="#{display.repeat}"/>
                             </div>
-                                <span id='passmatch-message'></span>
+                                <p id='passmatch-message' th:attr="match=#{message.pass.match}, nomatch=#{message.pass.nomatch}"></p>
 <!--                             <div class="form-group"> -->
 <!--                                 <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" /> -->
 <!--                                 <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label> -->
@@ -91,7 +94,7 @@
                         </form>
                     </div>
                     <div class="signup-image">
-                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
+                        <figure><img src="images/signup-image.jpg" alt="sign up image"></figure>
                         <a th:href="@{/login}" class="signup-image-link" th:text="#{display.alreadymember}">I am already member</a>
                     </div>
                 </div>
@@ -103,16 +106,5 @@
 	<footer th:replace="fragments/frags :: foot"></footer>
 	<div th:replace="fragments/frags :: loginModal"></div>
 	<div th:replace="fragments/frags :: signinModal"></div>
-	<script type="text/javascript" th:src="@{/modal.js}"></script>
-	<script type="text/javascript" th:src="@{/main.js}"></script>
-	<script type="text/javascript"
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" 
-		crossorigin="anonymous"></script>
-	<script th:src="@{vendor/jquery/jquery.min.js}"></script>
-    <script th:src="@{js/main.js}"></script>
-    <!-- JS -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="js/main.js"></script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
