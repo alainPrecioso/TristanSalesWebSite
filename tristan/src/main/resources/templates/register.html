@@ -51,10 +51,10 @@
 <!--                                <input type="text" th:field="*{username}" id="name" th:placeholder="#{display.username}" pattern="^(?!.*^_|.*_$|.*__|.*^-|.*-$|.*&#45;&#45;)[a-zA-Z\u00C0-\u00FF_\d-]{5,25}$"/>-->
                             </div>
                             <div class="hidden">
-                                <p id='name-underscores' th:text="#{message.name.underscores}"></p>
-                                <p id='name-dashes' th:text="#{message.name.dashes}"></p>
+                                <p id='name-underscore' th:text="#{message.name.underscores}"></p>
+                                <p id='name-dash' th:text="#{message.name.dashes}"></p>
                                 <p id='name-special' th:text="#{message.name.special}"></p>
-                                <p id='name-length-display'></p>
+                                <p id='name-length' th:text="#{message.name.length}"></p>
                             </div>
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
@@ -68,7 +68,7 @@
                                 <p id='pass-digit' th:text="#{message.pass.digit}"></p>
                                 <p id='pass-lowercase' th:text="#{message.pass.lowercase}"></p>
                                 <p id='pass-uppercase' th:text="#{message.pass.uppercase}"></p>
-                                <p id='pass-length' th:text="#{message.name.length}"></p>
+                                <p id='pass-length' th:text="#{message.pass.length}"></p>
                             </div>
                             <div class="form-group">
                                 <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
