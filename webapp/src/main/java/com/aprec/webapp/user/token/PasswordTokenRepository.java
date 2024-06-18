@@ -19,16 +19,20 @@ public interface PasswordTokenRepository extends JpaRepository<PasswordToken, Lo
 	
 	@Transactional
     @Modifying
-    @Query("UPDATE PasswordToken p " +
-            "SET p.confirmationTime = ?2 " +
-            "WHERE p.token = ?1")
+    @Query("""
+            UPDATE PasswordToken p \
+            SET p.confirmationTime = ?2 \
+            WHERE p.token = ?1\
+            """)
     int updateConfirmationTime(String token, LocalDateTime confirmationTime);
 
 	@Transactional
     @Modifying
-    @Query("UPDATE PasswordToken p " +
-            "SET p.creationTime = ?2, p.expirationTime = ?3, p.token = ?4 " +
-            "WHERE p.token = ?1")
+    @Query("""
+            UPDATE PasswordToken p \
+            SET p.creationTime = ?2, p.expirationTime = ?3, p.token = ?4 \
+            WHERE p.token = ?1\
+            """)
     int updateToken(String token, 
     		LocalDateTime creationTime, 
     		LocalDateTime expirationTime, 

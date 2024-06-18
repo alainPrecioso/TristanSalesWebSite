@@ -3,7 +3,7 @@ package com.aprec.webapp.user.registration;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.aprec.webapp.user.registration.token.ConfirmationTokenServiceInterface;
 import com.aprec.webapp.user.token.PasswordTokenServiceInterface;
@@ -122,9 +122,9 @@ public class RegistrationService implements RegistrationServiceInterface{
 	private String buildConfirmationEmail(String username, String link) {
 		Locale locale = getLocale();
 		if (locale.getISO3Language().equalsIgnoreCase("eng")) {
-			return String.format(emailReader.readFileToString("classpath:email/confirmation_email.txt"), username, link);
+			return emailReader.readFileToString("classpath:email/confirmation_email.txt").formatted(username, link);
 		} else {
-			return String.format(emailReader.readFileToString("classpath:email/confirmation_email_fr.txt"), username, link);
+			return emailReader.readFileToString("classpath:email/confirmation_email_fr.txt").formatted(username, link);
 		}
 	}
 	
@@ -132,11 +132,11 @@ public class RegistrationService implements RegistrationServiceInterface{
 		Locale locale = getLocale();
 		switch (locale.getISO3Language()) {
 		case "eng" :
-			return String.format(emailReader.readFileToString("classpath:email/password_email.txt"), username, link);
+			return emailReader.readFileToString("classpath:email/password_email.txt").formatted(username, link);
 		case "fr" :
 			//fallthrough
 		default :
-			return String.format(emailReader.readFileToString("classpath:email/password_email_fr.txt"), username, link);
+			return emailReader.readFileToString("classpath:email/password_email_fr.txt").formatted(username, link);
 		}
 	}
 	

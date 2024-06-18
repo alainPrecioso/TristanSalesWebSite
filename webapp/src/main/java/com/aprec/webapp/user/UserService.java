@@ -48,8 +48,8 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserDetails userDetails = userRepository
 				.findByCredential(username)
-				.orElseThrow(() -> new UsernameNotFoundException(String
-						.format(USER_NOT_FOUND_MSG, username)));
+				.orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG
+				.formatted(username)));
 		RequestContextHolder.currentRequestAttributes().setAttribute("userType", "site", SCOPE_SESSION);
 		return userDetails;
 	}
@@ -95,8 +95,8 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 
 	@Override
 	public SiteUser getSiteUser(String credential) {
-		return userRepository.findByCredential(credential).orElseThrow(() -> new UsernameNotFoundException(String
-				.format(USER_NOT_FOUND_MSG, credential)));
+		return userRepository.findByCredential(credential).orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND_MSG
+				.formatted(credential)));
 	}
 	
 	@Override

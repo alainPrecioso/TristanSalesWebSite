@@ -2,8 +2,8 @@ package com.aprec.webapp.user;
 
 import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 
 import org.springframework.security.core.userdetails.UserDetails;
 

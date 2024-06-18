@@ -30,26 +30,34 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE SiteUser u " +
-            "SET u.enabled = TRUE WHERE u.email = ?1")
+    @Query("""
+            UPDATE SiteUser u \
+            SET u.enabled = TRUE WHERE u.email = ?1\
+            """)
     int enableSiteUser(String email);
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE SiteUser u " +
-            "SET u.password = ?1 WHERE u = ?2")
+    @Query("""
+            UPDATE SiteUser u \
+            SET u.password = ?1 WHERE u = ?2\
+            """)
     int updatePassword(String password, SiteUser user);
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE User u " +
-            "SET u.deleteTime = ?1, u.deleteScheduled = 1 WHERE u = ?2")
+    @Query("""
+            UPDATE User u \
+            SET u.deleteTime = ?1, u.deleteScheduled = 1 WHERE u = ?2\
+            """)
     int scheduleDelete(LocalDateTime deleteTime, User username);
 	
 	@Transactional
     @Modifying(clearAutomatically = true)
-    @Query("UPDATE User u " +
-            "SET u.deleteTime = NULL, u.deleteScheduled = 0 WHERE u = ?1")
+    @Query("""
+            UPDATE User u \
+            SET u.deleteTime = NULL, u.deleteScheduled = 0 WHERE u = ?1\
+            """)
 	void cancelDelete(User loggedUser);
 
 }

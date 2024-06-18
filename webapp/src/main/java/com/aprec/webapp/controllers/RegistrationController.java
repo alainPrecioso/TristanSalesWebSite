@@ -11,8 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import static com.aprec.webapp.controllers.Attribute.*;
 import static com.aprec.webapp.controllers.HtmlPage.*;
@@ -36,7 +36,7 @@ public class RegistrationController {
 	
 	
 	@PostMapping("/add")
-	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request,
+	public HtmlPage register(@Valid @ModelAttribute RegistrationRequest request,
 			HttpServletRequest servletRequest,
 			Model model) {
 		String register;
@@ -53,7 +53,7 @@ public class RegistrationController {
 	
 
 	@GetMapping(path = "/confirm")
-    public HtmlPage confirm(@RequestParam("token") String token,
+    public HtmlPage confirm(@RequestParam String token,
 							HttpServletRequest servletRequest,
 							Model model) {
 		String result ;
