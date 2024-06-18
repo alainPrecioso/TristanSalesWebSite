@@ -33,11 +33,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         		registrationService.resendConfirmationMail(request.getParameter("username"));
         	} else {
         		request.getSession().setAttribute("alert", "badcredentials");
-        		response.sendRedirect("/login?alert=true");
+        		response.sendRedirect("/login?alert");
         	}
         } else {
         	request.getSession().setAttribute("alert", exception.getMessage());
-            response.sendRedirect("/login?alert=true");
+            response.sendRedirect("/login?alert");
         }
 
         //request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);

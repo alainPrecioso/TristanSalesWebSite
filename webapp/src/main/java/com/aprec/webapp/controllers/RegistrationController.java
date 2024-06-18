@@ -37,7 +37,6 @@ public class RegistrationController {
 	
 	@PostMapping("/add")
 	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request,
-			//RedirectAttributes redirectAttributes,
 			HttpServletRequest servletRequest,
 			Model model) {
 		String register;
@@ -47,7 +46,6 @@ public class RegistrationController {
 			throw new RegistrationException(e.getMessage());
 		}
 		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), register);
-		//redirectAttributes.addFlashAttribute(MESSAGE.getAttribute(), register);
 		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
 		
 		return INDEX_REDIRECT_MESSAGE;
@@ -55,9 +53,8 @@ public class RegistrationController {
 	
 
 	@GetMapping(path = "/confirm")
-    public String confirm(@RequestParam("token") String token,
-							//HttpServletRequest servletRequest,
-							RedirectAttributes redirectAttributes,
+    public HtmlPage confirm(@RequestParam("token") String token,
+							HttpServletRequest servletRequest,
 							Model model) {
 		String result ;
 		try {
@@ -67,10 +64,9 @@ public class RegistrationController {
 			throw new RegistrationException(e.getMessage());
 
 		}
-		//servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), result);
-		redirectAttributes.addFlashAttribute(MESSAGE.getAttribute(), result);
+		servletRequest.getSession().setAttribute(MESSAGE.getAttribute(), result);
         model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-        return "redirect:/login";
+        return LOGIN_REDIRECT;
     }
 	
 	@GetMapping("/forgot")
