@@ -8,11 +8,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -21,13 +21,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
-
-
 import com.aprec.webapp.user.auth.CustomAuthenticationFailureHandler;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 import com.aprec.webapp.user.oauth2.GitHubUserService;
+import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
 @Configuration
 @EnableAsync
@@ -48,29 +44,41 @@ public class WebSecurityConfig {
 		this.userDetailsService = userDetailsService;
 	}
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http//.csrf().disable()
-				.authorizeHttpRequests(requests -> requests.formLogin(login -> login
-						.loginPage("/login")
-						.failureHandler(this.authenticationFailureHandler())
-						.defaultSuccessUrl("/index")
-						.permitAll())
-						.rememberMe(withDefaults()).sessionManagement(session -> session
-						.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-						.oauth2Login(login -> login
-								.loginPage("/oauth_login")
-								.defaultSuccessUrl("/index")
-								.userInfoEndpoint(userInfo -> userInfo
-										.userService(oAuth2UserService()))).logout(logout -> logout
-						.logoutUrl("/logout")
-						.clearAuthentication(true)
-						.deleteCookies("JSESSIONID", "remember-me")
-						.invalidateHttpSession(true)
-						.logoutSuccessUrl("/index")))
-            ;
-        return http.build();
-    }
+//    @Bean
+//    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//		http//.csrf().disable()
+//				.authorizeHttpRequests(requests -> requests.formLogin(login -> login
+//						.loginPage("/login")
+//						.failureHandler(this.authenticationFailureHandler())
+//						.defaultSuccessUrl("/index")
+//						.permitAll())
+//						.rememberMe(withDefaults()).sessionManagement(session -> session
+//						.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+//						.oauth2Login(login -> login
+//								.loginPage("/oauth_login")
+//								.defaultSuccessUrl("/index")
+//								.userInfoEndpoint(userInfo -> userInfo
+//										.userService(oAuth2UserService()))).logout(logout -> logout
+//						.logoutUrl("/logout")
+//						.clearAuthentication(true)
+//						.deleteCookies("JSESSIONID", "remember-me")
+//						.invalidateHttpSession(true)
+//						.logoutSuccessUrl("/index")))
+//            ;
+//        return http.build();
+//    }
+
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http
+				.csrf(Customizer.withDefaults())
+				.authorizeHttpRequests(authorize -> authorize
+						.anyRequest().permitAll()
+				)
+				.httpBasic(Customizer.withDefaults())
+				.formLogin(Customizer.withDefaults());
+		return http.build();
+	}
 	
     
     @Bean
@@ -99,7 +107,7 @@ public class WebSecurityConfig {
     }
 	
 	@Bean
-    SpringSecurityDialect springSecurityDialect(){
+	SpringSecurityDialect springSecurityDialect(){
         return new SpringSecurityDialect();
     }
 	
