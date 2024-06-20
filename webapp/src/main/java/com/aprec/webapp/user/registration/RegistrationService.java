@@ -15,7 +15,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
-import com.aprec.webapp.user.SiteUser;
+import com.aprec.webapp.user.entities.SiteUser;
 import com.aprec.webapp.user.UserRole;
 import com.aprec.webapp.user.UserServiceInterface;
 import com.aprec.webapp.user.registration.email.EmailReader;

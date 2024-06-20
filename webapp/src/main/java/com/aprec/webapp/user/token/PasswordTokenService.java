@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.aprec.webapp.user.SiteUser;
-import com.aprec.webapp.user.User;
+import com.aprec.webapp.user.entities.SiteUser;
+import com.aprec.webapp.user.entities.User;
 
 @Service
 public class PasswordTokenService implements PasswordTokenServiceInterface {

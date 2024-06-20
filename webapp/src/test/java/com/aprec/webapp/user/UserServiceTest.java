@@ -8,6 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
+import com.aprec.webapp.user.entities.SiteUser;
 import com.aprec.webapp.user.registration.token.ConfirmationTokenServiceInterface;
 import com.aprec.webapp.user.token.PasswordTokenServiceInterface;
 import org.junit.jupiter.api.AfterEach;

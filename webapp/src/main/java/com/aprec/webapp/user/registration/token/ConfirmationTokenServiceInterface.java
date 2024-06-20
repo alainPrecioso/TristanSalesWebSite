@@ -1,7 +1,7 @@
 package com.aprec.webapp.user.registration.token;
 
-import com.aprec.webapp.user.SiteUser;
-import com.aprec.webapp.user.User;
+import com.aprec.webapp.user.entities.SiteUser;
+import com.aprec.webapp.user.entities.User;
 
 import java.util.Optional;
 

@@ -11,7 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 
-import com.aprec.webapp.user.SiteUser;
+import com.aprec.webapp.user.entities.SiteUser;
 
 @Entity
 public class PasswordToken {

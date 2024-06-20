@@ -1,7 +1,8 @@
-package com.aprec.webapp.user;
+package com.aprec.webapp.user.entities;
 
 import java.util.Objects;
 
+import com.aprec.webapp.user.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -27,11 +28,10 @@ public class SiteUser extends User implements UserDetails {
 		super();
 	}
 	public SiteUser(String username, String email, String password, UserRole userRole) {
-		super();
+		super(userRole);
 		this.username = username;
 		this.email = email;
 		this.password = password;
-		super.userRole = userRole;
 	}
 	
 	public String getPassword() {

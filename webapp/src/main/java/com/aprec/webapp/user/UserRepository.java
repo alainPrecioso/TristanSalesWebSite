@@ -3,6 +3,8 @@ package com.aprec.webapp.user;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.aprec.webapp.user.entities.SiteUser;
+import com.aprec.webapp.user.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -10,7 +12,7 @@ import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aprec.webapp.user.oauth2.GitHubUser;
+import com.aprec.webapp.user.entities.GitHubUser;
 
 @Repository
 @Transactional(readOnly = true)

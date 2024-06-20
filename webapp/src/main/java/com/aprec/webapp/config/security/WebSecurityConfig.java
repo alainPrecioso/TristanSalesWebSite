@@ -22,7 +22,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.aprec.webapp.user.auth.CustomAuthenticationFailureHandler;
-import com.aprec.webapp.user.oauth2.GitHubUserService;
+import com.aprec.webapp.user.auth.oauth2.GitHubUserService;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 
 @Configuration

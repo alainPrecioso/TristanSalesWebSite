@@ -5,6 +5,8 @@ import static org.springframework.web.context.request.RequestAttributes.SCOPE_SE
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.aprec.webapp.user.entities.SiteUser;
+import com.aprec.webapp.user.entities.User;
 import com.aprec.webapp.user.registration.token.ConfirmationTokenServiceInterface;
 import com.aprec.webapp.user.token.PasswordTokenServiceInterface;
 import org.slf4j.Logger;

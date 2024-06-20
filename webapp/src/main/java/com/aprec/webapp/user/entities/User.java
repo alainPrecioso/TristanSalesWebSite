@@ -1,4 +1,4 @@
-package com.aprec.webapp.user;
+package com.aprec.webapp.user.entities;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
+import com.aprec.webapp.user.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,19 +32,29 @@ public abstract class User {
 	@GeneratedValue(
 			strategy = GenerationType.SEQUENCE,
 			generator = "user_sequence")
-	protected Long id;
-	protected String username;
-	protected String email;
+	private Long id;
+	private String username;
+	private String email;
 	@Enumerated(EnumType.STRING)
-	protected UserRole userRole;
-	protected LocalDateTime deleteTime;
-	protected boolean deleteScheduled;
-	protected String userType;
+	private UserRole userRole;
+	private LocalDateTime deleteTime;
+	private boolean deleteScheduled;
+	private String userType;
 	
 	public User() {
 		super();
 	}
-	
+
+	public User(String username, String email, UserRole userRole) {
+		this.username = username;
+		this.email = email;
+		this.userRole = userRole;
+	}
+
+	public User(UserRole userRole) {
+		this.userRole = userRole;
+	}
+
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.name());
 		return Collections.singletonList(authority);

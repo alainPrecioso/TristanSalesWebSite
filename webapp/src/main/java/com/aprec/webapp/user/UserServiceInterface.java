@@ -1,5 +1,8 @@
 package com.aprec.webapp.user;
 
+import com.aprec.webapp.user.entities.SiteUser;
+import com.aprec.webapp.user.entities.User;
+
 public interface UserServiceInterface {
 
 	String signUpUser(SiteUser user);

@@ -1,9 +1,10 @@
-package com.aprec.webapp.user.oauth2;
+package com.aprec.webapp.user.auth.oauth2;
 
 import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
 
 import java.util.Optional;
 
+import com.aprec.webapp.user.entities.GitHubUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

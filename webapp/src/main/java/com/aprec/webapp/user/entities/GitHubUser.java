@@ -1,4 +1,4 @@
-package com.aprec.webapp.user.oauth2;
+package com.aprec.webapp.user.entities;
 
 import java.util.Map;
 import java.util.Objects;
@@ -9,7 +9,6 @@ import jakarta.persistence.Transient;
 
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.aprec.webapp.user.User;
 import com.aprec.webapp.user.UserRole;
 
 @Entity
@@ -25,12 +24,11 @@ public class GitHubUser extends User implements OAuth2User {
 	}
 
 	public GitHubUser(OAuth2User oauth2User) {
-    	super();
+    	super(oauth2User.getAttribute("login"),
+				(String) Optional.ofNullable(oauth2User.getAttribute("email")).orElse("undefined"),
+				UserRole.ROLE_USER);
         this.oauth2User = oauth2User;
         this.identifier = oauth2User.getAttribute("id");
-        this.username = oauth2User.getAttribute("login");
-        this.email = (String) Optional.ofNullable(oauth2User.getAttribute("email")).orElse("undefined");
-        this.userRole = UserRole.ROLE_USER;
     }
  
 	@Override
