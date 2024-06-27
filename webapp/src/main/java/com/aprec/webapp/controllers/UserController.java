@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.aprec.webapp.user.UserServiceInterface;
+import com.aprec.webapp.user.UserService;
 
 
 @PreAuthorize("hasRole('USER')")
@@ -15,9 +15,9 @@ import com.aprec.webapp.user.UserServiceInterface;
 @RequestMapping(path = "/user")
 public class UserController {
 
-	private final UserServiceInterface userService;
+	private final UserService userService;
 
-	public UserController(UserServiceInterface userService) {
+	public UserController(UserService userService) {
 		super();
 		this.userService = userService;
 	}

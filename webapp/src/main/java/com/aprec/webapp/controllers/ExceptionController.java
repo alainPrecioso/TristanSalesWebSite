@@ -3,7 +3,7 @@ package com.aprec.webapp.controllers;
 import com.aprec.webapp.config.exceptions.PasswordRequestException;
 import com.aprec.webapp.config.exceptions.RegistrationException;
 import com.aprec.webapp.user.registration.RegistrationRequest;
-import com.aprec.webapp.user.registration.RegistrationServiceInterface;
+import com.aprec.webapp.user.registration.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import static com.aprec.webapp.controllers.HtmlPage.*;
 public class ExceptionController implements ErrorController {
 
 	@Autowired
-	private RegistrationServiceInterface registrationService;
+	private RegistrationService registrationService;
 
 	private static final Logger log = LoggerFactory.getLogger(ExceptionController.class);
 

@@ -1,6 +1,6 @@
 package com.aprec.webapp.user.auth;
 
-import com.aprec.webapp.user.registration.RegistrationServiceInterface;
+import com.aprec.webapp.user.registration.RegistrationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.io.IOException;
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
     
     @Autowired
-    private RegistrationServiceInterface registrationService;
+    private RegistrationService registrationService;
 
     private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationFailureHandler.class);
     
