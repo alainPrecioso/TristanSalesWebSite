@@ -12,12 +12,12 @@
 </head>
 <body>
 
-	<td th:text="${result} != null ? ${result} : 'default message'" />
+	<td data-th-text="${result} != null ? ${result} : 'default message'" />
 
 
-	<div th:if="${param.error}">
-		<p th:text="${param.error}"></p>
-		<p th:text="#{${param.error}}"></p>
+	<div data-th-if="${param.error}">
+		<p data-th-text="${param.error}"></p>
+		<p data-th-text="#{${param.error}}"></p>
 	</div>
 
 

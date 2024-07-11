@@ -2,26 +2,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title th:text="${#authentication.getPrincipal().getUsername()}">Username</title>
+<title data-th-text="${#authentication.getPrincipal().getUsername()}">Username</title>
 <!-- Bootstrap css -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" 
 	integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 </head>
 <body>
 
-<div th:if="${delete != true}">
-	<form method="Post" th:action="@{/user/delete}">
+<div data-th-if="${delete != true}">
+	<form method="Post" data-th-action="@{/user/delete}">
 		<button type="submit" class="btn btn-link">delete</button>
 	</form>
 </div>
-<div th:if="${delete == true}">
-	<div  th:if="${daysleft >= 1}">
-		<p th:text="#{display.delete.days(${daysleft})}"></p>
+<div data-th-if="${delete == true}">
+	<div  data-th-if="${daysleft >= 1}">
+		<p data-th-text="#{display.delete.days(${daysleft})}"></p>
 	</div>
-	<div  th:if="${daysleft < 1}">
-		<p th:text="#{display.delete.soon}"></p>
+	<div  data-th-if="${daysleft < 1}">
+		<p data-th-text="#{display.delete.soon}"></p>
 	</div>
-	<a th:href="@{/user/canceldelete}">cancel delete</a>
+	<a data-th-href="@{/user/canceldelete}">cancel delete</a>
 </div>
 
 <a href="/">Go Home</a>
