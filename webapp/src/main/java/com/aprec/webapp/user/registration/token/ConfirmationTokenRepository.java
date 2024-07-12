@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aprec.webapp.user.User;
+import com.aprec.webapp.user.entities.User;
 
 @Repository
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long> {
@@ -19,16 +19,20 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
 	
 	@Transactional
     @Modifying
-    @Query("UPDATE ConfirmationToken c " +
-            "SET c.confirmationTime = ?2 " +
-            "WHERE c.token = ?1")
+    @Query("""
+            UPDATE ConfirmationToken c \
+            SET c.confirmationTime = ?2 \
+            WHERE c.token = ?1\
+            """)
     int updateConfirmationTime(String token, LocalDateTime confirmationTime);
 
 	@Transactional
     @Modifying
-    @Query("UPDATE ConfirmationToken c " +
-            "SET c.creationTime = ?2, c.expirationTime = ?3, c.token = ?4 " +
-            "WHERE c.token = ?1")
+    @Query("""
+            UPDATE ConfirmationToken c \
+            SET c.creationTime = ?2, c.expirationTime = ?3, c.token = ?4 \
+            WHERE c.token = ?1\
+            """)
     int updateToken(String token, 
     		LocalDateTime creationTime, 
     		LocalDateTime expirationTime, 

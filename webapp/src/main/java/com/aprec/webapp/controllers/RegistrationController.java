@@ -4,15 +4,14 @@ import com.aprec.webapp.config.exceptions.PasswordRequestException;
 import com.aprec.webapp.config.exceptions.RegistrationException;
 import com.aprec.webapp.user.registration.PasswordRequest;
 import com.aprec.webapp.user.registration.RegistrationRequest;
-import com.aprec.webapp.user.registration.RegistrationServiceInterface;
+import com.aprec.webapp.user.registration.RegistrationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 import static com.aprec.webapp.controllers.Attribute.*;
 import static com.aprec.webapp.controllers.HtmlPage.*;
@@ -22,9 +21,9 @@ import static com.aprec.webapp.controllers.HtmlPage.*;
 @RequestMapping(path = "/")
 public class RegistrationController {
 
-	private final RegistrationServiceInterface registrationService;
+	private final RegistrationService registrationService;
 
-	public RegistrationController(RegistrationServiceInterface registrationService) {
+	public RegistrationController(RegistrationService registrationService) {
 		super();
 		this.registrationService = registrationService;
 	}
@@ -36,7 +35,7 @@ public class RegistrationController {
 	
 	
 	@PostMapping("/add")
-	public HtmlPage register(@Valid @ModelAttribute("request") RegistrationRequest request,
+	public HtmlPage register(@Valid @ModelAttribute RegistrationRequest request,
 			HttpServletRequest servletRequest,
 			Model model) {
 		String register;
@@ -53,7 +52,7 @@ public class RegistrationController {
 	
 
 	@GetMapping(path = "/confirm")
-    public HtmlPage confirm(@RequestParam("token") String token,
+    public HtmlPage confirm(@RequestParam String token,
 							HttpServletRequest servletRequest,
 							Model model) {
 		String result ;

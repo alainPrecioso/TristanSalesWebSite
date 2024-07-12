@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aprec.webapp.user.User;
+import com.aprec.webapp.user.entities.User;
 
 @Repository
 public interface PasswordTokenRepository extends JpaRepository<PasswordToken, Long> {
@@ -19,16 +19,20 @@ public interface PasswordTokenRepository extends JpaRepository<PasswordToken, Lo
 	
 	@Transactional
     @Modifying
-    @Query("UPDATE PasswordToken p " +
-            "SET p.confirmationTime = ?2 " +
-            "WHERE p.token = ?1")
+    @Query(value = """
+            UPDATE PasswordToken p
+            SET p.confirmationTime = ?2
+            WHERE p.token = ?1
+            """, nativeQuery = true)
     int updateConfirmationTime(String token, LocalDateTime confirmationTime);
 
 	@Transactional
     @Modifying
-    @Query("UPDATE PasswordToken p " +
-            "SET p.creationTime = ?2, p.expirationTime = ?3, p.token = ?4 " +
-            "WHERE p.token = ?1")
+    @Query(value = """
+            UPDATE PasswordToken p
+            SET p.creationTime = ?2, p.expirationTime = ?3, p.token = ?4
+            WHERE p.token = ?1
+            """, nativeQuery = true)
     int updateToken(String token, 
     		LocalDateTime creationTime, 
     		LocalDateTime expirationTime, 

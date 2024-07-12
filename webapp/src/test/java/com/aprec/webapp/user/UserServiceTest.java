@@ -8,8 +8,9 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
-import com.aprec.webapp.user.registration.token.ConfirmationTokenServiceInterface;
-import com.aprec.webapp.user.token.PasswordTokenServiceInterface;
+import com.aprec.webapp.user.entities.SiteUser;
+import com.aprec.webapp.user.registration.token.ConfirmationTokenService;
+import com.aprec.webapp.user.token.PasswordTokenService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,19 +25,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 class UserServiceTest {
 	
 	@Mock
-	private PasswordTokenServiceInterface passwordTokenService;
+	private PasswordTokenService passwordTokenService;
 	@Mock
-	private ConfirmationTokenServiceInterface confirmationTokenService;
+	private ConfirmationTokenService confirmationTokenService;
 	@Mock
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Mock
 	private UserRepository userRepository;
 	
-	private UserService underTest;
+	private UserServiceImpl underTest;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		underTest = new UserService(userRepository, 
+		underTest = new UserServiceImpl(userRepository,
 				bCryptPasswordEncoder, 
 				confirmationTokenService,
 				passwordTokenService

@@ -1,9 +1,9 @@
 package com.aprec.webapp.user.registration;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 
 import com.aprec.webapp.user.registration.validation.EqualFields;
 import com.aprec.webapp.user.registration.validation.Password;

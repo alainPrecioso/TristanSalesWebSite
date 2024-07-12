@@ -2,28 +2,29 @@ package com.aprec.webapp.user.token;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.SequenceGenerator;
 
-import com.aprec.webapp.user.SiteUser;
+import com.aprec.webapp.user.entities.SiteUser;
 
 @Entity
 public class PasswordToken {
 
 	@Id
-	@SequenceGenerator(
-			name="passtoken_sequence",
-			sequenceName = "passtoken_sequence",
-			allocationSize = 1)
-	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "passtoken_sequence")
+//	@SequenceGenerator(
+//			name="passtoken_sequence",
+//			sequenceName = "passtoken_sequence",
+//			allocationSize = 1)
+//	@GeneratedValue(
+//			strategy = GenerationType.SEQUENCE,
+//			generator = "passtoken_sequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	@Column(nullable=false)
 	private String token;

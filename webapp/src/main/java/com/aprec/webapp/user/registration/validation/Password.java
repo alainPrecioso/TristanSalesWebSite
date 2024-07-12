@@ -1,6 +1,6 @@
 package com.aprec.webapp.user.registration.validation;
 
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Pattern;
 
 @EqualFields(baseField = "pass", matchField = "passcheck")
 public abstract class Password {

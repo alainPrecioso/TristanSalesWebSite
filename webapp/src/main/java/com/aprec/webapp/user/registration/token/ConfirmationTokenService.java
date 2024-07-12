@@ -1,60 +1,19 @@
 package com.aprec.webapp.user.registration.token;
 
-import java.time.LocalDateTime;
+import com.aprec.webapp.user.entities.SiteUser;
+import com.aprec.webapp.user.entities.User;
+
 import java.util.Optional;
-import java.util.UUID;
 
-import org.springframework.stereotype.Service;
+public interface ConfirmationTokenService {
 
-import com.aprec.webapp.user.SiteUser;
-import com.aprec.webapp.user.User;
+    Optional<ConfirmationToken> getToken(String token);
 
-@Service
-public class ConfirmationTokenService implements ConfirmationTokenServiceInterface {
+    int setConfirmedAt(String token);
 
-	private final ConfirmationTokenRepository confirmationTokenRepository;
+    String refreshConfirmationToken(SiteUser user);
 
-	public ConfirmationTokenService(ConfirmationTokenRepository confirmationTokenRepository) {
-		super();
-		this.confirmationTokenRepository = confirmationTokenRepository;
-	}
-	
-	private void saveConfirmationToken(ConfirmationToken confirmationToken) {
-		confirmationTokenRepository.save(confirmationToken);
-	}
-	
-	public Optional<ConfirmationToken> getToken(String token) {
-	        return confirmationTokenRepository.findByToken(token);
-	}
+    String createConfirmationToken(SiteUser user);
 
-	public int setConfirmedAt(String token) {
-	        return confirmationTokenRepository.updateConfirmationTime(
-	                token, LocalDateTime.now());
-	}
-	
-	public String refreshConfirmationToken(SiteUser user) {
-		String newToken = UUID.randomUUID().toString();
-		confirmationTokenRepository
-		.updateToken(confirmationTokenRepository.findByUser(user).get().getToken(), 
-				LocalDateTime.now(), 
-				LocalDateTime.now().plusMinutes(15), 
-				newToken);
-		return newToken;
-	}
-	
-	public String createConfirmationToken(SiteUser user) {
-		ConfirmationToken confirmationToken = new ConfirmationToken(
-				UUID.randomUUID().toString(),
-				LocalDateTime.now(),
-				LocalDateTime.now().plusMinutes(15),
-				user);
-		
-		saveConfirmationToken(confirmationToken);
-		
-		return confirmationToken.getToken();
-	}
-
-	public void delete(User user) {
-		confirmationTokenRepository.findByUser(user).ifPresent(confirmationTokenRepository::delete);
-	}
+    void delete(User user);
 }
