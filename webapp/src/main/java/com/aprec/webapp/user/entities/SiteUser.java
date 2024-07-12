@@ -3,21 +3,20 @@ package com.aprec.webapp.user.entities;
 import java.util.Objects;
 
 import com.aprec.webapp.user.UserRole;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class SiteUser extends User implements UserDetails {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5275991924990663546L;
-	@Column(unique = true, nullable=false)
-	private String username;
-	@Column(unique = true, nullable=false)
-	private String email;
 	@Column(nullable=false)
 	private String password;
 	
@@ -27,10 +26,9 @@ public class SiteUser extends User implements UserDetails {
 	public SiteUser() {
 		super();
 	}
+
 	public SiteUser(String username, String email, String password, UserRole userRole) {
-		super(userRole);
-		this.username = username;
-		this.email = email;
+		super(username, email, userRole);
 		this.password = password;
 	}
 	
@@ -66,38 +64,19 @@ public class SiteUser extends User implements UserDetails {
 	public boolean isEnabled() {
 		return enabled;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		if (!super.equals(o)) return false;
+		SiteUser siteUser = (SiteUser) o;
+		return locked == siteUser.locked && enabled == siteUser.enabled && Objects.equals(password, siteUser.password);
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(email, enabled, locked, password, username);
-		return result;
+		return Objects.hash(super.hashCode(), password, locked, enabled);
 	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		SiteUser other = (SiteUser) obj;
-		return Objects.equals(email, other.email) && enabled == other.enabled && locked == other.locked
-				&& Objects.equals(password, other.password) && Objects.equals(username, other.username);
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	
 }
 

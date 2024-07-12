@@ -7,15 +7,7 @@ import java.util.Collections;
 import java.util.Objects;
 
 import com.aprec.webapp.user.UserRole;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,15 +17,18 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 public abstract class User {
 
 	@Id
-	@SequenceGenerator(
-			name="user_sequence",
-			sequenceName = "user_sequence",
-			allocationSize = 1)
-	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "user_sequence")
+//	@SequenceGenerator(
+//			name="user_sequence",
+//			sequenceName = "user_sequence",
+//			allocationSize = 1)
+//	@GeneratedValue(
+//			strategy = GenerationType.SEQUENCE,
+//			generator = "user_sequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long id;
+	@Column(unique = true, nullable=false)
 	private String username;
+	@Column(unique = true, nullable=false)
 	private String email;
 	@Enumerated(EnumType.STRING)
 	private UserRole userRole;
@@ -69,37 +64,48 @@ public abstract class User {
 	public String getUsername() {
 		return username;
 	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public UserRole getUserRole() {
 		return userRole;
 	}
+
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
-	
+
 	public LocalDateTime getDeleteTime() {
 		return deleteTime;
 	}
+
 	public void setDeleteTime(LocalDateTime deleteTime) {
 		this.deleteTime = deleteTime;
 	}
+
 	public boolean isDeleteScheduled() {
 		return deleteScheduled;
 	}
+
 	public void setDeleteScheduled(boolean deleteScheduled) {
 		this.deleteScheduled = deleteScheduled;
 	}
-	
+
 	public long getDaysToDeletion() {
 		if (this.deleteScheduled) {
 			return LocalDateTime.now().until(this.deleteTime,ChronoUnit.DAYS);
 		}
-		return 0l;
+		return 0L;
 	}
 
 	@Override
@@ -120,7 +126,5 @@ public abstract class User {
 				&& Objects.equals(email, other.email) && Objects.equals(id, other.id) && userRole == other.userRole
 				&& Objects.equals(userType, other.userType) && Objects.equals(username, other.username);
 	}
-	
-	
-	
+
 }

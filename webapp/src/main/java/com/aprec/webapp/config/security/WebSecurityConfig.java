@@ -35,10 +35,10 @@ public class WebSecurityConfig {
 
 	@SuppressWarnings("unused")
 	private static final Logger log = LoggerFactory.getLogger(WebSecurityConfig.class);
-	
+
 	@Resource
 	private final UserDetailsService userDetailsService;
-	
+
 	public WebSecurityConfig(UserDetailsService userDetailsService) {
 		super();
 		this.userDetailsService = userDetailsService;
@@ -71,28 +71,29 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
-				.csrf(Customizer.withDefaults())
-				.authorizeHttpRequests(authorize -> authorize
-						.anyRequest().permitAll()
+				//.csrf(Customizer.withDefaults())
+				.authorizeHttpRequests(authorize ->
+							authorize.anyRequest().permitAll()
 				)
 				.httpBasic(Customizer.withDefaults())
-				.formLogin(Customizer.withDefaults());
+				.formLogin(form ->
+						form.loginPage("/login"));
 		return http.build();
 	}
-	
-    
+
+
     @Bean
     OAuth2UserService<OAuth2UserRequest, OAuth2User> oAuth2UserService() {
     	return new GitHubUserService();
     }
 
-    
+
 	@Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration auth) throws Exception {
     	return auth.getAuthenticationManager();
     }
-	
-	@Bean
+
+	//@Bean
 	DaoAuthenticationProvider daoAuthenticationProvider(BCryptPasswordEncoder bCryptPasswordEncoder) {
 		DaoAuthenticationProvider provider =
 				new DaoAuthenticationProvider();
@@ -100,16 +101,16 @@ public class WebSecurityConfig {
 		provider.setUserDetailsService(userDetailsService);
 		return provider;
 	}
-	
+
 	@Bean
     AuthenticationFailureHandler authenticationFailureHandler() {
         return new CustomAuthenticationFailureHandler();
     }
-	
+
 	@Bean
 	SpringSecurityDialect springSecurityDialect(){
         return new SpringSecurityDialect();
     }
-	
-	
+
+
 }

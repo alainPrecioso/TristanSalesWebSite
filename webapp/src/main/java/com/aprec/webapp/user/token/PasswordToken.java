@@ -17,13 +17,14 @@ import com.aprec.webapp.user.entities.SiteUser;
 public class PasswordToken {
 
 	@Id
-	@SequenceGenerator(
-			name="passtoken_sequence",
-			sequenceName = "passtoken_sequence",
-			allocationSize = 1)
-	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "passtoken_sequence")
+//	@SequenceGenerator(
+//			name="passtoken_sequence",
+//			sequenceName = "passtoken_sequence",
+//			allocationSize = 1)
+//	@GeneratedValue(
+//			strategy = GenerationType.SEQUENCE,
+//			generator = "passtoken_sequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	@Column(nullable=false)
 	private String token;

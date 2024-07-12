@@ -2,8 +2,9 @@ package com.aprec.webapp.user;
 
 import com.aprec.webapp.user.entities.SiteUser;
 import com.aprec.webapp.user.entities.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
 	String signUpUser(SiteUser user);
 	

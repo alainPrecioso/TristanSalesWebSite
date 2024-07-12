@@ -2,6 +2,7 @@ package com.aprec.webapp.user;
 
 import static org.springframework.web.context.request.RequestAttributes.SCOPE_SESSION;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 
 @Service
-public class UserServiceImpl implements UserDetailsService, UserService {
+public class UserServiceImpl implements UserService {
 
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 	private static final String USER_NOT_FOUND_MSG = "user %s not found";
@@ -71,11 +72,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		}
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		userRepository.save(user);
-		
-		
-		
 		return confirmationTokenService.createConfirmationToken(user);
-		
 	}
 	
 	
@@ -103,7 +100,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	
 	@Override
 	public void updatePassword(SiteUser user, String password) {
-		userRepository.updatePassword(bCryptPasswordEncoder.encode(password), user);
+		userRepository.updatePassword(bCryptPasswordEncoder.encode(password), user.getId());
 		
 	}
 
@@ -128,7 +125,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Override
 	public void scheduleDelete() {
 		//TODO change scheduled time to 30 days
-		userRepository.scheduleDelete(LocalDateTime.now().plusDays(30), getLoggedUser());
+		userRepository.scheduleDelete(LocalDateTime.now().plusDays(30), getLoggedUser().getId());
+		//userRepository.scheduleDelete(LocalDateTime.now().plusDays(30), getLoggedUser().getId());
 	}
 
 	@Async
@@ -171,6 +169,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public void cancelDelete() {
-		userRepository.cancelDelete(getLoggedUser());
+		userRepository.cancelDelete(getLoggedUser().getId());
 	}
 }

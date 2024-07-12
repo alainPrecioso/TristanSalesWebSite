@@ -17,13 +17,14 @@ import com.aprec.webapp.user.entities.User;
 public class ConfirmationToken {
 
 	@Id
-	@SequenceGenerator(
-			name="token_sequence",
-			sequenceName = "token_sequence",
-			allocationSize = 1)
-	@GeneratedValue(
-			strategy = GenerationType.SEQUENCE,
-			generator = "token_sequence")
+//	@SequenceGenerator(
+//			name="token_sequence",
+//			sequenceName = "token_sequence",
+//			allocationSize = 1)
+//	@GeneratedValue(
+//			strategy = GenerationType.SEQUENCE,
+//			generator = "token_sequence")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	@Column(nullable=false)
 	private String token;
