@@ -34,14 +34,14 @@ public class UserController {
 	public String delete() {
 		
 		userService.scheduleDelete();
-		return "redirect:";
+		return "redirect:/user";
 	}
 	
 	@GetMapping("/canceldelete")
 	public String cancelDelete() {
 		
 		userService.cancelDelete();
-		return "redirect:";
+		return "redirect:/user";
 	}
 
 }
