@@ -73,11 +73,27 @@ public class WebSecurityConfig {
 		http
 				//.csrf(Customizer.withDefaults())
 				.authorizeHttpRequests(authorize ->
-							authorize.anyRequest().permitAll()
+							authorize
+									.anyRequest()
+									.permitAll()
 				)
 				.httpBasic(Customizer.withDefaults())
 				.formLogin(form ->
-						form.loginPage("/login"));
+						form
+								.loginPage("/login")
+								.failureHandler(this.authenticationFailureHandler())
+								.defaultSuccessUrl("/index")
+								.permitAll())
+				.logout(form ->
+						form
+								.logoutUrl("/logout")
+								.clearAuthentication(true)
+								//.deleteCookies("JSESSIONID", "remember-me")
+								.invalidateHttpSession(true)
+								.logoutSuccessUrl("/index")
+				)
+				//.rememberMe()
+		;
 		return http.build();
 	}
 

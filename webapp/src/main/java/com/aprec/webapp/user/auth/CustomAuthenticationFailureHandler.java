@@ -28,18 +28,22 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         log.info("onAuthenticationFailure");
         log.info("exception : [message : " + exception.getMessage() + ", class: " + exception.getClass()+ "]");
         
-        if (exception.getMessage().equalsIgnoreCase("disabled")) {
+        if (exception.getMessage().equalsIgnoreCase("auth.failure.disabled")) {
         	if (registrationService.checkPassword(request.getParameter("username"), request.getParameter("password"))) {
         		registrationService.resendConfirmationMail(request.getParameter("username"));
-        	} else {
-        		request.getSession().setAttribute("alert", "badcredentials");
-        		response.sendRedirect("/login?alert");
-        	}
-        } else {
-        	request.getSession().setAttribute("alert", exception.getMessage());
-            response.sendRedirect("/login?alert");
-        }
+				request.getSession().setAttribute("alert", "auth.failure.disabled");
 
+        	} else {
+				request.getSession().setAttribute("alert", "auth.failure.badcredentials");
+			}
+
+        } else if (exception.getMessage().equalsIgnoreCase("bad credentials")) {
+			request.getSession().setAttribute("alert", "auth.failure.badcredentials");
+		} else {
+			//request.getSession().setAttribute("alert", exception.getMessage());
+			request.getSession().setAttribute("alert", "auth.failure.unknown");
+		}
+		response.sendRedirect("/login?alert");
         //request.getSession().setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION, errorMessage);
         
 	}
