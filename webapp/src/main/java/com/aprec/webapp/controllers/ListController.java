@@ -1,23 +1,21 @@
 package com.aprec.webapp.controllers;
 
-import static com.aprec.webapp.controllers.Attribute.REQUEST;
-
+import com.aprec.webapp.user.registration.RegistrationRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.aprec.webapp.user.registration.RegistrationRequest;
+import static com.aprec.webapp.controllers.Attributes.REQUEST;
 
 @Controller
 public class ListController {
 
-	@PostMapping("/search")
-	public String searchSubmit(Model model) {
-		model.addAttribute("result", "pas de resultats");
-		model.addAttribute(REQUEST.getAttribute(), new RegistrationRequest());
-		return "index";
-	}
-	
-	
+    @PostMapping("/search")
+    public String searchSubmit(Model model) {
+        model.addAttribute("result", "pas de resultats");
+        model.addAttribute(REQUEST, new RegistrationRequest());
+        return "index";
+    }
+
 
 }
