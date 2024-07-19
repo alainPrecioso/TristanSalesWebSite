@@ -1,23 +1,24 @@
-package com.aprec.webapp.user.registration.token;
+package com.aprec.webapp.user.repositories;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
-
+import com.aprec.webapp.user.entities.ConfirmationToken;
+import com.aprec.webapp.user.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.aprec.webapp.user.entities.User;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Repository
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long> {
 
-	Optional<ConfirmationToken> findByToken(String token);
-	Optional<ConfirmationToken> findByUser(User user);
-	
-	@Transactional
+    Optional<ConfirmationToken> findByToken(String token);
+
+    Optional<ConfirmationToken> findByUser(User user);
+
+    @Transactional
     @Modifying
     @Query("""
             UPDATE ConfirmationToken c \
@@ -26,15 +27,15 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
             """)
     int updateConfirmationTime(String token, LocalDateTime confirmationTime);
 
-	@Transactional
+    @Transactional
     @Modifying
     @Query("""
             UPDATE ConfirmationToken c \
             SET c.creationTime = ?2, c.expirationTime = ?3, c.token = ?4 \
             WHERE c.token = ?1\
             """)
-    int updateToken(String token, 
-    		LocalDateTime creationTime, 
-    		LocalDateTime expirationTime, 
-    		String newToken);
+    int updateToken(String token,
+                    LocalDateTime creationTime,
+                    LocalDateTime expirationTime,
+                    String newToken);
 }

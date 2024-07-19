@@ -1,5 +1,6 @@
 package com.aprec.webapp.user.registration.token;
 
+import com.aprec.webapp.user.entities.ConfirmationToken;
 import com.aprec.webapp.user.entities.SiteUser;
 import com.aprec.webapp.user.entities.User;
 

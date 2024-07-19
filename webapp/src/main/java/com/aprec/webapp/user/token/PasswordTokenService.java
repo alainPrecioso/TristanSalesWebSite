@@ -1,5 +1,6 @@
 package com.aprec.webapp.user.token;
 
+import com.aprec.webapp.user.entities.PasswordToken;
 import com.aprec.webapp.user.entities.SiteUser;
 import com.aprec.webapp.user.entities.User;
 
