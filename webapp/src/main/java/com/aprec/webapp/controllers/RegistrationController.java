@@ -27,13 +27,34 @@ public class RegistrationController {
         this.registrationService = registrationService;
     }
 
+    @ModelAttribute(REGISTRATION_REQUEST)
+    public RegistrationRequest registrationRequest() {
+        return new RegistrationRequest();
+    }
+
+    @GetMapping({"/", "/index", "/home"})
+    public HtmlPage home(Model model) {
+        return INDEX;
+    }
+
+    @GetMapping("/login")
+    HtmlPage login(Model model) {
+        return LOGIN;
+    }
+
     @PostMapping("/newpass")
     public HtmlPage register(@RequestParam String email, Model model) {
         return INDEX_REDIRECT;
     }
 
 
-    @PostMapping("/add")
+    @GetMapping("/register")
+    HtmlPage register(Model model) {
+        model.addAttribute("isRegisterPage", true);
+        return REGISTER;
+    }
+
+    @PostMapping("/register")
     public HtmlPage register(@Valid @ModelAttribute RegistrationRequest request,
                              HttpServletRequest servletRequest,
                              Model model) {
@@ -44,7 +65,6 @@ public class RegistrationController {
             throw new RegistrationException(e.getMessage());
         }
         servletRequest.getSession().setAttribute(MESSAGE, register);
-        model.addAttribute(REQUEST, new RegistrationRequest());
 
         return INDEX_REDIRECT_MESSAGE;
     }
@@ -63,13 +83,11 @@ public class RegistrationController {
 
         }
         servletRequest.getSession().setAttribute(MESSAGE, result);
-        model.addAttribute(REQUEST, new RegistrationRequest());
         return LOGIN_REDIRECT;
     }
 
     @GetMapping("/forgot")
     HtmlPage forgotPassword(Model model) {
-        model.addAttribute(REQUEST, new RegistrationRequest());
         return FORGOT;
     }
 
@@ -78,13 +96,11 @@ public class RegistrationController {
                                        HttpServletRequest servletRequest,
                                        Model model) {
         servletRequest.getSession().setAttribute(MESSAGE, registrationService.requestNewPassword(email));
-        model.addAttribute(REQUEST, new RegistrationRequest());
         return INDEX_REDIRECT_MESSAGE;
     }
 
     @GetMapping("/enternewpass")
     public HtmlPage enterNewPassword(Model model) {
-        model.addAttribute(REQUEST, new RegistrationRequest());
         model.addAttribute(PASSWORD_REQUEST, new PasswordRequest());
         return NEW_PASSWORD;
     }
@@ -93,7 +109,6 @@ public class RegistrationController {
     public HtmlPage saveNewPassword(@Valid @ModelAttribute("passrequest") PasswordRequest request,
                                     HttpServletRequest servletRequest,
                                     Model model) {
-        model.addAttribute(REQUEST, new RegistrationRequest());
         String result;
         try {
             result = registrationService.confirmPasswordToken(request);

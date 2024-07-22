@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.io.IOException;
 
 import static com.aprec.webapp.controllers.Attributes.ALERT;
-import static com.aprec.webapp.controllers.Attributes.REQUEST;
+import static com.aprec.webapp.controllers.Attributes.REGISTRATION_REQUEST;
 import static com.aprec.webapp.controllers.HtmlPage.*;
 
 @Controller
@@ -48,7 +48,7 @@ public class ExceptionController implements ErrorController {
                                                 HttpServletRequest request,
                                                 Model model)
             throws IOException {
-        model.addAttribute(REQUEST, new RegistrationRequest());
+        model.addAttribute(REGISTRATION_REQUEST, new RegistrationRequest());
         request.getSession().setAttribute(ALERT, e.getMessage());
         log.info("handleRegistrationException");
         switch (e.getMessage()) {
@@ -68,7 +68,7 @@ public class ExceptionController implements ErrorController {
     public HtmlPage handlePasswordRequestException(RegistrationException e,
                                                    HttpServletRequest request, Model model)
             throws IOException {
-        model.addAttribute(REQUEST, new RegistrationRequest());
+        model.addAttribute(REGISTRATION_REQUEST, new RegistrationRequest());
         log.info("handlePasswordRequestException");
         switch (e.getMessage()) {
             case "tokennotfound", "tokenexpired":
