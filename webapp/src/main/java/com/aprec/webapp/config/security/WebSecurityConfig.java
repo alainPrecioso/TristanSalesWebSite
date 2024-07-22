@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,8 +53,12 @@ public class WebSecurityConfig {
                 .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .anyRequest()
-                                .permitAll()
+                                .requestMatchers("/user").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/user/delete").authenticated()
+                                .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                                .requestMatchers("/resources/**", "/css/**", "/js/**", "/images/**", "/scss/**", "favicon.ico").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                                .anyRequest().denyAll()
                 )
                 .httpBasic(withDefaults())
                 .formLogin(form ->
