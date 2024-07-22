@@ -1,117 +1,129 @@
 <!-- My header fragment-->
-<header data-th-fragment="nav" class="myheader" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	<nav class="mynavbar">
-		<div id="myhome">
-			<a data-th-href="@{/}"><h1 data-th-text="#{display.home}">Home</h1></a>
+<header data-th-fragment="nav" class="myheader">
+    <nav class="mynavbar">
+        <div id="myhome">
+            <a data-th-href="@{/}"><h1 data-th-text="#{display.home}">Home</h1></a>
 
-			<!-- <form id="mysearchbar" data-th-action="@{/search}" method="post">
-				<input type="text" name="search">
-				<button type="submit">Chercher</button>
-				<p data-th-text="${result} != null ? ${result} :''" />
-			</form> -->
-		</div>
-		<div sec:authorize="isAuthenticated()">
-			<a data-th-href="@{/user}" data-th-text="${#authentication.getPrincipal().getUsername()}">Username</a>
-			<form id="logout" data-th-action="@{/logout}" method="post">
-				<button type="submit" class="btn btn-link" data-th-text="#{display.logout}">log out</button>
-			</form>
-		</div>
-		<div sec:authorize="isAnonymous()">
-			<form id="login">
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#loginModal" data-th-text="#{display.login}">log in</button>
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#signinModal" data-th-text="#{display.signin}">sign in</button>
-			</form>
-		</div>
-	</nav>
-	<div data-th-if="${param.message != null}">
-		<div data-th-replace="~{fragments/frags :: message}"></div>
-	</div>
+            <!-- <form id="mysearchbar" data-th-action="@{/search}" method="post">
+                <input type="text" name="search">
+                <button type="submit">Chercher</button>
+                <p data-th-text="${result} != null ? ${result} :''" />
+            </form> -->
+        </div>
+        <div data-sec-authorize="isAuthenticated()">
+            <a data-th-href="@{/user}" data-th-text="${#authentication.getPrincipal().getUsername()}">Username</a>
+            <form id="logout" data-th-action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-link" data-th-text="#{display.logout}">log out</button>
+            </form>
+        </div>
+        <div data-sec-authorize="isAnonymous()">
+            <form id="login">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#loginModal" data-th-text="#{display.login}">log in
+                </button>
+                <button data-th-unless="${isRegisterPage}"
+                        type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#signinModal" data-th-text="#{display.signin}">sign in
+                </button>
+            </form>
+        </div>
+    </nav>
+    <div data-th-if="${param.message != null}">
+        <div data-th-replace="~{fragments/frags :: message}"></div>
+    </div>
 </header>
 
 
 <!-- Login Modal Fragment -->
 <div data-th-fragment="loginModal" class="modal modal-fullscreen-sm-down" id="loginModal"
-	data-bs-keyboard="false" tabindex="-1"
-	aria-labelledby="modalLoginLabel" aria-hidden="true">
-	<div class="modal-dialog modal-fullscreen-md-down">
-		<div class="modal-content">
-			<div class="modal-header">
-			<button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
-				data-bs-target="#loginModal" data-th-text="#{display.login}"></button>
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#signinModal" data-th-text="#{display.signin}"></button>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<section class="sign-in">
-					<div class="signin-content">
-						<div class="signin-form">
-							<div data-th-replace="~{login :: signin-form}"></div>
-							<div data-th-replace="~{login :: social-login}"></div>
-						</div>
-					</div>
-				</section>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-warning"
-					data-bs-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
+     data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="modalLoginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div data-th-unless="${isRegisterPage}" class="modal-header">
+                <button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
+                        data-bs-target="#loginModal" data-th-text="#{display.login}"></button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#signinModal" data-th-text="#{display.signin}"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <section class="sign-in">
+                    <div class="signin-content">
+                        <div class="signin-form">
+                            <div data-th-replace="~{login :: signin-form}"></div>
+                            <div data-th-replace="~{login :: social-login}"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning"
+                        data-bs-dismiss="modal">Close
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Register Modal Fragment -->
 <div data-th-fragment="signinModal" class="modal" id="signinModal"
-	data-bs-keyboard="false" tabindex="-1"
-	aria-labelledby="modalLoginLabel" aria-hidden="true">
-	<div class="modal-dialog modal-fullscreen-md-down">
-		<div class="modal-content">
-			<div class="modal-header">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-				data-bs-target="#loginModal" data-th-text="#{display.login}"></button>
-			<button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
-				data-bs-target="#signinModal" data-th-text="#{display.signin}"></button>
-				<button type="button" class="btn-close" data-bs-dismiss="modal"
-					aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<section class="signup">
-					<div class="signup-content">
-						<div class="signup-form">
-							<div data-th-replace="~{register :: signup-form}"></div>
-						</div>
-					</div>
-				</section>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-warning"
-					data-bs-dismiss="modal">Close</button>
-					
-			</div>
-		</div>
-	</div>
+     data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="modalLoginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#loginModal" data-th-text="#{display.login}"></button>
+                <button type="button" class="btn btn-secondary" disabled data-bs-toggle="modal"
+                        data-bs-target="#signinModal" data-th-text="#{display.signin}"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <section class="signup">
+                    <div class="signup-content">
+                        <div class="signup-form">
+                            <div data-th-replace="~{register :: signup-form}"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning"
+                        data-bs-dismiss="modal">Close
+                </button>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Message fragment -->
-<div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert" data-th-fragment="message">
-  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-  	<div data-th-text="#{${session.message}}">
-    	Message
-  	</div>
-  	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="alert alert-success d-flex align-items-center alert-dismissible fade show" role="alert"
+     data-th-fragment="message">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill"/>
+    </svg>
+    <div data-th-text="#{${session.message}}">
+        Message
+    </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 
 <!-- Alert fragment -->
-<div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert" data-th-fragment="alert">
-  	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-  	<div data-th-text="#{${session.alert}}">Error</div>
-  	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert"
+     data-th-fragment="alert">
+    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+        <use xlink:href="#check-circle-fill"/>
+    </svg>
+    <div data-th-text="#{${session.alert}}">Error</div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 
 <!-- My footer fragment -->
 <footer class="myfooter" data-th-fragment="foot">
-	<a data-th-href="${@replaceOrAddParam.apply('lang', 'fr')}">Français </a><a data-th-href="${@replaceOrAddParam.apply('lang', 'eng')}">English</a>
+    <a data-th-href="${@replaceOrAddParam.apply('lang', 'fr')}">Français </a><a
+        data-th-href="${@replaceOrAddParam.apply('lang', 'eng')}">English</a>
 </footer>
